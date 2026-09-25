@@ -1,0 +1,58 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: 
+jobs:
+  get-user-info:
+    name: Få användar information
+    runs-on: ubuntu-latest
+    steps:
+      - name: Användar info
+        env:
+          STARTAD_AV: ${{github.actor}}
+          HANDELSE: ${{github.event_name}}
+          GREN: ${{github.ref_name}}
+        run: |
+          echo "### Startad av $STARTAD_AV — händelse: $HANDELSE — gren: $GREN" >> $GITHUB_STEP_SUMMARY
+  build-and-test:
+    name: Bygg och testa
+    runs-on: ubuntu-latest
+    env:
+      BUILD_CONFIGURATION: Release
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v7
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore
+        run: dotnet restore
+      - name: Build 
+        run: dotnet build --no-restore --configuration ${{env.BUILD_CONFIGURATION}}
+      - name: Test
+        run : dotnet test --no-build --configuration ${{env.BUILD_CONFIGURATION}}
+  formatering:
+    name: Kodformatering
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v7
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Format Code
+        run: |
+          dotnet format --verify-no-changes
+          
+
+        
+          
+      
+    
