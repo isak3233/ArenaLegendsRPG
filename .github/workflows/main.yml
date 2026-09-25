@@ -9,18 +9,18 @@ on:
   workflow_dispatch: 
 jobs:
   get-user-info:
-    name: Få användar information
+    name: Get user information
     runs-on: ubuntu-latest
     steps:
-      - name: Användar info
+      - name: User information
         env:
-          STARTAD_AV: ${{github.actor}}
-          HANDELSE: ${{github.event_name}}
-          GREN: ${{github.ref_name}}
+          STARTED_BY: ${{github.actor}}
+          EVENT: ${{github.event_name}}
+          BRANCH: ${{github.ref_name}}
         run: |
-          echo "### Startad av $STARTAD_AV — händelse: $HANDELSE — gren: $GREN" >> $GITHUB_STEP_SUMMARY
+          echo "### Started by $STARTED_BY — event: $EVENT — branch: $BRANCH" >> $GITHUB_STEP_SUMMARY
   build-and-test:
-    name: Bygg och testa
+    name: Build and test
     runs-on: ubuntu-latest
     env:
       BUILD_CONFIGURATION: Release
@@ -38,7 +38,7 @@ jobs:
       - name: Test
         run : dotnet test --no-build --configuration ${{env.BUILD_CONFIGURATION}}
   formatering:
-    name: Kodformatering
+    name: Code format check
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
