@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ArenaLegendsRPG.Core.RandomGen
 {
-    internal interface IRandomProvider
+    public interface IRandomProvider
     {
+        int Next(int min, int max);
     }
 }
