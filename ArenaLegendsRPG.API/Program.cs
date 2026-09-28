@@ -1,3 +1,4 @@
+using ArenaLegendsRPG.API.Feature.Healthy;
 using ArenaLegendsRPG.Infrastructure;
 namespace ArenaLegendsRPG.API;
 
@@ -11,7 +12,8 @@ public class Program
 
 
         var app = builder.Build();
-
+        
+        app.MapHealthEndpoint();
 
         app.Run();
     }
