@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArenaLegendsRPG.API", "Aren
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArenaLegendsRPG.UI", "ArenaLegendsRPG.UI\ArenaLegendsRPG.UI.csproj", "{8F364A85-63C0-4646-A9CF-B1F2E76B4EE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArenaLegendsRPG.Infrastructure", "ArenaLegendsRPG.Infrastructure\ArenaLegendsRPG.Infrastructure.csproj", "{FA5324E2-5F37-496F-91A4-27B37239FDFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{8F364A85-63C0-4646-A9CF-B1F2E76B4EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F364A85-63C0-4646-A9CF-B1F2E76B4EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F364A85-63C0-4646-A9CF-B1F2E76B4EE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5324E2-5F37-496F-91A4-27B37239FDFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5324E2-5F37-496F-91A4-27B37239FDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5324E2-5F37-496F-91A4-27B37239FDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5324E2-5F37-496F-91A4-27B37239FDFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
