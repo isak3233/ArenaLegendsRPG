@@ -13,7 +13,7 @@ public class Program
 
         var app = builder.Build();
         
-        app.MapHealthEndpoint();
+        app.MapHealthyEndpoint();
 
         app.Run();
     }

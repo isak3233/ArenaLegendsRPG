@@ -2,7 +2,7 @@
 
 public static class HealthyEndpoint
 {
-    public static IEndpointRouteBuilder MapHealthEndpoint(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapHealthyEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapGet("/healthy", () => Results.Ok());
 
