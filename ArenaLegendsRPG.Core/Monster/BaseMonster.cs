@@ -20,8 +20,8 @@ public abstract class MonsterBase : IMonster
 
     public int TakeDamage(Damage damage)
     {
-        var actual = DamageCalculator.Calculate(damage, Armor, MagicResistance);
-        Health = Math.Max(0, Health - actual);
-        return actual;
+        var actualDamage = DamageCalculator.Calculate(damage, Armor, MagicResistance);
+        Health = Math.Max(0, Health - actualDamage);
+        return actualDamage;
     }
 }
