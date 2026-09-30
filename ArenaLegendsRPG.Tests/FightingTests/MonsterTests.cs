@@ -6,10 +6,10 @@ namespace ArenaLegendsRPG.Tests.FightingTests;
 public class MonsterTests
 {
     [Theory]
-    [InlineData(30, 2, 5, 10, DamageType.Physical, 8, 22)]  
-    [InlineData(30, 2, 5, 10, DamageType.Magic, 5, 25)]     
-    [InlineData(30, 0, 0, 10, DamageType.Physical, 10, 20)] 
-    [InlineData(30, 10, 0, 5, DamageType.Physical, 0, 30)]  
+    [InlineData(30, 2, 5, 10, DamageType.Physical, 8, 22)]
+    [InlineData(30, 2, 5, 10, DamageType.Magic, 5, 25)]
+    [InlineData(30, 0, 0, 10, DamageType.Physical, 10, 20)]
+    [InlineData(30, 10, 0, 5, DamageType.Physical, 0, 30)]
     public void TakeDamage_ReturnsActualDamage_AndReducesHealth(int maxHealth, int armor, int magicResistance, int amount, DamageType type, int expectedDamage, int expectedHealth)
     {
         var monster = new TestMonster(maxHealth, armor, magicResistance);
@@ -46,8 +46,8 @@ public class MonsterTests
     {
         var monster = new TestMonster(maxHealth: 30, armor: 2, magicResistance: 0);
 
-        monster.TakeDamage(new Damage(10, DamageType.Physical)); 
-        monster.TakeDamage(new Damage(10, DamageType.Physical)); 
+        monster.TakeDamage(new Damage(10, DamageType.Physical));
+        monster.TakeDamage(new Damage(10, DamageType.Physical));
 
         Assert.Equal(14, monster.Health);
         Assert.False(monster.IsDead);

@@ -7,10 +7,10 @@ public static class DamageCalculator
         int reduction;
         switch (damage.Type)
         {
-            case(DamageType.Physical):
+            case (DamageType.Physical):
                 reduction = armor;
                 break;
-            case(DamageType.Magic):
+            case (DamageType.Magic):
                 reduction = magicResistance;
                 break;
             default:
