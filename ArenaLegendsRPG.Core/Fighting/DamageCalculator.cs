@@ -2,16 +2,16 @@
 
 public static class DamageCalculator
 {
-    public static int Calculate(Damage damage, int armor, int magicResistance)
+    public static int Calculate(Damage damage, int attackResist, int magicResist)
     {
         int reduction;
         switch (damage.Type)
         {
             case (DamageType.Physical):
-                reduction = armor;
+                reduction = attackResist;
                 break;
             case (DamageType.Magic):
-                reduction = magicResistance;
+                reduction = magicResist;
                 break;
             default:
                 reduction = 0;

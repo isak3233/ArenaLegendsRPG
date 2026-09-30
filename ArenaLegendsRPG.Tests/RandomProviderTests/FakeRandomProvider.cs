@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ArenaLegendsRPG.Core.RandomGen;
+﻿using ArenaLegendsRPG.Core.RandomGen;
 
-namespace ArenaLegendsRPG.Tests;
+namespace ArenaLegendsRPG.Tests.RandomProviderTests;
 
 public class FakeRandomProvider : IRandomProvider
 {

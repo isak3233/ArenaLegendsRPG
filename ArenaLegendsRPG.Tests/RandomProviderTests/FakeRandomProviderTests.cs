@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ArenaLegendsRPG.Tests
+﻿namespace ArenaLegendsRPG.Tests.RandomProviderTests
 {
     public class FakeRandomProviderTests
     {
