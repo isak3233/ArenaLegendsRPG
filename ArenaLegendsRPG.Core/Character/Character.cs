@@ -19,49 +19,57 @@ public class Character
     public int Health { get; private set; }
 
     public int BaseAttackDamage { get; }
-    public int BaseArmorDefence { get; }
-    public int BaseMagicResistance { get; }
+    public int BaseMagicDamage { get; }
+    public int BaseAttackResist { get; }
+    public int BaseMagicResist { get; }
 
     public Weapon? EquippedWeapon { get; private set; }
-    public Armor? EquippedArmor { get; private set; }
+    public Protection? EquippedProtection { get; private set; }
 
     public int AttackDamage => BaseAttackDamage + (EquippedWeapon?.AttackBonus ?? 0);
-    public int ArmorDefence => BaseArmorDefence + (EquippedArmor?.ArmorBonus ?? 0);
-    public int MagicResistance => BaseMagicResistance;
+    public int AttackResist => BaseAttackResist + (EquippedProtection?.AttackResist ?? 0);
+
+    public int MagicDamage => BaseMagicDamage + (EquippedWeapon?.MagicBonus ?? 0);
+    public int MagicResist => BaseMagicResist + (EquippedProtection?.MagicResist ?? 0);
     public Inventory Inventory { get; } = new();
 
 
 
-    public Character(string name, int health, int baseAttackDamage, int baseArmorDefence, int baseMagicResistance)
+    public Character(string name, int health, int baseAttackDamage, int baseMagicDamage, int baseAttackResist, int baseMagicResist)
     {
         Name = name;
         Health = health;
         BaseAttackDamage = baseAttackDamage;
-        BaseArmorDefence = baseArmorDefence;
-        BaseMagicResistance = baseMagicResistance;
+        BaseMagicDamage = baseMagicDamage;
+        BaseAttackResist = baseAttackResist;
+        BaseMagicResist = baseMagicResist;
     }
 
 
     public void EquipWeapon(Weapon weapon)
     {
-        if (!Inventory.Items.Contains(weapon))
+        if (!Inventory.GetItems().Contains(weapon))
+        {
             throw new InvalidOperationException("Cannot equip a weapon that is not in the inventory");
+        }
+
         EquippedWeapon = weapon;
     }
-    public void EquipArmor(Armor armor)
+    public void EquipProtection(Protection protection)
     {
-        if (!Inventory.Items.Contains(armor))
+        if (!Inventory.GetItems().Contains(protection))
+        {
             throw new InvalidOperationException("Cannot equip armor that is not in the inventory");
-        EquippedArmor = armor;
+        }
+        EquippedProtection = protection;
     }
 
     public int TakeDamage(Damage damage)
     {
-        var actualDamage = DamageCalculator.Calculate(damage, ArmorDefence, MagicResistance);
+        var actualDamage = DamageCalculator.Calculate(damage, AttackResist, MagicResist);
         Health = Math.Max(0, Health - actualDamage);
         return actualDamage;
     }
-
 }
 
 

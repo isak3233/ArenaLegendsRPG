@@ -4,12 +4,10 @@ using System.Text;
 
 namespace ArenaLegendsRPG.Core.Items
 {
-    public class Item
+    public abstract class Item
     {
-
         public string Name { get; }
         public string Description { get; }
-
 
         public Item(string name, string description)
         {

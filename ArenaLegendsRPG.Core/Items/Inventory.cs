@@ -6,9 +6,12 @@ namespace ArenaLegendsRPG.Core.Items
 {
     public class Inventory
     {
-        private readonly List<Item> _items = new();
-        public IReadOnlyList<Item> Items => _items;
+        private readonly List<Item> _items = new List<Item>();
 
+        public IReadOnlyList<Item> GetItems()
+        {
+            return _items;
+        }
         public void AddItem(Item item)
         {
             _items.Add(item);

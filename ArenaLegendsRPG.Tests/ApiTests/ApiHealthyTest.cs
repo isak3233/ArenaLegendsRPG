@@ -1,7 +1,6 @@
-﻿using System.Net;
-using ArenaLegendsRPG.Tests.Fixtures;
+﻿using ArenaLegendsRPG.Tests.Fixtures;
 
-namespace ArenaLegendsRPG.Tests;
+namespace ArenaLegendsRPG.Tests.ApiTests;
 
 public class ApiHealthyTest : IClassFixture<CustomWebApplicationFactory>
 {
