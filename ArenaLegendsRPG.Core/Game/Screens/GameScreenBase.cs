@@ -1,14 +1,14 @@
 ﻿using ArenaLegendsRPG.Core.Game.Interfaces;
 using ArenaLegendsRPG.Core.Game.Menus;
 
-namespace ArenaLegendsRPG.Core.Game;
+namespace ArenaLegendsRPG.Core.Game.Screens;
 
 public abstract class GameScreenBase : IGameScreen
 {
     public abstract GameState State { get; }
     public abstract IReadOnlyList<MenuAction> GetAvailableActions();
 
-    public IGameScreen Choose(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         if (!GetAvailableActions().Contains(action))
         {
@@ -17,5 +17,5 @@ public abstract class GameScreenBase : IGameScreen
         return Handle(action);
     }
 
-    protected abstract IGameScreen Handle(MenuAction action);
+    protected abstract ScreenResult Handle(MenuAction action);
 }

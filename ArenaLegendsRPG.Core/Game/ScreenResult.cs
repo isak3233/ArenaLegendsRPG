@@ -1,6 +1,11 @@
-﻿namespace ArenaLegendsRPG.Core.Game;
+﻿using ArenaLegendsRPG.Core.Game.Interfaces;
 
-public class ScreenResult
+namespace ArenaLegendsRPG.Core.Game;
+
+public record ScreenResult(IGameScreen Next, IReadOnlyList<GameEvent> Events)
 {
-    
+    public static ScreenResult To(IGameScreen next, params GameEvent[] events)
+    {
+        return new ScreenResult(next, events);
+    }
 }

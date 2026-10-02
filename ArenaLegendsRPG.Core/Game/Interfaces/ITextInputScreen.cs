@@ -1,6 +1,6 @@
 ﻿namespace ArenaLegendsRPG.Core.Game.Interfaces;
 
-public class ITextInputScreen
+public interface ITextInputScreen : IGameScreen
 {
-    
+    ScreenResult Submit(string text);
 }

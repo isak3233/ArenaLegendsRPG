@@ -4,7 +4,7 @@ using ArenaLegendsRPG.Core.Game.Interfaces;
 using ArenaLegendsRPG.Core.Game.Menus;
 using ArenaLegendsRPG.Tests.Fakes;
 
-namespace ArenaLegendsRPG.Tests.GameLoopTests;
+namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class GameTests
 {
@@ -36,7 +36,7 @@ public class GameTests
     [Fact]
     public void Choose_SwitchesToNextScreen()
     {
-        var next = new FakeGameScreen(GameState.CharacterCreation, MenuAction.SelectName);
+        var next = new FakeGameScreen(GameState.InEncounter, MenuAction.Attack);
         var start = new FakeGameScreen(GameState.MainMenu)
             .WhenChosen(MenuAction.StartNewGame, next);
         var sut = CreateSut(start);
@@ -50,7 +50,7 @@ public class GameTests
     [Fact]
     public void Choose_ReturnsEventsFromScreenResult()
     {
-        var events = new GameEvent[] { new FledFromEncounter() };
+        var events = new GameEvent[] { new FakeEvent() };
         var start = new FakeGameScreen(GameState.MainMenu)
             .WhenChosen(MenuAction.Quit, new FakeGameScreen(GameState.GameOver), events);
         var sut = CreateSut(start);

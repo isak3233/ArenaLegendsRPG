@@ -1,4 +1,7 @@
-﻿namespace ArenaLegendsRPG.Core.Game.Screens;
+﻿using ArenaLegendsRPG.Core.Game.Interfaces;
+using ArenaLegendsRPG.Core.Game.Screens;
+
+namespace ArenaLegendsRPG.Core.Game;
 
 public class ScreenFactory : IScreenFactory
 {

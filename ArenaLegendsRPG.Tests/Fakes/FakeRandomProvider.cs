@@ -1,8 +1,8 @@
 ﻿using ArenaLegendsRPG.Core.RandomGen;
 
-namespace ArenaLegendsRPG.Tests.RandomProviderTests;
+namespace ArenaLegendsRPG.Tests.Fakes;
 
-public class FakeRandomProvider : IRandomProvider
+internal class FakeRandomProvider : IRandomProvider
 {
     private readonly Queue<int> _values;
 

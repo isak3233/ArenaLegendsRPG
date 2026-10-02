@@ -6,7 +6,7 @@ using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.Items;
 
 
-namespace ArenaLegendsRPG.Core.Character;
+namespace ArenaLegendsRPG.Core;
 
 //TODO: Ska Character använda IMonster eller ska de båda använda ett gemensamt
 //ICombatant så att combat koden kan hantera characters och monsters på samma sätt?

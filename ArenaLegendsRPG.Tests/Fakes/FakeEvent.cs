@@ -1,6 +1,5 @@
-﻿namespace ArenaLegendsRPG.Tests.Fakes;
+﻿using ArenaLegendsRPG.Core.Game;
 
-public class FakeEvent
-{
-    
-}
+namespace ArenaLegendsRPG.Tests.Fakes;
+
+public record FakeEvent : GameEvent;

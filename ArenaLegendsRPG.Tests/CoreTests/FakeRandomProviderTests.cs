@@ -1,7 +1,7 @@
 ﻿using ArenaLegendsRPG.Tests.Fakes;
 
-namespace ArenaLegendsRPG.Tests.RandomProviderTests
-{
+namespace ArenaLegendsRPG.Tests.CoreTests;
+
     public class FakeRandomProviderTests
     {
         [Fact]
@@ -13,4 +13,4 @@ namespace ArenaLegendsRPG.Tests.RandomProviderTests
             Assert.Equal(3, provider.Next(0, 100));
         }
     }
-}
+

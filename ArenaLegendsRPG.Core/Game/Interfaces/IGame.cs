@@ -1,8 +1,10 @@
-﻿namespace ArenaLegendsRPG.Core.Game;
+﻿using ArenaLegendsRPG.Core.Game.Menus;
+
+namespace ArenaLegendsRPG.Core.Game.Interfaces;
 
 public interface IGame
 {
     GameState State { get; }
     IReadOnlyList<MenuAction> GetAvailableActions();
-    void Choose(MenuAction action);
+    IReadOnlyList<GameEvent> Choose(MenuAction action);
 }

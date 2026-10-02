@@ -1,6 +1,3 @@
 ﻿namespace ArenaLegendsRPG.Core.Game;
 
-public class GameEvent
-{
-    
-}
+public abstract record GameEvent;

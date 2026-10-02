@@ -1,6 +1,3 @@
 ﻿namespace ArenaLegendsRPG.Core.Game.GameEvents;
 
-public class CharacterEvents
-{
-    
-}
+public record CharacterCreated(string PlayerName) : GameEvent;

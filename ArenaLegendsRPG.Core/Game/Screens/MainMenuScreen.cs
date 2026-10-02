@@ -1,4 +1,7 @@
-﻿namespace ArenaLegendsRPG.Core.Game;
+﻿using ArenaLegendsRPG.Core.Game.Interfaces;
+using ArenaLegendsRPG.Core.Game.Menus;
+
+namespace ArenaLegendsRPG.Core.Game.Screens;
 
 public class MainMenuScreen : GameScreenBase
 {
@@ -17,19 +20,17 @@ public class MainMenuScreen : GameScreenBase
     }
 
 
-    protected override IGameScreen Handle(MenuAction action)
+    protected override ScreenResult Handle(MenuAction action)
     {
-        switch (action)
-        {
-            case MenuAction.StartNewGame:
-                return _factory.CreateEncounter();
-                break;
-            case MenuAction.Quit:
-                return _factory.CreateGameOver();
-                break;
-            default:
-                throw new InvalidOperationException();
-                break;
-        }
+        //switch (action)
+        //{
+        //    case MenuAction.StartNewGame:
+        //        return ScreenResult.To(_factory.CreateEncounter());
+        //    case MenuAction.Quit:
+        //        return ScreenResult.To(_factory.CreateGameOver());
+        //    default:
+        //        throw new InvalidOperationException();
+        //}
+        throw new NotImplementedException();
     }
 }

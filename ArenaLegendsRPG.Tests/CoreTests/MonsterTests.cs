@@ -1,7 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Tests.Fakes;
 
-namespace ArenaLegendsRPG.Tests.FightingTests;
+namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class MonsterTests
 {
