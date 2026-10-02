@@ -1,8 +1,8 @@
 ﻿using ArenaLegendsRPG.Core.Monster;
 
-namespace ArenaLegendsRPG.Tests.FightingTests;
+namespace ArenaLegendsRPG.Tests.Fakes;
 
-public class TestMonster : MonsterBase
+internal class TestMonster : MonsterBase
 {
     public TestMonster(int maxHealth = 30, int attackResist = 2, int magicResist = 0) : base(maxHealth, attackResist, magicResist)
     {

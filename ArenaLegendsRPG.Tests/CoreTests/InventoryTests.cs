@@ -1,7 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Items;
 
-namespace ArenaLegendsRPG.Tests.ItemTests
-{
+namespace ArenaLegendsRPG.Tests.CoreTests;
+
     public class InventoryTests
     {
         [Fact]
@@ -48,4 +48,4 @@ namespace ArenaLegendsRPG.Tests.ItemTests
             Assert.Equal(new[] { sword }, inventory.GetItems());
         }
     }
-}
+
