@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.Core.Character;
+﻿using ArenaLegendsRPG.Core;
 using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.Items;
 

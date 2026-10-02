@@ -1,4 +1,6 @@
-﻿namespace ArenaLegendsRPG.Tests.RandomProviderTests
+﻿using ArenaLegendsRPG.Tests.Fakes;
+
+namespace ArenaLegendsRPG.Tests.RandomProviderTests
 {
     public class FakeRandomProviderTests
     {
