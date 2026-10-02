@@ -1,4 +1,6 @@
-﻿namespace ArenaLegendsRPG.Core.Game;
+﻿using ArenaLegendsRPG.Core.Characters;
+
+namespace ArenaLegendsRPG.Core.Game;
 
 public class GameSession
 {

@@ -6,12 +6,8 @@ using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.Items;
 
 
-namespace ArenaLegendsRPG.Core;
+namespace ArenaLegendsRPG.Core.Character;
 
-//TODO: Ska Character använda IMonster eller ska de båda använda ett gemensamt
-//ICombatant så att combat koden kan hantera characters och monsters på samma sätt?
-//Ska inventory ha begränsningar utifrån specifika items i en specifik karaktärs inventory? 
-//tex bara ett av samma vapen?
 
 public class Character
 {
