@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.Core.Game.Services;
+﻿namespace ArenaLegendsRPG.Core.GameFlow.Services;
 
 public class CombatService
 {

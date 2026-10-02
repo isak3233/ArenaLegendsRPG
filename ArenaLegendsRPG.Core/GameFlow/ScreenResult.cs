@@ -1,6 +1,6 @@
-﻿using ArenaLegendsRPG.Core.Game.Interfaces;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 
-namespace ArenaLegendsRPG.Core.Game;
+namespace ArenaLegendsRPG.Core.GameFlow;
 
 public record ScreenResult(IGameScreen Next, IReadOnlyList<GameEvent> Events)
 {

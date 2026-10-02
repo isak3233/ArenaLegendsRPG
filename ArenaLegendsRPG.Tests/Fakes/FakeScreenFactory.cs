@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.Core.Game.Interfaces;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 
 namespace ArenaLegendsRPG.Tests.Fakes;
 

@@ -6,7 +6,7 @@ using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.Items;
 
 
-namespace ArenaLegendsRPG.Core.Character;
+namespace ArenaLegendsRPG.Core.Characters;
 
 
 public class Character

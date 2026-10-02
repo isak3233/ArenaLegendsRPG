@@ -1,7 +1,6 @@
-﻿using ArenaLegendsRPG.Core.Game.Interfaces;
-using ArenaLegendsRPG.Core.Game.Menus;
+﻿using ArenaLegendsRPG.Core.GameFlow.Menus;
 
-namespace ArenaLegendsRPG.Core.Game.Screens;
+namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
 public class GameOverScreen : GameScreenBase
 {

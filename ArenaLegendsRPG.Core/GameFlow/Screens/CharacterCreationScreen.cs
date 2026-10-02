@@ -1,8 +1,7 @@
-﻿using ArenaLegendsRPG.Core.Game.GameEvents;
-using ArenaLegendsRPG.Core.Game.Interfaces;
-using ArenaLegendsRPG.Core.Game.Menus;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+using ArenaLegendsRPG.Core.GameFlow.Menus;
 
-namespace ArenaLegendsRPG.Core.Game.Screens;
+namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
 public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 {

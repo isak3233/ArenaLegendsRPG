@@ -1,8 +1,7 @@
-﻿using ArenaLegendsRPG.Core.Game.Interfaces;
-using ArenaLegendsRPG.Core.Game.Menus;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+using ArenaLegendsRPG.Core.GameFlow.Menus;
 
-
-namespace ArenaLegendsRPG.Core.Game;
+namespace ArenaLegendsRPG.Core.GameFlow;
 
 public class Game : IGame
 {

@@ -1,3 +1,3 @@
-﻿namespace ArenaLegendsRPG.Core.Game;
+﻿namespace ArenaLegendsRPG.Core.GameFlow;
 
 public abstract record GameEvent;

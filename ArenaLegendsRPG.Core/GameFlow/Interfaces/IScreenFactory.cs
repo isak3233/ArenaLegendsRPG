@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.Core.Game.Interfaces;
+﻿namespace ArenaLegendsRPG.Core.GameFlow.Interfaces;
 
 public interface IScreenFactory
 {

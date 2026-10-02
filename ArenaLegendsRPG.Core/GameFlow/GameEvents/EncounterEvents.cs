@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.Core.Game.GameEvents;
+﻿namespace ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 public record EncounterStarted(string MonsterName) : GameEvent;
 public record DamageDealt(string AttackerName, string TargetName, int Amount) : GameEvent;

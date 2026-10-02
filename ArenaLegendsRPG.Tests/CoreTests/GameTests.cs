@@ -1,7 +1,6 @@
-﻿using ArenaLegendsRPG.Core.Game;
-using ArenaLegendsRPG.Core.Game.GameEvents;
-using ArenaLegendsRPG.Core.Game.Interfaces;
-using ArenaLegendsRPG.Core.Game.Menus;
+﻿using ArenaLegendsRPG.Core.GameFlow;
+using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Tests.Fakes;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;

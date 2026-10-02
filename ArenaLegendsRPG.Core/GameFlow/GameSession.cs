@@ -1,6 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
 
-namespace ArenaLegendsRPG.Core.Game;
+namespace ArenaLegendsRPG.Core.GameFlow;
 
 public class GameSession
 {

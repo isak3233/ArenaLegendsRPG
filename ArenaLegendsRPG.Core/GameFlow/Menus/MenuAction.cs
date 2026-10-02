@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.Core.Game.Menus;
+﻿namespace ArenaLegendsRPG.Core.GameFlow.Menus;
 
 public enum MenuAction
 {
