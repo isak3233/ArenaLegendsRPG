@@ -14,7 +14,7 @@ public class GameOverScreen : GameScreenBase
 
     protected override ScreenResult Handle(MenuAction action)
     {
-        throw new InvalidOperationException(); 
+        throw new InvalidOperationException();
     }
-        
+
 }

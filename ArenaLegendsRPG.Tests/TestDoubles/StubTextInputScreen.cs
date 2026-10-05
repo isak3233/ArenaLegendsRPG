@@ -2,13 +2,13 @@
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 
-namespace ArenaLegendsRPG.Tests.Fakes;
+namespace ArenaLegendsRPG.Tests.TestDoubles;
 
-internal class FakeTextInputScreen : FakeGameScreen, ITextInputScreen
+internal class StubTextInputScreen : StubGameScreen, ITextInputScreen
 {
     private readonly ScreenResult _submitResult;
 
-    public FakeTextInputScreen(GameState state, ScreenResult submitResult) : base(state)
+    public StubTextInputScreen(GameState state, ScreenResult submitResult) : base(state)
     {
         _submitResult = submitResult;
     }

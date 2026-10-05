@@ -3,12 +3,12 @@ using ArenaLegendsRPG.Core.GameFlow.Menus;
 
 namespace ArenaLegendsRPG.Core.GameFlow;
 
-public class Game : IGame
+public class GameFlow : IGame
 {
     private IGameScreen _current;
-    
 
-    public Game(IScreenFactory factory)
+
+    public GameFlow(IScreenFactory factory)
     {
         _current = factory.CreateMainMenu();
     }
@@ -27,5 +27,5 @@ public class Game : IGame
         _current = result.Next;
         return result.Events;
     }
-        
+
 }

@@ -1,5 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
-using ArenaLegendsRPG.Tests.Fakes;
+using ArenaLegendsRPG.Tests.TestDoubles;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
 

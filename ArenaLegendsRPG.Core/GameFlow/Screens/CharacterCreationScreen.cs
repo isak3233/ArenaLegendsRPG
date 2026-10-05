@@ -26,7 +26,7 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
     {
         throw new NotImplementedException();
     }
-    
+
     public ScreenResult Submit(string text)
     {
         throw new NotImplementedException();

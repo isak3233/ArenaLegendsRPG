@@ -10,10 +10,10 @@ public class GameSession
     {
         Player = player;
     }
-    
+
     public Character RequirePlayer()
     {
         return Player ?? throw new InvalidOperationException("No character selected or created.");
     }
-        
+
 }

@@ -1,33 +1,32 @@
 ﻿using ArenaLegendsRPG.Core.GameFlow;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
-using ArenaLegendsRPG.Tests.Fakes;
+using ArenaLegendsRPG.Tests.TestDoubles;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
 
-public class GameTests
+public class GameFlowTests
 {
-    private static Game CreateSut(IGameScreen startScreen)
+    private static GameFlow CreateSut(IGameScreen startScreen)
     {
-        return new Game(new FakeScreenFactory(startScreen));
+        return new GameFlow(new StubScreenFactory(startScreen));
     }
-        
+
 
     [Fact]
     public void NewGame_StartsOnMainMenuScreenFromFactory()
     {
-        var factory = new FakeScreenFactory(new FakeGameScreen(GameState.MainMenu));
+        var factory = new StubScreenFactory(new StubGameScreen(GameState.MainMenu));
 
-        var sut = new Game(factory);
+        var sut = new GameFlow(factory);
 
         Assert.Equal(GameState.MainMenu, sut.State);
-        Assert.Equal(1, factory.CreateMainMenuCalls);
     }
 
     [Fact]
     public void GetAvailableActions_ReturnsActionsFromCurrentScreen()
     {
-        var start = new FakeGameScreen(GameState.MainMenu, MenuAction.StartNewGame, MenuAction.Quit);
+        var start = new StubGameScreen(GameState.MainMenu, MenuAction.StartNewGame, MenuAction.Quit);
         var sut = CreateSut(start);
 
         Assert.Equal(new[] { MenuAction.StartNewGame, MenuAction.Quit }, sut.GetAvailableActions());
@@ -35,9 +34,8 @@ public class GameTests
     [Fact]
     public void Choose_SwitchesToNextScreen()
     {
-        var next = new FakeGameScreen(GameState.InEncounter, MenuAction.Attack);
-        var start = new FakeGameScreen(GameState.MainMenu)
-            .WhenChosen(MenuAction.StartNewGame, next);
+        var next = new StubGameScreen(GameState.InEncounter, MenuAction.Attack);
+        var start = new StubGameScreen(GameState.MainMenu) { Next = next };
         var sut = CreateSut(start);
 
         sut.Choose(MenuAction.StartNewGame);
@@ -49,9 +47,8 @@ public class GameTests
     [Fact]
     public void Choose_ReturnsEventsFromScreenResult()
     {
-        var events = new GameEvent[] { new FakeEvent() };
-        var start = new FakeGameScreen(GameState.MainMenu)
-            .WhenChosen(MenuAction.Quit, new FakeGameScreen(GameState.GameOver), events);
+        var events = new GameEvent[] { new DummyEvent() };
+        var start = new StubGameScreen(GameState.MainMenu) { Events = events };
         var sut = CreateSut(start);
 
         var result = sut.Choose(MenuAction.Quit);

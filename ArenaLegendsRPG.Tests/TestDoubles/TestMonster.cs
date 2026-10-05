@@ -1,6 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Monster;
 
-namespace ArenaLegendsRPG.Tests.Fakes;
+namespace ArenaLegendsRPG.Tests.TestDoubles;
 
 internal class TestMonster : MonsterBase
 {
