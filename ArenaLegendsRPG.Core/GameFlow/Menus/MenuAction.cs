@@ -6,5 +6,9 @@ public enum MenuAction
     SelectName,
     Quit,
     Attack,
-    Flee
+    Flee,
+    Explore, 
+    OpenInventory,
+    SaveGame,
+
 }

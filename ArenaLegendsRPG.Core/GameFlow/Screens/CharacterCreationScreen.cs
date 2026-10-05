@@ -1,5 +1,8 @@
-﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+﻿using ArenaLegendsRPG.Core.Characters;
+using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
+using ArenaLegendsRPG.Core.Characters;
+using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
@@ -29,6 +32,18 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 
     public ScreenResult Submit(string text)
     {
-        throw new NotImplementedException();
+        var character = new Character(
+            name: text,
+            health: 100,
+            baseAttackDamage: 10,
+            baseMagicDamage: 5,
+            baseAttackResist: 5,
+            baseMagicResist: 2
+            );
+
+
+            _session.SetPlayer(character);
+
+        return ScreenResult.To(_factory.CreateGameMenu(), new CharacterCreated(character.Name));
     }
 }

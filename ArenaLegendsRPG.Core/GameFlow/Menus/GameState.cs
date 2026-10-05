@@ -4,6 +4,7 @@ public enum GameState
 {
     MainMenu,
     CharacterCreation,
+    GameMenu,
     InEncounter,
     GameOver,
 }
