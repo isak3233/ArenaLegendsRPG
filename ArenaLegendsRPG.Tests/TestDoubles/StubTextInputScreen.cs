@@ -12,12 +12,9 @@ internal class StubTextInputScreen : StubGameScreen, ITextInputScreen
     {
         _submitResult = submitResult;
     }
-
-    public List<string> SubmittedTexts { get; } = new();
-
+    
     public ScreenResult Submit(string text)
     {
-        SubmittedTexts.Add(text);
         return _submitResult;
     }
 }
