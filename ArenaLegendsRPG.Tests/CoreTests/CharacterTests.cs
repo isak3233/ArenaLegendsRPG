@@ -1,8 +1,9 @@
-﻿using ArenaLegendsRPG.Core.Character;
+﻿
+using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.Items;
 
-namespace ArenaLegendsRPG.Tests.CharacterTests;
+namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class CharacterTests
 {

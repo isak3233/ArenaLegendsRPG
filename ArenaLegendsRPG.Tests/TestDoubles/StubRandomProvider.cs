@@ -1,12 +1,12 @@
 ﻿using ArenaLegendsRPG.Core.RandomGen;
 
-namespace ArenaLegendsRPG.Tests.RandomProviderTests;
+namespace ArenaLegendsRPG.Tests.TestDoubles;
 
-public class FakeRandomProvider : IRandomProvider
+internal class StubRandomProvider : IRandomProvider
 {
     private readonly Queue<int> _values;
 
-    public FakeRandomProvider(params int[] values)
+    public StubRandomProvider(params int[] values)
     {
         _values = new Queue<int>(values);
     }

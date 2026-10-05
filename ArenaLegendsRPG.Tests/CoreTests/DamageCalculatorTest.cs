@@ -1,6 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
 
-namespace ArenaLegendsRPG.Tests.FightingTests;
+namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class DamageCalculatorTest
 {
