@@ -42,7 +42,7 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
             );
 
 
-            _session.SetPlayer(character);
+        _session.SetPlayer(character);
 
         return ScreenResult.To(_factory.CreateGameMenu(), new CharacterCreated(character.Name));
     }

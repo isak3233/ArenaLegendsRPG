@@ -22,7 +22,7 @@ public class MainMenuScreen : GameScreenBase
 
     protected override ScreenResult Handle(MenuAction action)
     {
-       
+
         //switch (action)
         //{
         //    case MenuAction.StartNewGame:

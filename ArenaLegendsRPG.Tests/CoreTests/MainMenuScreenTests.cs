@@ -19,7 +19,7 @@ public class MainMenuScreenTests
     }
 
 
-[Fact]
+    [Fact]
     public void Choose_Quit_GoesToGameOver()
     {
         var gameOver = new StubGameScreen(GameState.GameOver);
@@ -29,6 +29,6 @@ public class MainMenuScreenTests
         var result = screen.Choose(MenuAction.Quit);
 
         Assert.Equal(gameOver, result.Next);
-    } 
+    }
 
 }

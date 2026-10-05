@@ -7,7 +7,7 @@ public enum MenuAction
     Quit,
     Attack,
     Flee,
-    Explore, 
+    Explore,
     OpenInventory,
     SaveGame,
 

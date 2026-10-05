@@ -30,13 +30,13 @@ public class GameMenuScreen : GameScreenBase
             MenuAction.SaveGame => throw new NotImplementedException("Save not built yet."),
             MenuAction.Quit => ScreenResult.To(_factory.CreateGameOver()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
-        }; 
-    //Lämnar openinventory och savegame sålänge, vet inte hur vi ska använda savegame.
-    } 
+        };
+        //Lämnar openinventory och savegame sålänge, vet inte hur vi ska använda savegame.
+    }
 }
 
 
 
 
-    
+
 
