@@ -7,13 +7,11 @@ namespace ArenaLegendsRPG.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Default")
-                               ?? throw new InvalidOperationException("Missing connection string 'Default'.");
+        var connectionString = configuration.GetConnectionString("Default") ?? throw new InvalidOperationException("Missing connection string 'Default'.");
 
-        services.AddDbContext<AlDbConext>(options => options.UseSqlite(connectionString));
+        services.AddDbContext<ArenaLegendsDbContext>(options => options.UseSqlite(connectionString));
 
         return services;
     }
