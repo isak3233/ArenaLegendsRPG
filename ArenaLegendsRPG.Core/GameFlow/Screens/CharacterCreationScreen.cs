@@ -1,7 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
-using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
@@ -32,6 +31,7 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 
     public ScreenResult Submit(string text)
     {
+        //Check if name should be able to be taken. 
         var character = new Character(
             name: text,
             health: 100,

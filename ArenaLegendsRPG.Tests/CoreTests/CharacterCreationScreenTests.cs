@@ -11,9 +11,9 @@ public class CharacterCreationScreenTests
     [Fact]
     public void Submit_SetsPlayerOnSession()
     {
-        var session = new GameSession();
-        var factory = new StubScreenFactory(gameMenu: new StubGameScreen(GameState.GameMenu));
-        var screen = new CharacterCreationScreen(session, factory);
+        var session = new GameSession();// Send in with fixture we use it in all test
+        var factory = new StubScreenFactory(gameMenu: new StubGameScreen(GameState.GameMenu)); // Send in with fixture we use it in all test
+        var screen = new CharacterCreationScreen(session, factory); // Send maybe in
 
         screen.Submit("Hero");
 
