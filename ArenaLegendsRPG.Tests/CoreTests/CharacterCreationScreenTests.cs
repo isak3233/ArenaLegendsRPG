@@ -1,47 +1,41 @@
-﻿using ArenaLegendsRPG.Core.GameFlow;
-using ArenaLegendsRPG.Core.GameFlow.GameEvents;
-using ArenaLegendsRPG.Core.GameFlow.Menus;
-using ArenaLegendsRPG.Core.GameFlow.Screens;
-using ArenaLegendsRPG.Tests.TestDoubles;
+﻿using ArenaLegendsRPG.Core.GameFlow.GameEvents;
+using Xunit;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
 
-public class CharacterCreationScreenTests
+public class CharacterCreationScreenTests : IClassFixture<CharacterCreationScreenFixture>
 {
+    private readonly CharacterCreationScreenFixture _fixture;
+    public CharacterCreationScreenTests(CharacterCreationScreenFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
     [Fact]
     public void Submit_SetsPlayerOnSession()
     {
-        var session = new GameSession();
-        var factory = new StubScreenFactory(gameMenu: new StubGameScreen(GameState.GameMenu));
-        var screen = new CharacterCreationScreen(session, factory);
+        _fixture.Screen.Submit("Hero");
 
-        screen.Submit("Hero");
+        Assert.Equal("Hero", _fixture.Session.RequirePlayer().Name);
 
-        Assert.Equal("Hero", session.RequirePlayer().Name);
     }
 
     [Fact]
     public void Submit_ReturnsCharacterCreatedEvent()
     {
-        var session = new GameSession();
-        var factory = new StubScreenFactory(gameMenu: new StubGameScreen(GameState.GameMenu));
-        var screen = new CharacterCreationScreen(session, factory);
-
-        var result = screen.Submit("Hero");
-
+        var result = _fixture.Screen.Submit("Hero");
         Assert.Contains(result.Events, e => e is CharacterCreated created && created.PlayerName == "Hero");
     }
 
     [Fact]
     public void Submit_ReturnsGameMenuAsNextScreen()
     {
-        var session = new GameSession();
-        var gameMenu = new StubGameScreen(GameState.GameMenu);
-        var factory = new StubScreenFactory(gameMenu: gameMenu);
-        var screen = new CharacterCreationScreen(session, factory);
+        var result = _fixture.Screen.Submit("Hero");
 
-        var result = screen.Submit("Hero");
-
-        Assert.Equal(gameMenu, result.Next);
+        Assert.Equal(_fixture.GameMenu, result.Next);
     }
 }
+//VIKTIGT!!
+//Eftersom Submit inte ändrar något värde på Character så funkar det med en IClassFixture här.
+//Om vi i framtiden ska ha en inventory test så måste vi skapa en ny karaktär för att det ska funka, alltså inte använda denna fixture
+//Just för att då kommer den ändras i andra tester och det kommer misslyckas. Viktigt att tänka på!

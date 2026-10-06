@@ -4,7 +4,7 @@ using ArenaLegendsRPG.Core.GameFlow.Menus;
 
 namespace ArenaLegendsRPG.Tests.TestDoubles;
 
-internal class StubGameScreen : IGameScreen
+public class StubGameScreen : IGameScreen
 {
     public StubGameScreen(GameState state, params MenuAction[] availableActions)
     {
