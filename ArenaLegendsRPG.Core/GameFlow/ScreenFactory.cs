@@ -1,14 +1,19 @@
-﻿using ArenaLegendsRPG.Core.GameFlow;
-using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Screens;
 using ArenaLegendsRPG.Core.GameServices;
 
-namespace ArenaLegendsRPG.Core.GameServices;
+namespace ArenaLegendsRPG.Core.GameFlow;
 
 public class ScreenFactory : IScreenFactory
 {
-    private readonly GameSession _session = new();
-    private readonly ICharacterCreationService _characterCreationService = new CharacterCreationService();
+    private readonly GameSession _session;
+    private readonly ICharacterCreationService _characterCreationService;
+
+    public ScreenFactory(GameSession session, ICharacterCreationService characterCreationService)
+    {
+        _session = session;
+        _characterCreationService = characterCreationService;
+    }
 
     public IGameScreen CreateMainMenu() => new MainMenuScreen(this);
     public IGameScreen CreateCharacterCreation() => new CharacterCreationScreen(_session, this, _characterCreationService);

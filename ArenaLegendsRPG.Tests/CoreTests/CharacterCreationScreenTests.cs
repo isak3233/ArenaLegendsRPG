@@ -1,41 +1,45 @@
-﻿using ArenaLegendsRPG.Core.GameFlow.GameEvents;
-using Xunit;
+﻿using ArenaLegendsRPG.Core.GameFlow;
+using ArenaLegendsRPG.Core.GameFlow.GameEvents;
+using ArenaLegendsRPG.Core.GameFlow.Menus;
+using ArenaLegendsRPG.Core.GameFlow.Screens;
+using ArenaLegendsRPG.Core.GameServices;
+using ArenaLegendsRPG.Tests.TestDoubles;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
 
-public class CharacterCreationScreenTests : IClassFixture<CharacterCreationScreenFixture>
+public class CharacterCreationScreenTests
 {
-    private readonly CharacterCreationScreenFixture _fixture;
-    public CharacterCreationScreenTests(CharacterCreationScreenFixture fixture)
+    private readonly GameSession _session = new();
+    private readonly StubGameScreen _gameMenu = new(GameState.GameMenu);
+    private readonly CharacterCreationScreen _sut;
+
+    public CharacterCreationScreenTests()
     {
-        _fixture = fixture;
+        var factory = new StubScreenFactory(gameMenu: _gameMenu);
+        _sut = new CharacterCreationScreen(_session, factory, new CharacterCreationService());
     }
 
     [Fact]
     public void Submit_SetsPlayerOnSession()
     {
-        _fixture.Screen.Submit("Hero");
+        _sut.Submit("Hero");
 
-        Assert.Equal("Hero", _fixture.Session.RequirePlayer().Name);
-
+        Assert.Equal("Hero", _session.RequirePlayer().Name);
     }
 
     [Fact]
     public void Submit_ReturnsCharacterCreatedEvent()
     {
-        var result = _fixture.Screen.Submit("Hero");
+        var result = _sut.Submit("Hero");
+
         Assert.Contains(result.Events, e => e is CharacterCreated created && created.PlayerName == "Hero");
     }
 
     [Fact]
     public void Submit_ReturnsGameMenuAsNextScreen()
     {
-        var result = _fixture.Screen.Submit("Hero");
+        var result = _sut.Submit("Hero");
 
-        Assert.Equal(_fixture.GameMenu, result.Next);
+        Assert.Equal(_gameMenu, result.Next);
     }
 }
-//VIKTIGT!!
-//Eftersom Submit inte ändrar något värde på Character så funkar det med en IClassFixture här.
-//Om vi i framtiden ska ha en inventory test så måste vi skapa en ny karaktär för att det ska funka, alltså inte använda denna fixture
-//Just för att då kommer den ändras i andra tester och det kommer misslyckas. Viktigt att tänka på!
