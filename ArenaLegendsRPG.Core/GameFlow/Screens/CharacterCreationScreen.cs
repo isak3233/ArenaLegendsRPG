@@ -10,11 +10,11 @@ namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
 public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 {
-    private readonly GameSession _session;
+    private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
     private readonly ICharacterCreationService _characterCreationService;
 
-    public CharacterCreationScreen(GameSession session, IScreenFactory factory, ICharacterCreationService characterCreationService)
+    public CharacterCreationScreen(IGameSession session, IScreenFactory factory, ICharacterCreationService characterCreationService)
     {
         _session = session;
         _factory = factory;
