@@ -3,7 +3,7 @@ using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Core.GameServices;
-
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
@@ -35,7 +35,11 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 
     public ScreenResult Submit(string text)
     {
-
+        var nameIsAllowed = _characterCreationService.ValidateCharacterName(text);
+        if (nameIsAllowed == false)
+        {
+            return ScreenResult.To(this, new CharacterNameNotAllowed());
+        }
         var character = _characterCreationService.CreateCharacter(text);
 
         _session.SetPlayer(character);

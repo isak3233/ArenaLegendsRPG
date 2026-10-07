@@ -2,7 +2,7 @@
 
 namespace ArenaLegendsRPG.Core.GameFlow.Interfaces;
 
-public interface IGame
+public interface IGameFlow
 {
     GameState State { get; }
     IReadOnlyList<MenuAction> GetAvailableActions();

@@ -5,7 +5,7 @@ using ArenaLegendsRPG.Core.GameFlow.Screens;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Tests.TestDoubles;
 
-namespace ArenaLegendsRPG.Tests.CoreTests;
+namespace ArenaLegendsRPG.Tests.CoreTests.ScreenTests;
 
 public class CharacterCreationScreenTests
 {
@@ -31,7 +31,7 @@ public class CharacterCreationScreenTests
     public void Submit_ReturnsCharacterCreatedEvent()
     {
         var result = _sut.Submit("Hero");
-
+        
         Assert.Contains(result.Events, e => e is CharacterCreated created && created.PlayerName == "Hero");
     }
 
@@ -41,5 +41,29 @@ public class CharacterCreationScreenTests
         var result = _sut.Submit("Hero");
 
         Assert.Equal(_gameMenu, result.Next);
+    }
+    [Fact]
+    public void Submit_InvalidName_StaysOnSameScreen()
+    {
+        var result = _sut.Submit("");
+
+        Assert.Same(_sut, result.Next);
+    }
+
+    [Fact]
+    public void Submit_InvalidName_ReturnsCharacterNameNotAllowedEvent()
+    {
+        var result = _sut.Submit("");
+
+        Assert.Contains(result.Events, e => e is CharacterNameNotAllowed);
+        Assert.DoesNotContain(result.Events, e => e is CharacterCreated);
+    }
+
+    [Fact]
+    public void Submit_InvalidName_DoesNotSetPlayerOnSession()
+    {
+        _sut.Submit("");
+
+        Assert.Null(_session.Player);
     }
 }
