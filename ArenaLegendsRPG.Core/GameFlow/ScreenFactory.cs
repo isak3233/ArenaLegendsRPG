@@ -7,10 +7,10 @@ namespace ArenaLegendsRPG.Core.GameFlow;
 
 public class ScreenFactory : IScreenFactory
 {
-    private readonly GameSession _session;
+    private readonly IGameSession _session;
     private readonly ICharacterCreationService _characterCreationService;
 
-    public ScreenFactory(GameSession session, ICharacterCreationService characterCreationService)
+    public ScreenFactory(IGameSession session, ICharacterCreationService characterCreationService)
     {
         _session = session;
         _characterCreationService = characterCreationService;

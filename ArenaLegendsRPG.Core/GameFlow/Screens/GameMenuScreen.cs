@@ -5,10 +5,10 @@ namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
 public class GameMenuScreen : GameScreenBase
 {
-    private readonly GameSession _session;
+    private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
 
-    public GameMenuScreen(GameSession session, IScreenFactory factory)
+    public GameMenuScreen(IGameSession session, IScreenFactory factory)
     {
         _session = session;
         _factory = factory;
