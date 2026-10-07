@@ -10,12 +10,12 @@ public class CharacterCreationServiceTest
 
     [Theory]
     [InlineData("Hero", true)]
-    [InlineData("A", true)]                                  
-    [InlineData("12345678901234567890", true)]               
-    [InlineData("123456789012345678901", false)]            
+    [InlineData("A", true)]
+    [InlineData("12345678901234567890", true)]
+    [InlineData("123456789012345678901", false)]
     [InlineData("", false)]
     [InlineData("   ", false)]
-    [InlineData("  Hero  ", true)]                           
+    [InlineData("  Hero  ", true)]
     public void ValidateCharacterName_ReturnsExpected(string name, bool expected)
     {
         Assert.Equal(expected, _sut.ValidateCharacterName(name));

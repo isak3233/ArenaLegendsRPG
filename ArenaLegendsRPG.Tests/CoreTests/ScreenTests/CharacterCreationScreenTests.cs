@@ -31,7 +31,7 @@ public class CharacterCreationScreenTests
     public void Submit_ReturnsCharacterCreatedEvent()
     {
         var result = _sut.Submit("Hero");
-        
+
         Assert.Contains(result.Events, e => e is CharacterCreated created && created.PlayerName == "Hero");
     }
 
