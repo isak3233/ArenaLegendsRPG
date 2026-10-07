@@ -12,7 +12,6 @@ public class ScreenFactory : IScreenFactory
     private readonly ICharacterCreationService _characterCreationService;
     private readonly IEncounterService _encounterService;
     private readonly ICombatService _combatService;
-
     private readonly ILevelingService _levelingService;
 
     public ScreenFactory(IGameSession session, ICharacterCreationService characterCreationService, IEncounterService encounterService, ICombatService combatService, ILevelingService levelingService)
