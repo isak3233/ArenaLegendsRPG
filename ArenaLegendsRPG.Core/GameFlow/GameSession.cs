@@ -1,8 +1,9 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
+using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 
 namespace ArenaLegendsRPG.Core.GameFlow;
 
-public class GameSession
+public class GameSession : IGameSession
 {
     public Character? Player { get; private set; }
 

@@ -22,6 +22,7 @@ public class MainMenuScreen : GameScreenBase
 
     protected override ScreenResult Handle(MenuAction action)
     {
+
         //switch (action)
         //{
         //    case MenuAction.StartNewGame:
@@ -31,6 +32,11 @@ public class MainMenuScreen : GameScreenBase
         //    default:
         //        throw new InvalidOperationException();
         //}
-        throw new NotImplementedException();
+        return action switch
+        {
+            MenuAction.StartNewGame => ScreenResult.To(_factory.CreateCharacterCreation()),
+            MenuAction.Quit => ScreenResult.To(_factory.CreateGameOver()),
+            _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
+        };
     }
 }

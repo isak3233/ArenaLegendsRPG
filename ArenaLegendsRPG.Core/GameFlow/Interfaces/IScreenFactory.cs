@@ -3,6 +3,8 @@
 public interface IScreenFactory
 {
     IGameScreen CreateMainMenu();
+    IGameScreen CreateCharacterCreation();
+    IGameScreen CreateGameMenu();
     IGameScreen CreateEncounter();
     IGameScreen CreateGameOver();
 }

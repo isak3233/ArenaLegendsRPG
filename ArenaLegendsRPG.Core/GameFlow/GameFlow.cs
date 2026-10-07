@@ -3,7 +3,7 @@ using ArenaLegendsRPG.Core.GameFlow.Menus;
 
 namespace ArenaLegendsRPG.Core.GameFlow;
 
-public class GameFlow : IGame
+public class GameFlow : IGameFlow
 {
     private IGameScreen _current;
 
