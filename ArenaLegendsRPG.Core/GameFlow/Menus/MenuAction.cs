@@ -5,10 +5,13 @@ public enum MenuAction
     StartNewGame,
     SelectName,
     Quit,
-    Attack,
-    Flee,
-    Explore,
+    Explore, 
     OpenInventory,
     SaveGame,
+    Attack,
+    Flee,
+    OpenChest,
+    LeaveEncounter,
+
 
 }
