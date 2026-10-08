@@ -1,5 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
-using ArenaLegendsRPG.Core.Monster;
+
+namespace ArenaLegendsRPG.Core.Monster;
 
 public abstract class MonsterBase : IMonster
 {

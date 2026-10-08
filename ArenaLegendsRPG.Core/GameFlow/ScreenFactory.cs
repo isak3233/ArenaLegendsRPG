@@ -1,6 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Screens;
-using ArenaLegendsRPG.Core.GameServices;
 
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
@@ -23,7 +22,7 @@ public class ScreenFactory : IScreenFactory
 
     public IGameScreen CreateMainMenu() => new MainMenuScreen(this);
     public IGameScreen CreateCharacterCreation() => new CharacterCreationScreen(_session, this, _characterCreationService);
-    public IGameScreen CreateGameMenu() => new GameMenuScreen(_session, this);
+    public IGameScreen CreateGameMenu() => new GameMenuScreen(this);
     public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService);
     public IGameScreen CreateGameOver() => new GameOverScreen();
 }

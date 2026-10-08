@@ -4,9 +4,9 @@ using ArenaLegendsRPG.Core.RandomGen;
 
 namespace ArenaLegendsRPG.UI;
 
-class Program
+public static class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
         var session = new GameSession();
         var randomProvider = new RandomProvider();
@@ -15,7 +15,7 @@ class Program
         var combatService = new CombatService(randomProvider);
         var factory = new ScreenFactory(session, characterCreationService, encounterService, combatService);
         var game = new GameFlow(factory);
-
+        game.GetAvailableActions();
         Console.WriteLine("Hello, World!");
     }
 }

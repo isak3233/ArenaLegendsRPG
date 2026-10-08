@@ -1,6 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Tests.TestDoubles;
 
+
 namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class MonsterTests

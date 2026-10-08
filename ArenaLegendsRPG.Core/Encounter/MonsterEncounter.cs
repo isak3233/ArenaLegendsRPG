@@ -4,5 +4,5 @@ namespace ArenaLegendsRPG.Core.Encounter;
 
 public class MonsterEncounter : IEncounter
 {
-    public IMonster Monster { get; set; }
+    public required IMonster Monster { get; init; }
 }

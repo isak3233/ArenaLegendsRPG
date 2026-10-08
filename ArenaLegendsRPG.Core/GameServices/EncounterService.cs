@@ -1,14 +1,10 @@
 ﻿using ArenaLegendsRPG.Core.Encounter;
 using ArenaLegendsRPG.Core.Monster;
 using ArenaLegendsRPG.Core.RandomGen;
-using System.ComponentModel.DataAnnotations;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameServices;
 
-public interface IEncounterService
-{
-    IEncounter GenerateEncounter();
-}
 
 public class EncounterService : IEncounterService
 {

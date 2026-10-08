@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.Core.GameFlow;
+﻿
 using ArenaLegendsRPG.Core.GameFlow.Screens;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Tests.TestDoubles;
@@ -13,7 +13,7 @@ public class GameMenuScreenTests
     {
         var factory = new StubScreenFactory(encounter: new StubGameScreen(GameState.InEncounter), gameOver: new StubGameScreen(GameState.GameOver));
 
-        _sut = new GameMenuScreen(new GameSession(), factory);
+        _sut = new GameMenuScreen(factory);
     }
 
     [Theory]

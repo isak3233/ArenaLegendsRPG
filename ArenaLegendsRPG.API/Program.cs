@@ -1,4 +1,4 @@
-using ArenaLegendsRPG.API.Feature.Healthy;
+using ArenaLegendsRPG.API.Features.Healthy;
 using ArenaLegendsRPG.Infrastructure;
 namespace ArenaLegendsRPG.API;
 

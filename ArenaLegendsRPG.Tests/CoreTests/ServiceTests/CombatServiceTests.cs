@@ -47,7 +47,7 @@ public class CombatServiceTests
 
         var result = service.ProcessPlayerAttack(player, monster);
 
-        Assert.Equal(8, result.DamageDealtToPlayer);  //Detta test failar för att den får 2 istället för 8, jag pallar inte idag tar det någon annan dag.
+        Assert.Equal(8, result.DamageDealtToPlayer);
     }
     [Fact]
     public void AttemptFlee_LowRoll_Succeeds()

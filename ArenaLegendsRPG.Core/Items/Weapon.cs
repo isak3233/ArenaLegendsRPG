@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ArenaLegendsRPG.Core.Items;
+﻿
 namespace ArenaLegendsRPG.Core.Items;
 
 public class Weapon : Item

@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.API.Feature.Healthy;
+﻿namespace ArenaLegendsRPG.API.Features.Healthy;
 
 public static class HealthyEndpoint
 {
