@@ -22,7 +22,6 @@ public class EncounterService : IEncounterService
     public IEncounter GenerateEncounter()
     {
         var monsterType = _random.Next(0, 3);
-
         return monsterType switch
         {
             0 => new MonsterEncounter { Monster = CreateRandomMonster() },

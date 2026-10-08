@@ -19,7 +19,6 @@ public class CombatServiceTests
         var service = new CombatService(new StubRandomProvider());
 
         var result = service.ProcessPlayerAttack(player, monster);
-
         Assert.Equal(10, result.DamageDealtToMonster);
         Assert.Equal(5, result.DamageDealtToPlayer);
         Assert.False(result.MonsterDied);
@@ -37,12 +36,12 @@ public class CombatServiceTests
 
         Assert.True(result.MonsterDied);
         Assert.Equal(0, result.DamageDealtToPlayer);
-        Assert.Equal(100, player.Health); 
+        Assert.Equal(100, player.Health);
     }
     [Fact]
     public void ProcessPlayerAttack_MonsterHasHigherMagicDamage_DealsMagicDamageToPlayer()
     {
-        var player = CreateCharacter(attackDamage: 10, attackResist: 0); 
+        var player = CreateCharacter(attackDamage: 10, attackResist: 0);
         var monster = new TestMonster(maxHealth: 30, attackResist: 0, magicResist: 0, attackDamage: 2, magicDamage: 8);
         var service = new CombatService(new StubRandomProvider());
 
@@ -64,7 +63,7 @@ public class CombatServiceTests
     [Fact]
     public void AttemptFlee_HighRoll_Fails()
     {
-        var random = new StubRandomProvider(80); 
+        var random = new StubRandomProvider(80);
         var service = new CombatService(random);
 
         var result = service.AttemptFlee();

@@ -2,6 +2,7 @@
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Core.GameServices;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
@@ -14,7 +15,7 @@ public class EncounterScreen : GameScreenBase
 
     public IEncounter CurrentEncounter { get; }
 
-    public EncounterScreen(IGameSession session,IScreenFactory factory, IEncounterService encounterService, ICombatService combatService)
+    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService)
     {
         _session = session;
         _factory = factory;
@@ -43,7 +44,7 @@ public class EncounterScreen : GameScreenBase
             MenuAction.Flee => HandleFlee(),
             MenuAction.OpenChest => throw new NotImplementedException("Chest opening not built"),
             MenuAction.LeaveEncounter => ScreenResult.To(_factory.CreateGameMenu()),
-              _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
+            _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
         };
     }
 

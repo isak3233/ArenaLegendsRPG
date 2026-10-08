@@ -5,7 +5,7 @@ public enum MenuAction
     StartNewGame,
     SelectName,
     Quit,
-    Explore, 
+    Explore,
     OpenInventory,
     SaveGame,
     Attack,
