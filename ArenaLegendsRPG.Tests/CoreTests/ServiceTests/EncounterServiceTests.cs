@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.Core.Encounter;
+﻿using ArenaLegendsRPG.Core.Encounters;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Tests.TestDoubles;
 

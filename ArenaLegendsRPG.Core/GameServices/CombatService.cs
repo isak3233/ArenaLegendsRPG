@@ -20,8 +20,6 @@ public class CombatService : ICombatService
     }
     public CombatRoundResult ProcessPlayerAttack(Character player, IMonster monster)
     {
-
-
         var events = new List<GameEvent>();
 
         var damageToMonster = monster.TakeDamage(new Damage(player.AttackDamage, DamageType.Physical));

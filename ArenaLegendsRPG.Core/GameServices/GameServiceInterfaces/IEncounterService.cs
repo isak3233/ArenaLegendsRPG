@@ -1,4 +1,5 @@
-﻿using ArenaLegendsRPG.Core.Encounter;
+﻿
+using ArenaLegendsRPG.Core.Encounters;
 
 namespace ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 

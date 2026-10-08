@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.Core.Encounter;
+﻿using ArenaLegendsRPG.Core.Encounters;
 using ArenaLegendsRPG.Core.Monster;
 using ArenaLegendsRPG.Core.RandomGen;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;

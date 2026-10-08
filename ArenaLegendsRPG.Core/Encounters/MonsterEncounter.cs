@@ -1,6 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Monster;
 
-namespace ArenaLegendsRPG.Core.Encounter;
+namespace ArenaLegendsRPG.Core.Encounters;
 
 public class MonsterEncounter : IEncounter
 {
