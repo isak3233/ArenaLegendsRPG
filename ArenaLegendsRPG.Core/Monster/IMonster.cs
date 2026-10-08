@@ -8,6 +8,9 @@ public interface IMonster
     int MaxHealth { get; }
     int AttackResist { get; }
     int MagicResist { get; }
+    int AttackDamage { get; }
+    int MagicDamage { get; }
+    bool IsDead { get; }
 
     public int TakeDamage(Damage damage);
 }

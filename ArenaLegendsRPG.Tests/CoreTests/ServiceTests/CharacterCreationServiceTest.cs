@@ -2,7 +2,7 @@
 
 namespace ArenaLegendsRPG.Tests.CoreTests.ServiceTests;
 
-using ArenaLegendsRPG.Core.Characters;
+
 
 public class CharacterCreationServiceTest
 {
