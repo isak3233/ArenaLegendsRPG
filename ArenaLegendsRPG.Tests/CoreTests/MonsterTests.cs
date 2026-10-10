@@ -1,5 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Tests.TestDoubles;
+using ArenaLegendsRPG.Core.GameFlow;
+
 
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
@@ -53,5 +55,20 @@ public class MonsterTests
         Assert.Equal(14, monster.Health);
         Assert.False(monster.IsDead);
     }
+    [Fact]
+    public void XpReward_IsBasedOnHealthAndDamage()
+    {
+        var monster = new TestMonster(maxHealth: 30, attackDamage: 8, magicDamage: 2);
 
+        Assert.Equal(80, monster.XpReward); // 30 + (8 + 2) * 5
+    }
+
+    [Fact]
+    public void XpReward_StrongerMonsterGivesMoreXp()
+    {
+        var weak = new TestMonster(maxHealth: 20, attackDamage: 2, magicDamage: 0);
+        var strong = new TestMonster(maxHealth: 50, attackDamage: 10, magicDamage: 5);
+
+        Assert.True(strong.XpReward > weak.XpReward);
+    }
 }
