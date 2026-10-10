@@ -15,7 +15,7 @@ public class EncounterScreen : GameScreenBase
     private readonly ILevelingService _levelingService;
     public IEncounter CurrentEncounter { get; }
 
-    
+
 
     public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService, ILevelingService levelingService)
     {

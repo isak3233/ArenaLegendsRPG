@@ -80,7 +80,7 @@ public class EncounterScreenTests
     public void Attack_MonsterDies_GivesXpToPlayer()
     {
         var player = CreatePlayer(attackDamage: 1000);
-        var sut = CreateSut(player, monsterAttackDamage: 8, monsterMagicDamage: 2); 
+        var sut = CreateSut(player, monsterAttackDamage: 8, monsterMagicDamage: 2);
 
         var result = sut.Choose(MenuAction.Attack);
 
@@ -92,7 +92,7 @@ public class EncounterScreenTests
     public void Attack_MonsterDiesWithEnoughXp_LevelsUpPlayer()
     {
         var player = CreatePlayer(attackDamage: 1000);
-        var sut = CreateSut(player, monsterAttackDamage: 10, monsterMagicDamage: 10); 
+        var sut = CreateSut(player, monsterAttackDamage: 10, monsterMagicDamage: 10);
 
         var result = sut.Choose(MenuAction.Attack);
 

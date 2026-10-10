@@ -74,7 +74,7 @@ public class LevelingServiceTests
     {
         var character = CreateCharacter();
 
-        var events = _sut.GainXp(character, 350); 
+        var events = _sut.GainXp(character, 350);
 
         Assert.Equal(3, character.Level);
         Assert.Equal(50, character.Xp);

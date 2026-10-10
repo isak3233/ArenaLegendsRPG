@@ -136,7 +136,7 @@ public class CharacterTests
         character.LevelUp(xpRequired: 100);
 
         Assert.Equal(2, character.Level);
-        Assert.Equal(30, character.Xp); 
+        Assert.Equal(30, character.Xp);
     }
 
     [Fact]
