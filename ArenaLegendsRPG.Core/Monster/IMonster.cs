@@ -11,6 +11,6 @@ public interface IMonster
     int AttackDamage { get; }
     int MagicDamage { get; }
     bool IsDead { get; }
-
+    int XpReward { get; }
     public int TakeDamage(Damage damage);
 }

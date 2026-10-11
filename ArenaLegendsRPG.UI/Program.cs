@@ -13,8 +13,8 @@ public static class Program
         var characterCreationService = new CharacterCreationService();
         var encounterService = new EncounterService(randomProvider);
         var combatService = new CombatService(randomProvider);
-        var factory = new ScreenFactory(session, characterCreationService, encounterService, combatService);
-        var game = new GameFlow(factory);
+        var levelingService = new LevelingService();
+        var factory = new ScreenFactory(session, characterCreationService, encounterService, combatService, levelingService); var game = new GameFlow(factory);
         game.GetAvailableActions();
         Console.WriteLine("Hello, World!");
     }

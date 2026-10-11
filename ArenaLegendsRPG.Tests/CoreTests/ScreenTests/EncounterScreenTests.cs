@@ -33,7 +33,8 @@ public class EncounterScreenTests
             _session,
             _factory,
             new EncounterService(new StubRandomProvider(encounterChance, monsterType, monsterAttackDamage, monsterMagicDamage)),
-            new CombatService(new StubRandomProvider(fleeChance)));
+            new CombatService(new StubRandomProvider(fleeChance)),
+            new LevelingService());
     }
 
     private static Character CreatePlayer(int health = 100, int attackDamage = 0)
@@ -75,6 +76,42 @@ public class EncounterScreenTests
         Assert.Contains(result.Events, e => e is DamageDealt);
     }
 
+    [Fact]
+    public void Attack_MonsterDies_GivesXpToPlayer()
+    {
+        var player = CreatePlayer(attackDamage: 1000);
+        var sut = CreateSut(player, monsterAttackDamage: 8, monsterMagicDamage: 2);
+
+        var result = sut.Choose(MenuAction.Attack);
+
+        Assert.Equal(80, player.Xp);
+        Assert.Contains(result.Events, e => e is XpGained gained && gained.Amount == 80);
+    }
+
+    [Fact]
+    public void Attack_MonsterDiesWithEnoughXp_LevelsUpPlayer()
+    {
+        var player = CreatePlayer(attackDamage: 1000);
+        var sut = CreateSut(player, monsterAttackDamage: 10, monsterMagicDamage: 10);
+
+        var result = sut.Choose(MenuAction.Attack);
+
+        Assert.Equal(2, player.Level);
+        Assert.Contains(result.Events, e => e is LeveledUp);
+    }
+
+    [Fact]
+    public void Attack_MonsterSurvives_GivesNoXp()
+    {
+        var player = CreatePlayer(attackDamage: 0);
+        var sut = CreateSut(player);
+
+        var result = sut.Choose(MenuAction.Attack);
+
+        Assert.Equal(0, player.Xp);
+        Assert.DoesNotContain(result.Events, e => e is XpGained);
+    }
+
 
     [Fact]
     public void Flee_Succeeds_GoesToGameMenu()
@@ -96,4 +133,5 @@ public class EncounterScreenTests
 
         Assert.Same(sut, result.Next);
     }
+
 }

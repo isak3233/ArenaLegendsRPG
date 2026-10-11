@@ -12,7 +12,7 @@ public abstract class MonsterBase : IMonster
     public int MagicDamage { get; }
 
     public bool IsDead => Health <= 0;
-
+    public virtual int XpReward => MaxHealth + (AttackDamage + MagicDamage) * 5;
     protected MonsterBase(int maxHealth, int attackResist, int magicResist, int attackDamage, int magicDamage)
     {
         MaxHealth = Health = maxHealth;

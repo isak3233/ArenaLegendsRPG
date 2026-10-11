@@ -1,6 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Encounters;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
+using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 
@@ -11,14 +12,17 @@ public class EncounterScreen : GameScreenBase
     private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
     private readonly ICombatService _combatService;
-
+    private readonly ILevelingService _levelingService;
     public IEncounter CurrentEncounter { get; }
 
-    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService)
+
+
+    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService, ILevelingService levelingService)
     {
         _session = session;
         _factory = factory;
         _combatService = combatService;
+        _levelingService = levelingService;
         CurrentEncounter = encounterService.GenerateEncounter();
     }
 
@@ -55,7 +59,9 @@ public class EncounterScreen : GameScreenBase
         var result = _combatService.ProcessPlayerAttack(player, monsterEncounter.Monster);
         if (result.MonsterDied)
         {
-            return ScreenResult.To(_factory.CreateGameMenu(), result.Events.ToArray());
+            var xpEvents = _levelingService.GainXp(player, monsterEncounter.Monster.XpReward);
+            var events = result.Events.Concat(xpEvents).ToArray();
+            return ScreenResult.To(_factory.CreateGameMenu(), events);
         }
 
         if (result.PlayerDied)

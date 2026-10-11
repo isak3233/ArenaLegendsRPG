@@ -10,11 +10,13 @@ public class Character
 {
     public string Name { get; }
     public int Health { get; private set; }
-
-    public int BaseAttackDamage { get; }
-    public int BaseMagicDamage { get; }
-    public int BaseAttackResist { get; }
-    public int BaseMagicResist { get; }
+    public int MaxHealth { get; private set; }
+    public int Level { get; private set; } = 1;
+    public int Xp { get; private set; }
+    public int BaseAttackDamage { get; private set; }
+    public int BaseMagicDamage { get; private set; }
+    public int BaseAttackResist { get; private set; }
+    public int BaseMagicResist { get; private set; }
 
     public Weapon? EquippedWeapon { get; private set; }
     public Protection? EquippedProtection { get; private set; }
@@ -32,6 +34,7 @@ public class Character
     {
         Name = name;
         Health = health;
+        MaxHealth = health;
         BaseAttackDamage = baseAttackDamage;
         BaseMagicDamage = baseMagicDamage;
         BaseAttackResist = baseAttackResist;
@@ -62,6 +65,42 @@ public class Character
         var actualDamage = DamageCalculator.Calculate(damage, AttackResist, MagicResist);
         Health = Math.Max(0, Health - actualDamage);
         return actualDamage;
+    }
+
+    public void AddXp(int amount)
+    {
+        if (amount < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(amount), "Xp cannot be negative.");
+        }
+
+        Xp += amount;
+    }
+    public void LevelUp(int xpRequired)
+    {
+        if (Xp < xpRequired)
+        {
+            throw new InvalidOperationException("Not enough xp to level up");
+        }
+        Xp -= xpRequired;
+        Level++;
+    }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        MaxHealth += amount;
+    }
+    public void IncreaseBaseStats(int attackDamage, int magicDamage, int attackResist, int magicResist)
+    {
+        BaseAttackDamage += attackDamage;
+        BaseMagicDamage += magicDamage;
+        BaseAttackResist += attackResist;
+        BaseMagicResist += magicResist;
+    }
+
+    public void Heal(int amount)
+    {
+        Health = Math.Min(MaxHealth, Health + amount);
     }
 }
 

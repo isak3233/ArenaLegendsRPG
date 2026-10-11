@@ -97,4 +97,93 @@ public class CharacterTests
 
         Assert.Equal(0, character.Health);
     }
+
+    [Fact]
+    public void Constructor_StartsAtLevelOneWithNoXp()
+    {
+        var character = CreateCharacter();
+
+        Assert.Equal(1, character.Level);
+        Assert.Equal(0, character.Xp);
+        Assert.Equal(character.Health, character.MaxHealth);
+    }
+
+    [Fact]
+    public void AddXp_IncreasesXp()
+    {
+        var character = CreateCharacter();
+
+        character.AddXp(40);
+        character.AddXp(10);
+
+        Assert.Equal(50, character.Xp);
+    }
+
+    [Fact]
+    public void AddXp_NegativeAmount_Throws()
+    {
+        var character = CreateCharacter();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => character.AddXp(-1));
+    }
+
+    [Fact]
+    public void LevelUp_SpendsXpAndIncreasesLevel()
+    {
+        var character = CreateCharacter();
+        character.AddXp(130);
+
+        character.LevelUp(xpRequired: 100);
+
+        Assert.Equal(2, character.Level);
+        Assert.Equal(30, character.Xp);
+    }
+
+    [Fact]
+    public void LevelUp_NotEnoughXp_Throws()
+    {
+        var character = CreateCharacter();
+        character.AddXp(50);
+
+        Assert.Throws<InvalidOperationException>(() => character.LevelUp(xpRequired: 100));
+    }
+
+    [Fact]
+    public void IncreaseMaxHealth_RaisesMaxHealth()
+    {
+        var character = CreateCharacter();
+        var before = character.MaxHealth;
+
+        character.IncreaseMaxHealth(10);
+
+        Assert.Equal(before + 10, character.MaxHealth);
+    }
+
+    [Fact]
+    public void IncreaseBaseStats_RaisesAllBaseStats()
+    {
+        var character = CreateCharacter();
+        var attack = character.BaseAttackDamage;
+        var magic = character.BaseMagicDamage;
+        var attackResist = character.BaseAttackResist;
+        var magicResist = character.BaseMagicResist;
+
+        character.IncreaseBaseStats(attackDamage: 2, magicDamage: 1, attackResist: 1, magicResist: 1);
+
+        Assert.Equal(attack + 2, character.BaseAttackDamage);
+        Assert.Equal(magic + 1, character.BaseMagicDamage);
+        Assert.Equal(attackResist + 1, character.BaseAttackResist);
+        Assert.Equal(magicResist + 1, character.BaseMagicResist);
+    }
+
+    [Fact]
+    public void Heal_NeverExceedsMaxHealth()
+    {
+        var character = CreateCharacter();
+        character.TakeDamage(new Damage(20, DamageType.Physical));
+
+        character.Heal(1000);
+
+        Assert.Equal(character.MaxHealth, character.Health);
+    }
 }
