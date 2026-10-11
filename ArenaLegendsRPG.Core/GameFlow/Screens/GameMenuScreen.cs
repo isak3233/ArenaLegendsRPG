@@ -31,9 +31,3 @@ public class GameMenuScreen : GameScreenBase
         };
     }
 }
-
-
-
-
-
-
