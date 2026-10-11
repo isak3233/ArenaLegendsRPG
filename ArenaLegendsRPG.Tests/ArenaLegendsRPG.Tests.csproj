@@ -24,4 +24,8 @@
       <ProjectReference Include="..\ArenaLegendsRPG.Core\ArenaLegendsRPG.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Fixtures\" />
+    </ItemGroup>
+
 </Project>

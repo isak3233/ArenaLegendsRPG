@@ -4,7 +4,7 @@ using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
-namespace ArenaLegendsRPG.Tests.ServiceTests;
+namespace ArenaLegendsRPG.Tests.CoreTests.ServiceTests;
 
 public class LevelingServiceTests
 {

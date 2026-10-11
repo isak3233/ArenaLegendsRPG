@@ -15,13 +15,13 @@ public class Program
 
 
         var app = builder.Build();
-        
+
         using (var scope = app.Services.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<ArenaLegendsDbContext>();
             dbContext.Database.Migrate();
         }
-        
+
         app.MapHealthyEndpoint();
 
         app.Run();
