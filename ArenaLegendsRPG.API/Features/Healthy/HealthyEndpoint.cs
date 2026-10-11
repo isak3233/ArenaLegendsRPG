@@ -1,11 +1,14 @@
-﻿namespace ArenaLegendsRPG.API.Features.Healthy;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public static class HealthyEndpoint
+namespace ArenaLegendsRPG.API.Features.Healthy;
+
+[ApiController]
+[Route("healthy")]
+public class HealthyController : ControllerBase
 {
-    public static IEndpointRouteBuilder MapHealthyEndpoint(this IEndpointRouteBuilder app)
+    [HttpGet]
+    public IActionResult Get()
     {
-        app.MapGet("/healthy", () => Results.Ok());
-
-        return app;
+        return Ok();
     }
 }

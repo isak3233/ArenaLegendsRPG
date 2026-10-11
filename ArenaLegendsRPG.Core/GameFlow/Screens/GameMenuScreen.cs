@@ -29,12 +29,5 @@ public class GameMenuScreen : GameScreenBase
             MenuAction.Quit => ScreenResult.To(_factory.CreateGameOver()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
         };
-        //Lämnar openinventory och savegame sålänge, vet inte hur vi ska använda savegame.
     }
 }
-
-
-
-
-
-

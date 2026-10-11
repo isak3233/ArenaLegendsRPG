@@ -1,12 +1,13 @@
-﻿using ArenaLegendsRPG.Tests.Fixtures;
+﻿
+using ArenaLegendsRPG.API;
 
-namespace ArenaLegendsRPG.Tests.ApiTests;
+namespace ArenaLegendsRPG.IntegrationTests.ApiTests;
 
-public class ApiHealthyTest : IClassFixture<CustomWebApplicationFactory>
+public class ApiHealthyTest : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
-    public ApiHealthyTest(CustomWebApplicationFactory factory)
+    public ApiHealthyTest(CustomWebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }
