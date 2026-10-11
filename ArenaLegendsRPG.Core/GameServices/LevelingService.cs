@@ -1,14 +1,9 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.GameFlow;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameServices;
-
-public interface ILevelingService
-{
-    int XpRequiredForNextLevel(int level);
-    IReadOnlyList<GameEvent> GainXp(Character character, int amount);
-}
 
 public class LevelingService : ILevelingService
 {

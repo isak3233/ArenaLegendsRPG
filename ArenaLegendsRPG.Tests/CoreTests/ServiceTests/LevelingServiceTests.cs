@@ -2,6 +2,7 @@
 using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameServices;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Tests.ServiceTests;
 
@@ -37,7 +38,7 @@ public class LevelingServiceTests
     }
 
     [Fact]
-    public void GainXp_EnoughForLevelUp_LevelsUpAndRaisesStats()
+    public void GainXpEnoughForLevelUp_ShouldRaiseStats()
     {
         var character = CreateCharacter();
         var maxHealth = character.MaxHealth;
