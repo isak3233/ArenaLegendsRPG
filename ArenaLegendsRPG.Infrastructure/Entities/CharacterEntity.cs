@@ -6,6 +6,8 @@ public class CharacterEntity
     public string Name { get; set; } = string.Empty;
     public int MaxHealth { get; set; }
     public int Health { get; set; }
+    public int Level { get; set; }
+    public int Xp { get; set; }
     public int BaseAttackDamage { get; set; }
     public int BaseMagicDamage { get; set; }
     public int BaseAttackResist { get; set; }

@@ -37,12 +37,18 @@ namespace ArenaLegendsRPG.Infrastructure.Migrations
                     b.Property<int>("Health")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("MaxHealth")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Xp")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

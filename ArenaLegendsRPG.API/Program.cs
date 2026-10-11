@@ -1,3 +1,4 @@
+using ArenaLegendsRPG.API.Features.Character;
 using ArenaLegendsRPG.API.Features.Healthy;
 using ArenaLegendsRPG.Infrastructure;
 using ArenaLegendsRPG.Infrastructure.Data;
@@ -12,6 +13,9 @@ public class Program
 
         builder.Services.AddInfrastructure(builder.Configuration);
 
+        builder.Services.AddControllers()
+            .AddJsonOptions(o => o.JsonSerializerOptions.AllowOutOfOrderMetadataProperties = true);
+        builder.Services.AddScoped<ICharacterService, CharacterService>();
 
         var app = builder.Build();
         using (var scope = app.Services.CreateScope())
@@ -19,7 +23,7 @@ public class Program
             var dbContext = scope.ServiceProvider.GetRequiredService<ArenaLegendsDbContext>();
             dbContext.Database.Migrate();
         }
-        app.MapHealthyEndpoint();
+        app.MapControllers();
 
         app.Run();
     }
