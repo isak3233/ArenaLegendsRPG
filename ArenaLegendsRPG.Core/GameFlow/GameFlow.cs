@@ -7,7 +7,6 @@ public class GameFlow : IGameFlow
 {
     private IGameScreen _current;
 
-
     public GameFlow(IScreenFactory factory)
     {
         _current = factory.CreateMainMenu();
@@ -20,12 +19,25 @@ public class GameFlow : IGameFlow
         return _current.GetAvailableActions();
     }
 
-
     public IReadOnlyList<GameEvent> Choose(MenuAction action)
     {
-        var result = _current.Choose(action);
+        return MoveTo(_current.Choose(action));
+    }
+    // Just add input? in choose method and use input records in a later version
+    public IReadOnlyList<GameEvent> Submit(string text)
+    {
+        if (_current is not ITextInputScreen textScreen)
+        {
+            throw new InvalidOperationException($"The screen {State} does not accept text input.");
+        }
+
+        return MoveTo(textScreen.Submit(text));
+    }
+
+
+    private IReadOnlyList<GameEvent> MoveTo(ScreenResult result)
+    {
         _current = result.Next;
         return result.Events;
     }
-
 }

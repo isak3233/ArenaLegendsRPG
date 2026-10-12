@@ -1,18 +1,19 @@
-﻿using ArenaLegendsRPG.Core.GameFlow.Menus;
+﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+using ArenaLegendsRPG.Core.GameFlow.Menus;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
-public class GameOverScreen : GameScreenBase
+public class GameOverScreen : IGameScreen
 {
-    public override GameState State => GameState.GameOver;
+    public GameState State => GameState.GameOver;
 
-    public override IReadOnlyList<MenuAction> GetAvailableActions()
+    public IReadOnlyList<MenuAction> GetAvailableActions()
     {
         return new List<MenuAction>();
     }
 
 
-    protected override ScreenResult Handle(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         throw new InvalidOperationException();
     }

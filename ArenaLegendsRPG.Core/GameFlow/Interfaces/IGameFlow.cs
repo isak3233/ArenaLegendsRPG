@@ -7,4 +7,5 @@ public interface IGameFlow
     GameState State { get; }
     IReadOnlyList<MenuAction> GetAvailableActions();
     IReadOnlyList<GameEvent> Choose(MenuAction action);
+    IReadOnlyList<GameEvent> Submit(string text);
 }
