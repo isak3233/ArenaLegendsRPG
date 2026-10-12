@@ -24,7 +24,7 @@ public class GameMenuScreen : GameScreenBase
         return action switch
         {
             MenuAction.Explore => ScreenResult.To(_factory.CreateEncounter()),
-            MenuAction.OpenInventory => throw new NotImplementedException("Inventory screen not built yet."),
+            MenuAction.OpenInventory => ScreenResult.To(_factory.CreateInventory()),
             MenuAction.SaveGame => throw new NotImplementedException("Save not built yet."),
             MenuAction.Quit => ScreenResult.To(_factory.CreateGameOver()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")

@@ -1,5 +1,4 @@
-﻿
-using ArenaLegendsRPG.Core.GameFlow.Screens;
+﻿using ArenaLegendsRPG.Core.GameFlow.Screens;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Tests.TestDoubles;
 
@@ -11,13 +10,17 @@ public class GameMenuScreenTests
 
     public GameMenuScreenTests()
     {
-        var factory = new StubScreenFactory(encounter: new StubGameScreen(GameState.InEncounter), gameOver: new StubGameScreen(GameState.GameOver));
+        var factory = new StubScreenFactory(
+            encounter: new StubGameScreen(GameState.InEncounter),
+            gameOver: new StubGameScreen(GameState.GameOver),
+            inventory: new StubGameScreen(GameState.Inventory));
 
         _sut = new GameMenuScreen(factory);
     }
 
     [Theory]
     [InlineData(MenuAction.Explore, GameState.InEncounter)]
+    [InlineData(MenuAction.OpenInventory, GameState.Inventory)]
     [InlineData(MenuAction.Quit, GameState.GameOver)]
     public void Choose_GoesToExpectedScreen(MenuAction action, GameState expectedState)
     {
@@ -25,10 +28,10 @@ public class GameMenuScreenTests
 
         Assert.Equal(expectedState, result.Next.State);
     }
+
     [Fact]
     public void Choose_ActionNotInMenu_Throws()
     {
         Assert.Throws<InvalidOperationException>(() => _sut.Choose(MenuAction.Attack));
     }
 }
-

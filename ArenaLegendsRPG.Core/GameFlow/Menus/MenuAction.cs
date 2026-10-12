@@ -3,11 +3,11 @@
 public enum MenuAction
 {
     StartNewGame,
-    SelectName,
     Quit,
     Explore,
     OpenInventory,
     SaveGame,
+    Back,
     Attack,
     Flee,
     OpenChest,

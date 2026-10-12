@@ -56,7 +56,48 @@ public class GameFlowTests
         Assert.Equal(events, result);
     }
 
+    [Fact]
+    public void Submit_OnTextInputScreen_SwitchesToNextScreenAndReturnsEvents()
+    {
+        var next = new StubGameScreen(GameState.GameMenu);
+        var events = new GameEvent[] { new DummyEvent() };
+        var start = new StubTextInputScreen(GameState.CharacterCreation, ScreenResult.To(next, events));
+        var sut = CreateSut(start);
 
+        var result = sut.Submit("Hero");
+
+        Assert.Equal(GameState.GameMenu, sut.State);
+        Assert.Equal(events, result);
+    }
+
+    [Fact]
+    public void Submit_OnScreenWithoutTextInput_Throws()
+    {
+        var sut = CreateSut(new StubGameScreen(GameState.MainMenu));
+
+        Assert.Throws<InvalidOperationException>(() => sut.Submit("Hero"));
+    }
+
+    [Fact]
+    public void Select_OnSelectionScreen_StaysOnScreenAndReturnsEvents()
+    {
+        var events = new GameEvent[] { new DummyEvent() };
+        var start = new StubSelectionScreen(GameState.Inventory, ScreenResult.To(new StubGameScreen(GameState.Inventory), events));
+        var sut = CreateSut(start);
+
+        var result = sut.Select(0);
+
+        Assert.Equal(GameState.Inventory, sut.State);
+        Assert.Equal(events, result);
+    }
+
+    [Fact]
+    public void Select_OnScreenWithoutSelection_Throws()
+    {
+        var sut = CreateSut(new StubGameScreen(GameState.MainMenu));
+
+        Assert.Throws<InvalidOperationException>(() => sut.Select(0));
+    }
 
 
 }

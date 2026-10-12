@@ -9,19 +9,22 @@ internal class StubScreenFactory : IScreenFactory
     private readonly IGameScreen? _gameMenu;
     private readonly IGameScreen? _encounter;
     private readonly IGameScreen? _gameOver;
+    private readonly IGameScreen? _inventory;
 
     public StubScreenFactory(
         IGameScreen? mainMenu = null,
         IGameScreen? characterCreation = null,
         IGameScreen? gameMenu = null,
         IGameScreen? encounter = null,
-        IGameScreen? gameOver = null)
+        IGameScreen? gameOver = null,
+        IGameScreen? inventory = null)
     {
         _mainMenu = mainMenu;
         _characterCreation = characterCreation;
         _gameMenu = gameMenu;
         _encounter = encounter;
         _gameOver = gameOver;
+        _inventory = inventory;
     }
 
     public IGameScreen CreateMainMenu() =>
@@ -32,6 +35,9 @@ internal class StubScreenFactory : IScreenFactory
 
     public IGameScreen CreateGameMenu() =>
         _gameMenu ?? throw new InvalidOperationException("Game menu not configured for this test");
+
+    public IGameScreen CreateInventory() =>
+        _inventory ?? throw new InvalidOperationException("Inventory not configured for this test.");
 
     public IGameScreen CreateEncounter() =>
         _encounter ?? throw new InvalidOperationException("Encounter not configured for this test.");

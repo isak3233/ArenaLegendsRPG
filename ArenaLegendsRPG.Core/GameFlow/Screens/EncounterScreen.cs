@@ -1,9 +1,8 @@
 ﻿using ArenaLegendsRPG.Core.Encounters;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
-
+using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
-
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
@@ -12,17 +11,16 @@ public class EncounterScreen : GameScreenBase
     private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
     private readonly ICombatService _combatService;
-    private readonly ILevelingService _levelingService;
+    private readonly IRewardService _rewardService;
+
     public IEncounter CurrentEncounter { get; }
 
-
-
-    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService, ILevelingService levelingService)
+    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService, IRewardService rewardService)
     {
         _session = session;
         _factory = factory;
         _combatService = combatService;
-        _levelingService = levelingService;
+        _rewardService = rewardService;
         CurrentEncounter = encounterService.GenerateEncounter();
     }
 
@@ -35,7 +33,7 @@ public class EncounterScreen : GameScreenBase
             MonsterEncounter => new[] { MenuAction.Attack, MenuAction.Flee },
             ChestEncounter => new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter },
             StructureEncounter => new[] { MenuAction.LeaveEncounter },
-            _ => throw new InvalidOperationException($"Unhandled encounter type{CurrentEncounter.GetType().Name}")
+            _ => throw new InvalidOperationException($"Unhandled encounter type {CurrentEncounter.GetType().Name}")
         };
     }
 
@@ -45,7 +43,7 @@ public class EncounterScreen : GameScreenBase
         {
             MenuAction.Attack => HandleAttack(),
             MenuAction.Flee => HandleFlee(),
-            MenuAction.OpenChest => throw new NotImplementedException("Chest opening not built"),
+            MenuAction.OpenChest => HandleOpenChest(),
             MenuAction.LeaveEncounter => ScreenResult.To(_factory.CreateGameMenu()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
         };
@@ -57,11 +55,11 @@ public class EncounterScreen : GameScreenBase
         var player = _session.RequirePlayer();
 
         var result = _combatService.ProcessPlayerAttack(player, monsterEncounter.Monster);
+
         if (result.MonsterDied)
         {
-            var xpEvents = _levelingService.GainXp(player, monsterEncounter.Monster.XpReward);
-            var events = result.Events.Concat(xpEvents).ToArray();
-            return ScreenResult.To(_factory.CreateGameMenu(), events);
+            var rewardEvents = _rewardService.GrantMonsterRewards(player, monsterEncounter);
+            return ScreenResult.To(_factory.CreateGameMenu(), result.Events.Concat(rewardEvents).ToArray());
         }
 
         if (result.PlayerDied)
@@ -82,5 +80,13 @@ public class EncounterScreen : GameScreenBase
         }
 
         return ScreenResult.To(this, result.Events.ToArray());
+    }
+
+    private ScreenResult HandleOpenChest()
+    {
+        var chest = (ChestEncounter)CurrentEncounter;
+        var events = _rewardService.GrantChestLoot(_session.RequirePlayer(), chest);
+
+        return ScreenResult.To(_factory.CreateGameMenu(), events.ToArray());
     }
 }

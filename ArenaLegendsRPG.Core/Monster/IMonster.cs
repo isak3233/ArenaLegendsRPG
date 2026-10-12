@@ -1,9 +1,11 @@
 ﻿using ArenaLegendsRPG.Core.Fighting;
+using System.Reflection.Metadata;
 
 namespace ArenaLegendsRPG.Core.Monster;
 
 public interface IMonster
 {
+    string Name { get; }
     int Health { get; }
     int MaxHealth { get; }
     int AttackResist { get; }

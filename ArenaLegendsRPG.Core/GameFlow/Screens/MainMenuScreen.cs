@@ -19,19 +19,8 @@ public class MainMenuScreen : GameScreenBase
         return new[] { MenuAction.StartNewGame, MenuAction.Quit };
     }
 
-
     protected override ScreenResult Handle(MenuAction action)
     {
-
-        //switch (action)
-        //{
-        //    case MenuAction.StartNewGame:
-        //        return ScreenResult.To(_factory.CreateEncounter());
-        //    case MenuAction.Quit:
-        //        return ScreenResult.To(_factory.CreateGameOver());
-        //    default:
-        //        throw new InvalidOperationException();
-        //}
         return action switch
         {
             MenuAction.StartNewGame => ScreenResult.To(_factory.CreateCharacterCreation()),

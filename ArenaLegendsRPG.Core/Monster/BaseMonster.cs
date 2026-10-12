@@ -4,6 +4,7 @@ namespace ArenaLegendsRPG.Core.Monster;
 
 public abstract class MonsterBase : IMonster
 {
+    public string Name { get; }
     public int Health { get; private set; }
     public int MaxHealth { get; }
     public int AttackResist { get; }
@@ -13,8 +14,10 @@ public abstract class MonsterBase : IMonster
 
     public bool IsDead => Health <= 0;
     public virtual int XpReward => MaxHealth + (AttackDamage + MagicDamage) * 5;
-    protected MonsterBase(int maxHealth, int attackResist, int magicResist, int attackDamage, int magicDamage)
+
+    protected MonsterBase(string name, int maxHealth, int attackResist, int magicResist, int attackDamage, int magicDamage)
     {
+        Name = name;
         MaxHealth = Health = maxHealth;
         AttackResist = attackResist;
         MagicResist = magicResist;

@@ -1,6 +1,7 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Tests.TestDoubles;
+using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 namespace ArenaLegendsRPG.Tests.CoreTests.ServiceTests;
 
@@ -69,5 +70,30 @@ public class CombatServiceTests
         var result = service.AttemptFlee();
 
         Assert.False(result.Succeeded);
+    }
+    [Fact]
+    public void ProcessPlayerAttack_PlayerHasResist_ReportsActualDamageAfterResist()
+    {
+        var player = CreateCharacter(attackResist: 6);
+        var monster = new TestMonster(maxHealth: 100, attackResist: 0, magicResist: 0, attackDamage: 10);
+        var service = new CombatService(new StubRandomProvider());
+
+        var result = service.ProcessPlayerAttack(player, monster);
+
+        Assert.Equal(4, result.DamageDealtToPlayer);
+        Assert.Equal(96, player.Health);
+    }
+
+    [Fact]
+    public void ProcessPlayerAttack_EventsUseTheMonstersName()
+    {
+        var player = CreateCharacter(attackDamage: 10);
+        var monster = new TestMonster(maxHealth: 100, attackDamage: 5);
+        var service = new CombatService(new StubRandomProvider());
+
+        var result = service.ProcessPlayerAttack(player, monster);
+
+        Assert.Contains(result.Events, e => e is DamageDealt hit && hit.AttackerName == "Hero" && hit.TargetName == "Test monster");
+        Assert.Contains(result.Events, e => e is DamageDealt hit && hit.AttackerName == "Test monster" && hit.TargetName == "Hero");
     }
 }

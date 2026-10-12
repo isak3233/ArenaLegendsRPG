@@ -9,10 +9,12 @@ namespace ArenaLegendsRPG.Core.GameServices;
 public class EncounterService : IEncounterService
 {
     private readonly IRandomProvider _random;
+    private readonly ILootService _lootService;
 
-    public EncounterService(IRandomProvider random)
+    public EncounterService(IRandomProvider random, ILootService lootService)
     {
         _random = random;
+        _lootService = lootService;
     }
 
     public IEncounter GenerateEncounter()
@@ -20,8 +22,8 @@ public class EncounterService : IEncounterService
         var monsterType = _random.Next(0, 3);
         return monsterType switch
         {
-            0 => new MonsterEncounter { Monster = CreateRandomMonster() },
-            1 => new ChestEncounter(),
+            0 => new MonsterEncounter { Monster = CreateRandomMonster(), Drop = _lootService.RollMonsterDrop() },
+            1 => new ChestEncounter { Loot = _lootService.GenerateLoot() },
             _ => new StructureEncounter(),
         };
     }
