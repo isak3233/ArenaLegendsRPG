@@ -45,9 +45,9 @@ public class ConsoleGameLoopTests
             .Returns(Array.Empty<GameEvent>());
 
         var sut = CreateSut(console);
-        
+
         sut.Run();
-        
+
         _game.Verify(g => g.Choose(It.IsAny<MenuAction>()), Times.Once);
     }
 
@@ -68,7 +68,7 @@ public class ConsoleGameLoopTests
         var sut = CreateSut(console);
 
         sut.Run();
-        
+
         Assert.Contains("Ogiltigt val.", console.Output);
 
         _game.Verify(g => g.Choose(It.IsAny<MenuAction>()), Times.Never);
@@ -97,9 +97,9 @@ public class ConsoleGameLoopTests
             .Returns((InputResult?)null);
 
         var sut = CreateSut(console);
-        
+
         sut.Run();
-        
+
         _eventRender.Verify(
             r => r.PresentAll(
                 It.Is<IEnumerable<GameEvent>>(

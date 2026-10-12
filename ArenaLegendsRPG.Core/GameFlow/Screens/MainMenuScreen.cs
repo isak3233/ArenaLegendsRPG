@@ -22,7 +22,7 @@ public class MainMenuScreen : IGameScreen
 
     public ScreenResult Choose(MenuAction action)
     {
-        
+
         return action switch
         {
             MenuAction.StartNewGame => ScreenResult.To(_factory.CreateCharacterCreation()),

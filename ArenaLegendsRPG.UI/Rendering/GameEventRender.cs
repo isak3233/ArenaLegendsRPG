@@ -19,7 +19,7 @@ public class GameEventRender : IGameEventRender
 
         if (presenter is null)
         {
-            _consoleIO.WriteLine($"Event saknar presenter: {gameEvent.GetType().Name}" );
+            _consoleIO.WriteLine($"Event saknar presenter: {gameEvent.GetType().Name}");
             return;
         }
 

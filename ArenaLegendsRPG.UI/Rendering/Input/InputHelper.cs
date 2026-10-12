@@ -5,7 +5,7 @@ public class InputHelper : IInputHelper
     private readonly IConsoleIO _consoleIO;
     public InputHelper(IConsoleIO consoleIO)
     {
-        _consoleIO =  consoleIO;
+        _consoleIO = consoleIO;
     }
     public string GetString(string inputString)
     {

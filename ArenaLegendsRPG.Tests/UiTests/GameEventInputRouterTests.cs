@@ -21,9 +21,9 @@ public class GameEventInputRouterTests
 
         var sut = new GameEventInputRouter(inputHelper.Object);
         var gameEvent = new CreateNewCharacter();
-        
+
         var result = sut.Handle(gameEvent);
-        
+
         Assert.NotNull(result);
         Assert.Equal(InputType.String, result.Type);
         Assert.Equal("Isak&Jakob", result.Value);
@@ -36,14 +36,14 @@ public class GameEventInputRouterTests
     {
         var inputHelper = new Mock<IInputHelper>();
         var gameEvent = new DummyEvent();
-        
+
         var sut = new GameEventInputRouter(inputHelper.Object);
-        
+
         var result = sut.Handle(gameEvent);
-        
+
         Assert.Null(result);
 
         inputHelper.Verify(x => x.GetString(It.IsAny<string>()), Times.Never);
     }
-    
+
 }

@@ -26,9 +26,9 @@ public class EncounterEventRenderTests
             "Structure" => new StructureEncounterStarted(),
             _ => throw new ArgumentOutOfRangeException(nameof(eventType))
         };
-        
+
         var result = _sut.CanPresent(gameEvent);
-        
+
         Assert.True(result);
     }
 
@@ -36,9 +36,9 @@ public class EncounterEventRenderTests
     public void CanPresent_CharacterCreated_ReturnsFalse()
     {
         GameEvent gameEvent = new CharacterCreated("playerName");
-        
+
         var result = _sut.CanPresent(gameEvent);
-        
+
         Assert.False(result);
     }
 
@@ -46,13 +46,13 @@ public class EncounterEventRenderTests
     public void Present_StructureEncounterStarted_WritesMessageAndReadsKey()
     {
         var gameEvent = new StructureEncounterStarted();
-        
+
         _sut.Present(gameEvent);
-        
+
         _consoleIO.Verify(c => c.WriteLine("Du hittade en byggnad!"), Times.Once);
 
         _consoleIO.Verify(c => c.ReadKey(), Times.Once);
     }
-    
+
 
 }

@@ -21,9 +21,9 @@ public class CharacterCreationEventRenderTests
     public void CanPresent_CharacterNameNotAllowed_ReturnsTrue()
     {
         var gameEvent = new CharacterNameNotAllowed();
-        
+
         var result = _sut.CanPresent(gameEvent);
-        
+
         Assert.True(result);
     }
 
@@ -31,9 +31,9 @@ public class CharacterCreationEventRenderTests
     public void CanPresent_CharacterCreated_ReturnsTrue()
     {
         var gameEvent = new CharacterCreated("testName");
-        
+
         var result = _sut.CanPresent(gameEvent);
-        
+
         Assert.True(result);
     }
 
@@ -41,9 +41,9 @@ public class CharacterCreationEventRenderTests
     public void CanPresent_StructureEncounterStarted_ReturnsFalse()
     {
         var gameEvent = new StructureEncounterStarted();
-        
+
         var result = _sut.CanPresent(gameEvent);
-        
+
         Assert.False(result);
     }
 
@@ -51,9 +51,9 @@ public class CharacterCreationEventRenderTests
     public void Present_CharacterNameNotAllowed_WritesMessageAndReadsKey()
     {
         var gameEvent = new CharacterNameNotAllowed();
-        
+
         _sut.Present(gameEvent);
-        
+
         _consoleIO.Verify(c => c.WriteLine("Namnet måste vara giltigt. Får inte vara tomt eller ha mer än 20 tecken."), Times.Once);
 
         _consoleIO.Verify(c => c.ReadKey(), Times.Once);
@@ -63,9 +63,9 @@ public class CharacterCreationEventRenderTests
     public void Present_CharacterCreated_WritesMessageAndReadsKey()
     {
         var gameEvent = new CharacterCreated("test");
-        
+
         _sut.Present(gameEvent);
-        
+
         _consoleIO.Verify(c => c.WriteLine("Karaktären skapades!"), Times.Once);
 
         _consoleIO.Verify(c => c.ReadKey(), Times.Once);

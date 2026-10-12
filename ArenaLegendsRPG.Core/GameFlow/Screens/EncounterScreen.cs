@@ -27,7 +27,7 @@ public class EncounterScreen : IGameScreen
         _combatService = combatService;
         _levelingService = levelingService;
         _encounterService = encounterService;
-        
+
     }
 
     public GameState State => GameState.InEncounter;
@@ -39,15 +39,15 @@ public class EncounterScreen : IGameScreen
             if (_firstEncounter)
             {
                 _firstEncounter = false;
-                return new [] { MenuAction.BeginExplore, MenuAction.LeaveEncounterScreen };
+                return new[] { MenuAction.BeginExplore, MenuAction.LeaveEncounterScreen };
             }
             else
             {
-                return new [] { MenuAction.ContinueExploring, MenuAction.LeaveEncounterScreen };
+                return new[] { MenuAction.ContinueExploring, MenuAction.LeaveEncounterScreen };
             }
-           
+
         }
-        
+
         return CurrentEncounter switch
         {
             MonsterEncounter => new[] { MenuAction.Attack, MenuAction.Flee },

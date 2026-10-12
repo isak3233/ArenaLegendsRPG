@@ -19,9 +19,9 @@ public class InputHelperTests
     public void GetString_WritesPromptAndReturnsInput()
     {
         _consoleIO.Setup(c => c.ReadLine()).Returns("test");
-        
+
         var result = _sut.GetString("Skriv karaktärens namn: ");
-        
+
         Assert.Equal("test", result);
         _consoleIO.Verify(c => c.Write("Skriv karaktärens namn: "), Times.Once);
         _consoleIO.Verify(c => c.ReadLine(), Times.Once);
@@ -31,9 +31,9 @@ public class InputHelperTests
     public void GetString_WhenInputIsNull_ReturnsEmptyString()
     {
         _consoleIO.Setup(c => c.ReadLine()).Returns((string?)null);
-        
+
         var result = _sut.GetString("Ange namn: ");
-        
+
         Assert.Equal(string.Empty, result);
     }
 }

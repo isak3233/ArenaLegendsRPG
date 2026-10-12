@@ -25,7 +25,7 @@ public class FakeConsoleIO : IConsoleIO
 
     public void ReadKey()
     {
-        
+
     }
 
     public void WriteLine(string message)

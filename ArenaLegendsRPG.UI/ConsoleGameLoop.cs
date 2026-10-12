@@ -14,11 +14,11 @@ public class ConsoleGameLoop
     private readonly IGameEventInputRouter _gameEventInputRouter;
     private readonly IConsoleIO _consoleIO;
 
-    public ConsoleGameLoop(IGameFlow game, IGameEventRender gameEventRender,  IGameEventInputRouter gameEventInputRouter, IConsoleIO consoleIO)
+    public ConsoleGameLoop(IGameFlow game, IGameEventRender gameEventRender, IGameEventInputRouter gameEventInputRouter, IConsoleIO consoleIO)
     {
         _game = game;
         _gameEventRender = gameEventRender;
-        _gameEventInputRouter =  gameEventInputRouter;
+        _gameEventInputRouter = gameEventInputRouter;
         _consoleIO = consoleIO;
     }
 
@@ -31,7 +31,7 @@ public class ConsoleGameLoop
             HandleEvents(events);
         }
     }
-    
+
 
     private IReadOnlyList<GameEvent> AskForMenuChoice()
     {
@@ -50,7 +50,7 @@ public class ConsoleGameLoop
         _consoleIO.WriteLine("Ogiltigt val.");
         return Array.Empty<GameEvent>();
     }
-    
+
     private void HandleEvents(IReadOnlyList<GameEvent> events)
     {
         var pendingEvents = new Queue<GameEvent>(events);

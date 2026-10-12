@@ -47,7 +47,7 @@ public class EncounterScreenTests
     public void Attack_MonsterDies_GoesToContinueExploring()
     {
         var sut = CreateSut(CreatePlayer(attackDamage: 1000));
-        
+
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
@@ -59,7 +59,7 @@ public class EncounterScreenTests
     public void Attack_PlayerDies_GoesToGameOver()
     {
         var sut = CreateSut(CreatePlayer(health: 0, attackDamage: 0));
-        
+
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
@@ -84,7 +84,7 @@ public class EncounterScreenTests
     public void Flee_Succeeds_GoesToContinueExploring()
     {
         var sut = CreateSut(CreatePlayer());
-        
+
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Flee);
 

@@ -33,7 +33,7 @@ public class GameFlow : IGameFlow
 
         return MoveTo(textScreen.Submit(text));
     }
-    
+
 
     private IReadOnlyList<GameEvent> MoveTo(ScreenResult result)
     {

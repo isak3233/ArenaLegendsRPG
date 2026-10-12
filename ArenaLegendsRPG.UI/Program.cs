@@ -18,12 +18,12 @@ public static class Program
 
         services.AddScoped<IEventRender, CharacterCreationEventRender>();
         services.AddScoped<IEventRender, EncounterEventRender>();
-        
+
         services.AddScoped<IGameEventRender, GameEventRender>();
         services.AddScoped<IGameEventInputRouter, GameEventInputRouter>();
         services.AddScoped<IInputHelper, InputHelper>();
         services.AddScoped<IConsoleIO, ConsoleIO>();
-        
+
         services.AddSingleton<IGameSession, GameSession>();
         services.AddScoped<IRandomProvider, RandomProvider>();
         services.AddScoped<ICharacterCreationService, CharacterCreationService>();
@@ -37,7 +37,7 @@ public static class Program
 
         using var provider = services.BuildServiceProvider(new ServiceProviderOptions
         {
-            ValidateOnBuild = true,    
+            ValidateOnBuild = true,
             ValidateScopes = true
         });
 

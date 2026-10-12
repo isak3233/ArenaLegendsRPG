@@ -13,7 +13,7 @@ public class MenuTextsTests
 
         var state = (GameState)999;
         var action = default(MenuAction);
-        
+
         var result = MenuTexts.For(state, action);
 
 
@@ -27,9 +27,9 @@ public class MenuTextsTests
     [InlineData(GameState.InEncounter, MenuAction.BeginExplore)]
     public void For_KnownState_ReturnsText(GameState state, MenuAction action)
     {
-        
+
         var result = MenuTexts.For(state, action);
-        
+
         Assert.NotNull(result);
         Assert.NotEqual("Okänt alternativ", result);
     }

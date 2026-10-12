@@ -7,7 +7,7 @@ public class EncounterMenuTexts
     private static readonly Dictionary<MenuAction, string> Texts = new()
     {
         [MenuAction.Attack] = "Attackera",
-        [MenuAction.Flee]  = "Försök fly",
+        [MenuAction.Flee] = "Försök fly",
         [MenuAction.OpenChest] = "Öppna kistan",
         [MenuAction.LeaveEncounter] = "Lämna",
         [MenuAction.LeaveEncounterScreen] = "Lämna",
