@@ -4,41 +4,46 @@ using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 namespace ArenaLegendsRPG.UI.Rendering.EventRenders;
 
 //FledFromEncounter
-public class EncounterEventRender : IGameEventRender
+public class EncounterEventRender : IEventRender
 {
+    private readonly IConsoleIO _consoleIO;
+    public EncounterEventRender(IConsoleIO consoleIO)
+    {
+        _consoleIO = consoleIO;
+    }
     public bool CanPresent(GameEvent gameEvent)
     {
         return gameEvent is StructureEncounterStarted
             or ChestEncounterStarted
             or MonsterEncounterStarted
             or FledFromEncounter
-            or FledFromEncounterFailed;
+            or FledFromEncounterFailed
+            or DamageDealt;
     }
     public void Present(GameEvent gameEvent)
     {
         switch (gameEvent)
         {
             case StructureEncounterStarted e:
-                Console.WriteLine("Du hittade en byggnad!");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Du hittade en byggnad!");
+                _consoleIO.ReadKey();
                 break;
             case ChestEncounterStarted e:
-                Console.WriteLine("Du hittade en kista!");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Du hittade en kista!");
+                _consoleIO.ReadKey();
                 break;
             case MonsterEncounterStarted e:
-                Console.WriteLine("Du möte ett monster och han tillåter inte dig att gå vidare!");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Du möte ett monster och han tillåter inte dig att gå vidare!");
+                _consoleIO.ReadKey();
                 break;
             case FledFromEncounter e:
-                Console.WriteLine("Lyckades fly från monstret");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Lyckades fly från monstret");
+                _consoleIO.ReadKey();
                 break;
             case FledFromEncounterFailed e:
-                Console.WriteLine("Lyckades inte fly från monstret");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Lyckades inte fly från monstret");
+                _consoleIO.ReadKey();
                 break;
-
         }
     }
 }

@@ -16,24 +16,24 @@ public static class Program
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IGameEventRender, CharacterCreationEventRender>();
-        services.AddSingleton<IGameEventRender, EncounterEventRender>();
+        services.AddScoped<IEventRender, CharacterCreationEventRender>();
+        services.AddScoped<IEventRender, EncounterEventRender>();
         
-        services.AddSingleton<GameEventRender>();
-        services.AddSingleton<GameEventInputRouter>();
-        services.AddSingleton<InputHelper>();
-        
+        services.AddScoped<IGameEventRender, GameEventRender>();
+        services.AddScoped<IGameEventInputRouter, GameEventInputRouter>();
+        services.AddScoped<IInputHelper, InputHelper>();
+        services.AddScoped<IConsoleIO, ConsoleIO>();
         
         services.AddSingleton<IGameSession, GameSession>();
-        services.AddSingleton<IRandomProvider, RandomProvider>();
-        services.AddSingleton<ICharacterCreationService, CharacterCreationService>();
-        services.AddSingleton<IEncounterService, EncounterService>();
-        services.AddSingleton<ICombatService, CombatService>();
-        services.AddSingleton<ILevelingService, LevelingService>();
-        services.AddSingleton<IScreenFactory, ScreenFactory>();
-        services.AddSingleton<IGameFlow, GameFlow>();
+        services.AddScoped<IRandomProvider, RandomProvider>();
+        services.AddScoped<ICharacterCreationService, CharacterCreationService>();
+        services.AddScoped<IEncounterService, EncounterService>();
+        services.AddScoped<ICombatService, CombatService>();
+        services.AddScoped<ILevelingService, LevelingService>();
+        services.AddScoped<IScreenFactory, ScreenFactory>();
+        services.AddScoped<IGameFlow, GameFlow>();
 
-        services.AddSingleton<ConsoleGameLoop>();
+        services.AddScoped<ConsoleGameLoop>();
 
         using var provider = services.BuildServiceProvider(new ServiceProviderOptions
         {
@@ -41,6 +41,10 @@ public static class Program
             ValidateScopes = true
         });
 
-        provider.GetRequiredService<ConsoleGameLoop>().Run();
+        using var scope = provider.CreateScope();
+
+        scope.ServiceProvider
+            .GetRequiredService<ConsoleGameLoop>()
+            .Run();
     }
 }

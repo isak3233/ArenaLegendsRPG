@@ -10,21 +10,23 @@ namespace ArenaLegendsRPG.UI;
 public class ConsoleGameLoop
 {
     private readonly IGameFlow _game;
-    private readonly GameEventRender _gameEventRender;
-    private readonly GameEventInputRouter _gameEventInputRouter;
+    private readonly IGameEventRender _gameEventRender;
+    private readonly IGameEventInputRouter _gameEventInputRouter;
+    private readonly IConsoleIO _consoleIO;
 
-    public ConsoleGameLoop(IGameFlow game, GameEventRender gameEventRender,  GameEventInputRouter gameEventInputRouter)
+    public ConsoleGameLoop(IGameFlow game, IGameEventRender gameEventRender,  IGameEventInputRouter gameEventInputRouter, IConsoleIO consoleIO)
     {
         _game = game;
         _gameEventRender = gameEventRender;
         _gameEventInputRouter =  gameEventInputRouter;
+        _consoleIO = consoleIO;
     }
 
     public void Run()
     {
         while (_game.State != GameState.GameOver)
         {
-            Console.Clear();
+            _consoleIO.Clear();
             var events = AskForMenuChoice();
             HandleEvents(events);
         }
@@ -37,15 +39,15 @@ public class ConsoleGameLoop
 
         for (var i = 0; i < actions.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {MenuTexts.For(_game.State, actions[i])}");
+            _consoleIO.WriteLine($"{i + 1}. {MenuTexts.For(_game.State, actions[i])}");
         }
 
-
-        if (int.TryParse(Console.ReadLine(), out var choice) && choice >= 1 && choice <= actions.Count)
+        _consoleIO.Write("Skriv in ett alternativ: ");
+        if (int.TryParse(_consoleIO.ReadLine(), out var choice) && choice >= 1 && choice <= actions.Count)
         {
             return _game.Choose(actions[choice - 1]);
         }
-        Console.WriteLine("Ogiltigt val.");
+        _consoleIO.WriteLine("Ogiltigt val.");
         return Array.Empty<GameEvent>();
     }
     

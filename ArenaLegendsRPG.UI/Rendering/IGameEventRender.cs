@@ -4,6 +4,6 @@ namespace ArenaLegendsRPG.UI.Rendering;
 
 public interface IGameEventRender
 {
-    bool CanPresent(GameEvent gameEvent);
+    void PresentAll(IEnumerable<GameEvent> events);
     void Present(GameEvent gameEvent);
 }

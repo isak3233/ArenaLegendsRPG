@@ -3,8 +3,13 @@ using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 namespace ArenaLegendsRPG.UI.Rendering.EventRenders;
 
-public class CharacterCreationEventRender : IGameEventRender
+public class CharacterCreationEventRender : IEventRender
 {
+    private readonly IConsoleIO _consoleIO;
+    public CharacterCreationEventRender(IConsoleIO consoleIO)
+    {
+        _consoleIO = consoleIO;
+    }
     public bool CanPresent(GameEvent gameEvent)
     {
         return gameEvent is CharacterNameNotAllowed or CharacterCreated;
@@ -14,12 +19,12 @@ public class CharacterCreationEventRender : IGameEventRender
         switch (gameEvent)
         {
             case CharacterNameNotAllowed e:
-                Console.WriteLine("Namnet måste vara giltigt. Får inte vara tomt eller ha mer än 20 tecken.");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Namnet måste vara giltigt. Får inte vara tomt eller ha mer än 20 tecken.");
+                _consoleIO.ReadKey();
                 break;
             case CharacterCreated e:
-                Console.WriteLine("Karaktären skapades!");
-                Console.ReadKey();
+                _consoleIO.WriteLine("Karaktären skapades!");
+                _consoleIO.ReadKey();
                 break;
         }
     }

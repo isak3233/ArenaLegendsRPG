@@ -3,13 +3,13 @@ using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 
 namespace ArenaLegendsRPG.UI.Rendering.Input;
 
-public class GameEventInputRouter
+public class GameEventInputRouter : IGameEventInputRouter
 {
-    private readonly InputHelper _inputHelper;
+    private readonly IInputHelper _inputHelper;
 
     private readonly Dictionary<Type, Func<GameEvent, InputResult>> _handlers;
 
-    public GameEventInputRouter(InputHelper inputHelper)
+    public GameEventInputRouter(IInputHelper inputHelper)
     {
         _inputHelper = inputHelper;
 
