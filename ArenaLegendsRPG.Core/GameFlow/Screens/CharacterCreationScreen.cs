@@ -25,12 +25,17 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
 
     public override IReadOnlyList<MenuAction> GetAvailableActions()
     {
-        return Array.Empty<MenuAction>();
+        return new[] { MenuAction.CreateNewCharacter, MenuAction.LoadCharacter };
     }
 
     protected override ScreenResult Handle(MenuAction action)
     {
-        throw new NotImplementedException();
+        return action switch
+        {
+            MenuAction.CreateNewCharacter => ScreenResult.To(this, new CreateNewCharacter()),
+            MenuAction.LoadCharacter => throw new NotImplementedException(),
+            _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
+        };
     }
 
     public ScreenResult Submit(string text)

@@ -3,6 +3,8 @@
 public enum MenuAction
 {
     StartNewGame,
+    CreateNewCharacter,
+    LoadCharacter,
     SelectName,
     Quit,
     Explore,
