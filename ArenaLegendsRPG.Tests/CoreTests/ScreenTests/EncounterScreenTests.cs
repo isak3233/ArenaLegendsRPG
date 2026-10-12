@@ -75,7 +75,7 @@ public class EncounterScreenTests
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
     }
-    
+
 
     [Fact]
     public void Flee_Succeeds_GoesToGameMenu()
