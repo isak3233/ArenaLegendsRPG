@@ -15,6 +15,8 @@ public static class MenuTexts
                 CharacterCreationTexts.For(action),
             GameState.GameMenu =>
                 GameMenuTexts.For(action),
+            GameState.InEncounter =>
+                EncounterMenuTexts.For(action),
 
             //GameState.Inventory =>
                 //InventoryMenuTexts.For(action),

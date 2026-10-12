@@ -43,7 +43,6 @@ public class ConsoleGameLoop
 
         if (int.TryParse(Console.ReadLine(), out var choice) && choice >= 1 && choice <= actions.Count)
         {
-            
             return _game.Choose(actions[choice - 1]);
         }
         Console.WriteLine("Ogiltigt val.");

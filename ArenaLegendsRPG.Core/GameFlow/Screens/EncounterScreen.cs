@@ -1,4 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.Encounters;
+using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 
@@ -7,13 +8,15 @@ using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
-public class EncounterScreen : GameScreenBase
+public class EncounterScreen : IGameScreen
 {
     private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
     private readonly ICombatService _combatService;
     private readonly ILevelingService _levelingService;
-    public IEncounter CurrentEncounter { get; }
+    private readonly IEncounterService _encounterService;
+    public IEncounter? CurrentEncounter { get; set; }
+    private bool _firstEncounter = true;
 
 
 
@@ -23,13 +26,28 @@ public class EncounterScreen : GameScreenBase
         _factory = factory;
         _combatService = combatService;
         _levelingService = levelingService;
-        CurrentEncounter = encounterService.GenerateEncounter();
+        _encounterService = encounterService;
+        
     }
 
-    public override GameState State => GameState.InEncounter;
+    public GameState State => GameState.InEncounter;
 
-    public override IReadOnlyList<MenuAction> GetAvailableActions()
+    public IReadOnlyList<MenuAction> GetAvailableActions()
     {
+        if (CurrentEncounter == null)
+        {
+            if (_firstEncounter)
+            {
+                _firstEncounter = false;
+                return new [] { MenuAction.BeginExplore, MenuAction.LeaveEncounterScreen };
+            }
+            else
+            {
+                return new [] { MenuAction.ContinueExploring, MenuAction.LeaveEncounterScreen };
+            }
+           
+        }
+        
         return CurrentEncounter switch
         {
             MonsterEncounter => new[] { MenuAction.Attack, MenuAction.Flee },
@@ -39,16 +57,37 @@ public class EncounterScreen : GameScreenBase
         };
     }
 
-    protected override ScreenResult Handle(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         return action switch
         {
+            MenuAction.BeginExplore => HandleExplore(),
+            MenuAction.ContinueExploring => HandleExplore(),
             MenuAction.Attack => HandleAttack(),
             MenuAction.Flee => HandleFlee(),
             MenuAction.OpenChest => throw new NotImplementedException("Chest opening not built"),
-            MenuAction.LeaveEncounter => ScreenResult.To(_factory.CreateGameMenu()),
+            MenuAction.LeaveEncounter => HandleLeaveEncounter(),
+            MenuAction.LeaveEncounterScreen => ScreenResult.To(_factory.CreateGameMenu()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
         };
+    }
+
+    private ScreenResult HandleLeaveEncounter()
+    {
+        CurrentEncounter = null;
+        return ScreenResult.To(this);
+    }
+    private ScreenResult HandleExplore()
+    {
+        CurrentEncounter = _encounterService.GenerateEncounter();
+        return CurrentEncounter switch
+        {
+            MonsterEncounter => ScreenResult.To(this, new MonsterEncounterStarted("MONSTER NAME NOT IMPLEMENTED")),
+            ChestEncounter => ScreenResult.To(this, new ChestEncounterStarted()),
+            StructureEncounter => ScreenResult.To(this, new StructureEncounterStarted()),
+            _ => throw new InvalidOperationException($"Unhandled encounter type {CurrentEncounter.GetType().Name}")
+        };
+
     }
 
     private ScreenResult HandleAttack()
@@ -61,14 +100,15 @@ public class EncounterScreen : GameScreenBase
         {
             var xpEvents = _levelingService.GainXp(player, monsterEncounter.Monster.XpReward);
             var events = result.Events.Concat(xpEvents).ToArray();
-            return ScreenResult.To(_factory.CreateGameMenu(), events);
+            CurrentEncounter = null;
+            return ScreenResult.To(this, events);
         }
 
         if (result.PlayerDied)
         {
             return ScreenResult.To(_factory.CreateGameOver(), result.Events.ToArray());
         }
-
+        CurrentEncounter = null;
         return ScreenResult.To(this, result.Events.ToArray());
     }
 
@@ -78,7 +118,7 @@ public class EncounterScreen : GameScreenBase
 
         if (result.Succeeded)
         {
-            return ScreenResult.To(_factory.CreateGameMenu(), result.Events.ToArray());
+            CurrentEncounter = null;
         }
 
         return ScreenResult.To(this, result.Events.ToArray());

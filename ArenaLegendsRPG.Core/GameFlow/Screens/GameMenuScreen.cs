@@ -3,7 +3,7 @@ using ArenaLegendsRPG.Core.GameFlow.Menus;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
-public class GameMenuScreen : GameScreenBase
+public class GameMenuScreen : IGameScreen
 {
     private readonly IScreenFactory _factory;
 
@@ -11,15 +11,15 @@ public class GameMenuScreen : GameScreenBase
     {
         _factory = factory;
     }
-    public override GameState State => GameState.GameMenu;
+    public GameState State => GameState.GameMenu;
 
-    public override IReadOnlyList<MenuAction> GetAvailableActions()
+    public IReadOnlyList<MenuAction> GetAvailableActions()
     {
         return new[] { MenuAction.Explore, MenuAction.OpenInventory, MenuAction.SaveGame, MenuAction.Quit };
 
     }
 
-    protected override ScreenResult Handle(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         return action switch
         {

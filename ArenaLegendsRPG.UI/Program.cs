@@ -17,6 +17,7 @@ public static class Program
         var services = new ServiceCollection();
 
         services.AddSingleton<IGameEventRender, CharacterCreationEventRender>();
+        services.AddSingleton<IGameEventRender, EncounterEventRender>();
         
         services.AddSingleton<GameEventRender>();
         services.AddSingleton<GameEventInputRouter>();

@@ -8,7 +8,7 @@ using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
-public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
+public class CharacterCreationScreen : IGameScreen, ITextInputScreen
 {
     private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
@@ -21,14 +21,14 @@ public class CharacterCreationScreen : GameScreenBase, ITextInputScreen
         _characterCreationService = characterCreationService;
     }
 
-    public override GameState State => GameState.CharacterCreation;
+    public GameState State => GameState.CharacterCreation;
 
-    public override IReadOnlyList<MenuAction> GetAvailableActions()
+    public IReadOnlyList<MenuAction> GetAvailableActions()
     {
         return new[] { MenuAction.CreateNewCharacter, MenuAction.LoadCharacter };
     }
 
-    protected override ScreenResult Handle(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         return action switch
         {
