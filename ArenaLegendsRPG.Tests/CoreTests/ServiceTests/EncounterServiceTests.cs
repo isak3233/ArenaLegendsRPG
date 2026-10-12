@@ -9,7 +9,7 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_WhenRollIsZero_ReturnsMonsterEncounter()
     {
-        var random = new StubRandomProvider(0);
+        var random = new StubRandomProvider(0, 0, 0, 0);
         var service = new EncounterService(random);
 
         var encounter = service.GenerateEncounter();
