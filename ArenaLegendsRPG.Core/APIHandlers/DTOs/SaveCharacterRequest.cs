@@ -2,6 +2,7 @@
 
 public class SaveCharacterRequest
 {
+    public int? SavedId { get; init; }
     public string Name { get; init; } = string.Empty;
     public int MaxHealth { get; init; }
     public int Health { get; init; }

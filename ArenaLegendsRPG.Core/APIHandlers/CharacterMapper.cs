@@ -11,6 +11,7 @@ public class CharacterMapper : ICharacterMapper
     {
         return new SaveCharacterRequest
         {
+            SavedId = character.SavedPlayerId,
             Name = character.Name,
             MaxHealth = character.MaxHealth,
             Health = character.Health,

@@ -39,7 +39,7 @@ public class CharacterCreationEventRender : IEventRender
                 _consoleIO.ReadKey();
                 break;
             case LoadedCharacter e:
-                _consoleIO.WriteLine($"{e.Character.SavedPlayerId}: {e.Character.Name} Level {e.Character.Level}");
+                _consoleIO.WriteLine($"{e.Index}: {e.Character.Name} Level {e.Character.Level}");
                 break;
         }
     }

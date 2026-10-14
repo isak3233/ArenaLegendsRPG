@@ -66,7 +66,7 @@ public class BattleLogEventRenderTests
 
         _consoleIOMock.Verify(
             console => console.WriteLine(
-                "Du vann mot Dragon, Dragon\n" +
+                "Du vann mot Dragon\n" +
                 "Stats: 100HP, 30 Fysisk skada, 25 Magisk skada, " +
                 "20 Fysisk resistans, 15 Magisk resistans,\n" +
                 "Total skada mot Dragon 80, Total skada mot dig 40\n"),
@@ -85,7 +85,7 @@ public class BattleLogEventRenderTests
 
         _consoleIOMock.Verify(
             console => console.WriteLine(
-                "Du förlorade mot Goblin, Goblin\n" +
+                "Du förlorade mot Goblin\n" +
                 "Stats: 50HP, 15 Fysisk skada, 10 Magisk skada, " +
                 "10 Fysisk resistans, 5 Magisk resistans,\n" +
                 "Total skada mot Goblin 30, Total skada mot dig 60\n"),
