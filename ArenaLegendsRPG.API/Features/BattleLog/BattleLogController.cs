@@ -10,10 +10,10 @@ public class BattleLogController : ControllerBase
     private readonly IBattleLogService _battleLogService;
     public BattleLogController(IBattleLogService battleLogService)
     {
-        _battleLogService =  battleLogService;
+        _battleLogService = battleLogService;
     }
     [HttpGet("{characterId:int}")]
-    public IActionResult GetBattleLogs(int characterId) 
+    public IActionResult GetBattleLogs(int characterId)
     {
         //var battleLogs = _battleLogService.GetBattleLogs(characterId);
         return Ok();

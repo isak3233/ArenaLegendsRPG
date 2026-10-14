@@ -2,5 +2,5 @@
 
 public class BattleLogService : IBattleLogService
 {
-    
+
 }
