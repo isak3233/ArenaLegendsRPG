@@ -12,6 +12,7 @@ internal class StubScreenFactory : IScreenFactory
     private readonly IGameScreen? _gameOver;
     private readonly IGameScreen? _inventory;
     private readonly IGameScreen? _battleLog;
+    private readonly IGameScreen? _characterStats;
 
     public StubScreenFactory(
         IGameScreen? mainMenu = null,
@@ -20,7 +21,8 @@ internal class StubScreenFactory : IScreenFactory
         IGameScreen? encounter = null,
         IGameScreen? gameOver = null,
         IGameScreen? inventory = null,
-        IGameScreen? battleLog = null)
+        IGameScreen? battleLog = null,
+        IGameScreen? characterStats = null)
     {
         _mainMenu = mainMenu;
         _characterCreation = characterCreation;
@@ -29,6 +31,7 @@ internal class StubScreenFactory : IScreenFactory
         _gameOver = gameOver;
         _inventory = inventory;
         _battleLog = battleLog;
+        _characterStats = characterStats;
     }
 
     public IGameScreen CreateMainMenu() =>
@@ -51,4 +54,6 @@ internal class StubScreenFactory : IScreenFactory
 
     public IGameScreen CreateBattleLog() =>
          _battleLog ?? throw new InvalidOperationException("BattleLog not configured for this test.");
+    public IGameScreen CreateCharacterStats() =>
+        _characterStats ?? throw new InvalidOperationException("CharacterStats not configured for this test.");
 }

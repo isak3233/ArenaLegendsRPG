@@ -5,6 +5,7 @@ public enum GameState
     MainMenu,
     CharacterCreation,
     BattleLog,
+    CharacterStats,
     GameMenu,
     Inventory,
     InEncounter,

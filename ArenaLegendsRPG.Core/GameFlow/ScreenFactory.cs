@@ -40,5 +40,6 @@ public class ScreenFactory : IScreenFactory
     public IGameScreen CreateInventory() => new InventoryScreen(_session, this, _inventoryService);
     public IGameScreen CreateBattleLog() => new BattleLogScreen(_session, this, _battleLogService);
     public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService, _rewardService);
+    public IGameScreen CreateCharacterStats() => new CharacterStatsScreen(_session, this);
     public IGameScreen CreateGameOver() => new GameOverScreen();
 }

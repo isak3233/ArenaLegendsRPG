@@ -9,6 +9,8 @@ public enum MenuAction
     OpenBattleLog,
     ShowBattleLogs,
     Quit,
+    OpenShowStats,
+    ShowStats,
     BeginExplore,
     ContinueExploring,
     Explore,

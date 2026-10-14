@@ -25,6 +25,7 @@ public static class Program
         services.AddScoped<IEventRender, EncounterEventRender>();
         services.AddScoped<IEventRender, InventoryEventRender>();
         services.AddScoped<IEventRender, BattleLogEventRender>();
+        services.AddScoped<IEventRender, CharacterStatsEventRender>();
 
         services.AddScoped<IGameEventRender, GameEventRender>();
         services.AddScoped<IGameEventInputRouter, GameEventInputRouter>();

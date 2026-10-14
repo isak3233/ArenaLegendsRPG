@@ -21,6 +21,8 @@ public static class MenuTexts
                 InventoryMenuTexts.For(action),
             GameState.BattleLog =>
                 BattleLogTexts.For(action),
+            GameState.CharacterStats =>
+                CharacterStatsTexts.For(action),
             _ => "Okänt alternativ"
         };
     }

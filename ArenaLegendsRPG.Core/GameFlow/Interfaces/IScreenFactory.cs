@@ -8,5 +8,6 @@ public interface IScreenFactory
     IGameScreen CreateInventory();
     IGameScreen CreateEncounter();
     IGameScreen CreateBattleLog();
+    IGameScreen CreateCharacterStats();
     IGameScreen CreateGameOver();
 }
