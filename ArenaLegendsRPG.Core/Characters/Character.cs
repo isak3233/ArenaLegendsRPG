@@ -11,7 +11,7 @@ public class Character
     public string Name { get; }
     public int Health { get; private set; }
     public int MaxHealth { get; private set; }
-    public int Level { get; private set; } = 1;
+    public int Level { get; private set; }
     public int Xp { get; private set; }
     public int BaseAttackDamage { get; private set; }
     public int BaseMagicDamage { get; private set; }
@@ -30,15 +30,19 @@ public class Character
 
 
 
-    public Character(string name, int health, int baseAttackDamage, int baseMagicDamage, int baseAttackResist, int baseMagicResist)
+    public Character(string name, int health, int level, int xp, int baseAttackDamage, int baseMagicDamage, int baseAttackResist, int baseMagicResist)
     {
         Name = name;
         Health = health;
         MaxHealth = health;
+        Level = level;
+        Xp = xp;
         BaseAttackDamage = baseAttackDamage;
         BaseMagicDamage = baseMagicDamage;
         BaseAttackResist = baseAttackResist;
         BaseMagicResist = baseMagicResist;
+
+
     }
 
 

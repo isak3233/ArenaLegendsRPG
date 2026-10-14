@@ -19,10 +19,8 @@ public class MainMenuScreen : IGameScreen
         return new[] { MenuAction.StartNewGame, MenuAction.Quit };
     }
 
-    public ScreenResult Choose(MenuAction action)
+    public async Task<ScreenResult> ChooseAsync(MenuAction action)
     {
-
-
         return action switch
         {
             MenuAction.StartNewGame => ScreenResult.To(_factory.CreateCharacterCreation()),

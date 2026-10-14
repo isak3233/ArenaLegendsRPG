@@ -18,15 +18,15 @@ public class MainMenuScreenTests
     [Theory]
     [InlineData(MenuAction.StartNewGame, GameState.CharacterCreation)]
     [InlineData(MenuAction.Quit, GameState.GameOver)]
-    public void Choose_GoesToExpectedScreen(MenuAction action, GameState expectedState)
+    public async Task Choose_GoesToExpectedScreen(MenuAction action, GameState expectedState)
     {
-        var result = _sut.Choose(action);
+        var result = await _sut.ChooseAsync(action);
 
         Assert.Equal(expectedState, result.Next.State);
     }
     [Fact]
-    public void Choose_ActionNotInMenu_Throws()
+    public async Task Choose_ActionNotInMenu_Throws()
     {
-        Assert.Throws<InvalidOperationException>(() => _sut.Choose(MenuAction.Attack));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.ChooseAsync(MenuAction.Attack));
     }
 }

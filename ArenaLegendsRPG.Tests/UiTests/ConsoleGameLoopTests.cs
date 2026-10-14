@@ -27,7 +27,7 @@ public class ConsoleGameLoopTests
     }
 
     [Fact]
-    public void Run_ValidMenuChoice_CallsChoose()
+    public async Task Run_ValidMenuChoice_CallsChoose()
     {
         var console = new FakeConsoleIO();
         console.SetInput("1");
@@ -40,19 +40,19 @@ public class ConsoleGameLoopTests
         _game.Setup(g => g.GetAvailableActions())
             .Returns(new[] { default(MenuAction) });
 
-        _game.Setup(g => g.Choose(It.IsAny<MenuAction>()))
+        _game.Setup(g => g.ChooseAsync(It.IsAny<MenuAction>()))
             .Callback<MenuAction>(_ => state = GameState.GameOver)
-            .Returns(Array.Empty<GameEvent>());
+            .ReturnsAsync(Array.Empty<GameEvent>());
 
         var sut = CreateSut(console);
 
-        sut.Run();
+        await sut.RunAsync();
 
-        _game.Verify(g => g.Choose(It.IsAny<MenuAction>()), Times.Once);
+        _game.Verify(g => g.ChooseAsync(It.IsAny<MenuAction>()), Times.Once);
     }
 
     [Fact]
-    public void Run_InvalidMenuChoice_DoesNotCallChoose()
+    public async Task Run_InvalidMenuChoice_DoesNotCallChoose()
     {
         var console = new FakeConsoleIO();
         console.SetInput("abc");
@@ -67,15 +67,15 @@ public class ConsoleGameLoopTests
 
         var sut = CreateSut(console);
 
-        sut.Run();
+        await sut.RunAsync();
 
         Assert.Contains("Ogiltigt val.", console.Output);
 
-        _game.Verify(g => g.Choose(It.IsAny<MenuAction>()), Times.Never);
+        _game.Verify(g => g.ChooseAsync(It.IsAny<MenuAction>()), Times.Never);
     }
 
     [Fact]
-    public void Run_EventWithoutInput_PresentsEvent()
+    public async Task Run_EventWithoutInput_PresentsEvent()
     {
         var console = new FakeConsoleIO();
         console.SetInput("1");
@@ -89,16 +89,16 @@ public class ConsoleGameLoopTests
         _game.Setup(g => g.GetAvailableActions())
             .Returns(new[] { default(MenuAction) });
 
-        _game.Setup(g => g.Choose(It.IsAny<MenuAction>()))
+        _game.Setup(g => g.ChooseAsync(It.IsAny<MenuAction>()))
             .Callback<MenuAction>(_ => state = GameState.GameOver)
-            .Returns(new[] { gameEvent });
+            .ReturnsAsync(new[] { gameEvent });
 
         _inputRouter.Setup(r => r.Handle(gameEvent))
             .Returns((InputResult?)null);
 
         var sut = CreateSut(console);
 
-        sut.Run();
+        await sut.RunAsync();
 
         _eventRender.Verify(
             r => r.PresentAll(

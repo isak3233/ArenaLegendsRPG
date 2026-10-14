@@ -1,4 +1,5 @@
-﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+﻿using ArenaLegendsRPG.Core.APIHandlers;
+using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Screens;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
@@ -13,7 +14,15 @@ public class ScreenFactory : IScreenFactory
     private readonly IRewardService _rewardService;
     private readonly IInventoryService _inventoryService;
 
-    public ScreenFactory(IGameSession session, ICharacterCreationService characterCreationService, IEncounterService encounterService, ICombatService combatService, IRewardService rewardService, IInventoryService inventoryService)
+    public ScreenFactory(
+        IGameSession session,
+        ICharacterCreationService characterCreationService,
+        IEncounterService encounterService,
+        ICombatService combatService,
+        IRewardService rewardService,
+        IInventoryService inventoryService,
+        ICharacterRepository characterRepository
+        )
     {
         _session = session;
         _characterCreationService = characterCreationService;
@@ -25,7 +34,7 @@ public class ScreenFactory : IScreenFactory
 
     public IGameScreen CreateMainMenu() => new MainMenuScreen(this);
     public IGameScreen CreateCharacterCreation() => new CharacterCreationScreen(_session, this, _characterCreationService);
-    public IGameScreen CreateGameMenu() => new GameMenuScreen(this);
+    public IGameScreen CreateGameMenu() => new GameMenuScreen(_session, this, _characterCreationService);
     public IGameScreen CreateInventory() => new InventoryScreen(_session, this, _inventoryService);
     public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService, _rewardService);
     public IGameScreen CreateGameOver() => new GameOverScreen();

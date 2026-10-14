@@ -1,4 +1,5 @@
-﻿using ArenaLegendsRPG.Core.GameFlow;
+﻿using ArenaLegendsRPG.Core.APIHandlers;
+using ArenaLegendsRPG.Core.GameFlow;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
@@ -6,13 +7,14 @@ using ArenaLegendsRPG.Core.RandomGen;
 using ArenaLegendsRPG.UI.Rendering;
 using ArenaLegendsRPG.UI.Rendering.EventRenders;
 using ArenaLegendsRPG.UI.Rendering.Input;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ArenaLegendsRPG.UI;
 
 public static class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
 
         var services = new ServiceCollection();
@@ -39,6 +41,13 @@ public static class Program
         services.AddScoped<IScreenFactory, ScreenFactory>();
         services.AddScoped<IGameFlow, GameFlow>();
 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build();
+        services.AddHttpClient<ICharacterRepository, ApiCharacterRepository>(client =>
+            client.BaseAddress = new Uri(configuration["Api:BaseUrl"]!));
+
         services.AddScoped<ConsoleGameLoop>();
 
         using var provider = services.BuildServiceProvider(new ServiceProviderOptions
@@ -49,9 +58,8 @@ public static class Program
 
         using var scope = provider.CreateScope();
 
-        scope.ServiceProvider
+        await scope.ServiceProvider
             .GetRequiredService<ConsoleGameLoop>()
-            .Run();
-
+            .RunAsync();
     }
 }

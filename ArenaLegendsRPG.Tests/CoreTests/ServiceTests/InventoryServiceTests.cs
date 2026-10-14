@@ -8,7 +8,7 @@ namespace ArenaLegendsRPG.Tests.CoreTests.ServiceTests;
 public class InventoryServiceTests
 {
     private readonly InventoryService _sut = new();
-    private readonly Character _player = new("Hero", 100, 10, 0, 5, 2);
+    private readonly Character _player = new("Hero", 100, 0, 1, 10, 0, 5, 2);
 
     [Fact]
     public void EquipItem_Weapon_EquipsItAndReturnsItemEquipped()

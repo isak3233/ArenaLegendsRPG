@@ -9,7 +9,7 @@ public class CharacterTests
 {
     private static Character CreateCharacter()
     {
-        return new Character("Hero", 100, 10, 0, 5, 2);
+        return new Character("Hero", 100, 1, 0, 10, 0, 5, 2);
     }
 
     private static Weapon CreateWeapon()
@@ -91,9 +91,9 @@ public class CharacterTests
     [Fact]
     public void TakeDamage_DamageExceedingHealth_HealthStopsAtZero()
     {
-        var character = new Character("Hero", health: 10, baseAttackDamage: 10, baseMagicDamage: 10, baseAttackResist: 0, baseMagicResist: 0);
+        var character = CreateCharacter();
 
-        character.TakeDamage(new Damage(100, DamageType.Physical));
+        character.TakeDamage(new Damage(300, DamageType.Physical));
 
         Assert.Equal(0, character.Health);
     }

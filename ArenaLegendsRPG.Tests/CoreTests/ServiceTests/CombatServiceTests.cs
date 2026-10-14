@@ -9,7 +9,7 @@ public class CombatServiceTests
 {
     private static Character CreateCharacter(int health = 100, int attackDamage = 10, int attackResist = 0)
     {
-        return new Character("Hero", health, attackDamage, baseMagicDamage: 0, attackResist, baseMagicResist: 0);
+        return new Character("Hero", health, 1, 0, attackDamage, baseMagicDamage: 0, attackResist, baseMagicResist: 0);
     }
 
     [Fact]

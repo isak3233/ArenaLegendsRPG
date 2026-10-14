@@ -6,5 +6,5 @@ public interface IGameScreen
 {
     GameState State { get; }
     IReadOnlyList<MenuAction> GetAvailableActions();
-    ScreenResult Choose(MenuAction action);
+    Task<ScreenResult> ChooseAsync(MenuAction action);
 }

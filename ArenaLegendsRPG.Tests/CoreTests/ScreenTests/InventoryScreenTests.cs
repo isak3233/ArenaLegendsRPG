@@ -12,7 +12,7 @@ namespace ArenaLegendsRPG.Tests.CoreTests.ScreenTests;
 public class InventoryScreenTests
 {
     private readonly GameSession _session = new();
-    private readonly Character _player = new("Hero", 100, 10, 0, 5, 2);
+    private readonly Character _player = new("Hero", 100, 1, 0, 10, 0, 5, 2);
     private readonly StubGameScreen _gameMenu = new(GameState.GameMenu);
     private readonly InventoryScreen _sut;
 
@@ -46,16 +46,16 @@ public class InventoryScreenTests
     }
 
     [Fact]
-    public void Choose_Back_GoesToGameMenu()
+    public async Task Choose_Back_GoesToGameMenu()
     {
-        var result = _sut.Choose(MenuAction.Back);
+        var result = await _sut.ChooseAsync(MenuAction.Back);
 
         Assert.Same(_gameMenu, result.Next);
     }
 
     [Fact]
-    public void Choose_ActionNotInInventory_Throws()
+    public async Task Choose_ActionNotInInventory_Throws()
     {
-        Assert.Throws<InvalidOperationException>(() => _sut.Choose(MenuAction.Attack));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.ChooseAsync(MenuAction.Attack));
     }
 }

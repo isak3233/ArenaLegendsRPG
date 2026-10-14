@@ -21,7 +21,7 @@ public class StubGameScreen : IGameScreen
 
     public IReadOnlyList<MenuAction> GetAvailableActions() => AvailableActions;
 
-    public ScreenResult Choose(MenuAction action)
+    public async Task<ScreenResult> ChooseAsync(MenuAction action)
     {
         return new ScreenResult(Next ?? this, Events);
     }

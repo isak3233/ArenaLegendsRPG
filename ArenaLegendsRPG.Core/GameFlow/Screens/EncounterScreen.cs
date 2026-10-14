@@ -53,7 +53,7 @@ public class EncounterScreen : IGameScreen
         };
     }
 
-    public ScreenResult Choose(MenuAction action)
+    public async Task<ScreenResult> ChooseAsync(MenuAction action)
     {
         return action switch
         {

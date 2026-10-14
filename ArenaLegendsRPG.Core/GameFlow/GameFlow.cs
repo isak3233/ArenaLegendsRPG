@@ -19,9 +19,9 @@ public class GameFlow : IGameFlow
         return _current.GetAvailableActions();
     }
 
-    public IReadOnlyList<GameEvent> Choose(MenuAction action)
+    public async Task<IReadOnlyList<GameEvent>> ChooseAsync(MenuAction action)
     {
-        return MoveTo(_current.Choose(action));
+        return MoveTo(await _current.ChooseAsync(action));
     }
 
     public IReadOnlyList<GameEvent> Submit(string text)
