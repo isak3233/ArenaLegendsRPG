@@ -22,7 +22,7 @@ public class CharacterCreationScreenTests
     }
 
     private static LoadedCharacterResult CreateSave(string name, int savedId) =>
-        new(new Character(name, 100, 1, 0, 10, 0, 5, 2), savedId);
+        new(new Character(name, 100, 1, 0, 10, 0, 5, 2));
 
     private async Task LoadSavesAsync(params LoadedCharacterResult[] saves)
     {
@@ -88,7 +88,6 @@ public class CharacterCreationScreenTests
         var result = await _sut.ChooseAsync(MenuAction.LoadCharacter);
 
         var loaded = result.Events.OfType<LoadedCharacter>().ToList();
-        Assert.Equal(new[] { 3, 8 }, loaded.Select(e => e.SavedId));
         Assert.Equal(new[] { "Hero", "Mage" }, loaded.Select(e => e.Character.Name));
     }
 

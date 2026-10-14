@@ -53,7 +53,7 @@ public class CharacterCreationScreen : IGameScreen, ITextInputScreen, ISelection
         _loadedCharacters.AddRange(characterResults);
 
         var events = characterResults
-            .Select(r => (GameEvent)new LoadedCharacter(r.Character, r.SavedId))
+            .Select(r => (GameEvent)new LoadedCharacter(r.Character))
             .Append(new LoadSuccess())
             .ToArray();
 

@@ -1,4 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Tests.TestDoubles;
 
@@ -10,6 +11,7 @@ internal class StubScreenFactory : IScreenFactory
     private readonly IGameScreen? _encounter;
     private readonly IGameScreen? _gameOver;
     private readonly IGameScreen? _inventory;
+    private readonly IGameScreen? _battleLog;
 
     public StubScreenFactory(
         IGameScreen? mainMenu = null,
@@ -17,7 +19,8 @@ internal class StubScreenFactory : IScreenFactory
         IGameScreen? gameMenu = null,
         IGameScreen? encounter = null,
         IGameScreen? gameOver = null,
-        IGameScreen? inventory = null)
+        IGameScreen? inventory = null,
+        IGameScreen? battleLog = null)
     {
         _mainMenu = mainMenu;
         _characterCreation = characterCreation;
@@ -25,6 +28,7 @@ internal class StubScreenFactory : IScreenFactory
         _encounter = encounter;
         _gameOver = gameOver;
         _inventory = inventory;
+        _battleLog = battleLog;
     }
 
     public IGameScreen CreateMainMenu() =>
@@ -44,4 +48,7 @@ internal class StubScreenFactory : IScreenFactory
 
     public IGameScreen CreateGameOver() =>
         _gameOver ?? throw new InvalidOperationException("GameOver not configured for this test.");
+
+    public IGameScreen CreateBattleLog() =>
+         _battleLog ?? throw new InvalidOperationException("BattleLog not configured for this test.");
 }

@@ -7,5 +7,6 @@ public interface IScreenFactory
     IGameScreen CreateGameMenu();
     IGameScreen CreateInventory();
     IGameScreen CreateEncounter();
+    IGameScreen CreateBattleLog();
     IGameScreen CreateGameOver();
 }

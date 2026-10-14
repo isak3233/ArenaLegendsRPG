@@ -120,7 +120,7 @@ public class CharacterCreationServiceTest : IDisposable
 
         var result = Assert.Single(loaded);
         Assert.Same(hero, result.Character);
-        Assert.Equal(1, result.SavedId);
+        Assert.Equal(1, result.Character.SavedPlayerId);
     }
     [Fact]
     public async Task LoadAllCharacters_FileMissing_ReturnsEmptyList()
@@ -153,9 +153,9 @@ public class CharacterCreationServiceTest : IDisposable
 
         Assert.Equal(2, result.Count);
         Assert.Same(hero, result[0].Character);
-        Assert.Equal(3, result[0].SavedId);
+        Assert.Equal(3, result[0].Character.SavedPlayerId);
         Assert.Same(mage, result[1].Character);
-        Assert.Equal(8, result[1].SavedId);
+        Assert.Equal(8, result[1].Character.SavedPlayerId);
     }
 
     [Fact]
@@ -167,7 +167,7 @@ public class CharacterCreationServiceTest : IDisposable
 
         var result = await CreateSut().LoadAllCharacters();
 
-        Assert.Equal(new[] { 2, 1 }, result.Select(r => r.SavedId));
+        Assert.Equal(new[] { 2, 1 }, result.Select(r => r.Character.SavedPlayerId));
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class CharacterCreationServiceTest : IDisposable
         var result = await CreateSut().LoadAllCharacters();
 
         var loaded = Assert.Single(result);
-        Assert.Equal(5, loaded.SavedId);
+        Assert.Equal(5, loaded.Character.SavedPlayerId);
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class CharacterCreationServiceTest : IDisposable
 
         var result = await CreateSut().LoadAllCharacters();
 
-        Assert.Equal(1, Assert.Single(result).SavedId);
+        Assert.Equal(1, Assert.Single(result).Character.SavedPlayerId);
     }
 
     [Fact]
@@ -204,7 +204,7 @@ public class CharacterCreationServiceTest : IDisposable
 
         var result = await CreateSut().LoadAllCharacters();
 
-        Assert.Equal(new[] { 1, 3 }, result.Select(r => r.SavedId));
+        Assert.Equal(new[] { 1, 3 }, result.Select(r => r.Character.SavedPlayerId));
     }
 
 }

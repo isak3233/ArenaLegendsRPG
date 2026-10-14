@@ -58,11 +58,11 @@ public class CharacterCreationService : ICharacterCreationService
 
             await File.AppendAllTextAsync(_filePath, savedId.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
 
-            return new SaveCharacterResult(true);
+            return new SaveCharacterResult(true, savedId);
         }
         catch (Exception e)
         {
-            return new SaveCharacterResult(false, e.Message);
+            return new SaveCharacterResult(false, 0, e.Message);
         }
 
 
@@ -95,7 +95,8 @@ public class CharacterCreationService : ICharacterCreationService
             var character = characters[i];
             if (character == null) continue;
             var savedId = savedIds[i];
-            loadedCharacterResults.Add(new LoadedCharacterResult(character, savedId));
+            character.SavedPlayerId = savedId;
+            loadedCharacterResults.Add(new LoadedCharacterResult(character));
         }
 
         return loadedCharacterResults;

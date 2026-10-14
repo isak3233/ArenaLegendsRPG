@@ -14,16 +14,16 @@ public class BattleLogController : ControllerBase
         _battleLogService = battleLogService;
     }
     [HttpGet("{characterId:int}")]
-    public IActionResult GetBattleLogs(int characterId)
+    public async Task<IActionResult> GetBattleLogs(int characterId)
     {
-        var battleLogs = _battleLogService.GetBattleLogs(characterId);
+        var battleLogs = await _battleLogService.GetBattleLogs(characterId);
         return Ok(battleLogs);
     }
 
     [HttpPost("{characterId:int}")]
-    public IActionResult AddBattleLog(int characterId, [FromBody] BattleLogDto battleLogDto)
+    public async Task<IActionResult> AddBattleLog(int characterId, [FromBody] BattleLogDto battleLogDto)
     {
-        _battleLogService.SaveBattleLog(characterId, battleLogDto);
+        await _battleLogService.SaveBattleLog(characterId, battleLogDto);
         return Created();
     }
 }

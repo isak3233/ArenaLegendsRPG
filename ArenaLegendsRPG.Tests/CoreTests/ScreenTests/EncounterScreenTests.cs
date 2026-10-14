@@ -41,7 +41,7 @@ public class EncounterScreenTests
             _session,
             _factory,
             new EncounterService(encounterRolls, new LootService(new StubRandomProvider(lootRoll))),
-            new CombatService(new StubRandomProvider(fleeRoll)),
+            new CombatService(new StubRandomProvider(fleeRoll), new StubBattleLogService()),
             new RewardService(new LevelingService()));
     }
 

@@ -12,7 +12,8 @@ public class GameMenuEventRender : IEventRender
     }
     public bool CanPresent(GameEvent gameEvent)
     {
-        return gameEvent is SaveSuccess;
+        return gameEvent is SaveSuccess
+            or SaveFailed;
     }
 
     public void Present(GameEvent gameEvent)

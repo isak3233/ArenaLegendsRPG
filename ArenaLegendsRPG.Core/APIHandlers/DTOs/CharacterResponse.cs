@@ -1,4 +1,4 @@
-﻿namespace ArenaLegendsRPG.API.Features.Character.DTOs;
+﻿namespace ArenaLegendsRPG.Core.APIHandlers.DTOs;
 
 public class CharacterResponse
 {

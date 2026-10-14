@@ -1,4 +1,5 @@
-﻿using ArenaLegendsRPG.Core.Characters;
+﻿using ArenaLegendsRPG.Core.APIHandlers;
+using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.Monster;
 using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
@@ -13,10 +14,13 @@ public class CombatService : ICombatService
 {
     private const int FleeSuccessThreshold = 50;
     private readonly IRandomProvider _random;
+    private IBattleLogService _battleLogService;
+    private BattleLog _battleLog;
 
-    public CombatService(IRandomProvider random)
+    public CombatService(IRandomProvider random, IBattleLogService battleLogService)
     {
         _random = random;
+        _battleLogService = battleLogService;
     }
 
     public CombatRoundResult ProcessPlayerAttack(Character player, IMonster monster)
@@ -24,11 +28,16 @@ public class CombatService : ICombatService
         var events = new List<GameEvent>();
 
         var damageToMonster = monster.TakeDamage(new Damage(player.AttackDamage, DamageType.Physical));
+
         events.Add(new DamageDealt(player.Name, monster.Name, damageToMonster));
+        _battleLog.DamageDoneByPlayer += damageToMonster;
 
         if (monster.IsDead)
         {
             events.Add(new CombatantDied(monster.Name));
+            _battleLog.IsPlayerWinner = true;
+            _battleLog.BattleFinished = DateTime.Now;
+            _battleLogService.SaveBattleLog(player.SavedPlayerId, _battleLog);
             return new CombatRoundResult(damageToMonster, 0, true, false, events);
         }
 
@@ -47,10 +56,13 @@ public class CombatService : ICombatService
 
         var damageToPlayer = player.TakeDamage(new Damage(monsterDamageAmount, monsterDamageType));
         events.Add(new DamageDealt(monster.Name, player.Name, damageToPlayer));
+        _battleLog.DamageDoneByMonster += damageToPlayer;
 
         var playerDied = player.Health <= 0;
         if (playerDied)
         {
+            _battleLog.IsPlayerWinner = false;
+            _battleLogService.SaveBattleLog(player.SavedPlayerId, _battleLog);
             events.Add(new CombatantDied(player.Name));
         }
         events.Add(new CombatRoundStats(player.Name, monster.Name, player.Health, monster.Health));
@@ -58,6 +70,18 @@ public class CombatService : ICombatService
         return new CombatRoundResult(damageToMonster, damageToPlayer, false, playerDied, events);
     }
 
+    public void AddMonsterInfoToBattleLog(IMonster monster)
+    {
+        _battleLog = new BattleLog
+        {
+            MonsterName = monster.Name,
+            MonsterHealth = monster.Health,
+            MonsterAttackResist = monster.AttackResist,
+            MonsterMagicResist = monster.MagicResist,
+            MonsterAttackDamage = monster.AttackDamage,
+            MonsterMagicDamage = monster.MagicDamage,
+        };
+    }
     public FleeResult AttemptFlee()
     {
         var roll = _random.Next(0, 100);

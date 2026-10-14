@@ -6,7 +6,8 @@ public enum MenuAction
     CreateNewCharacter,
     LoadCharacter,
     SelectName,
-
+    OpenBattleLog,
+    ShowBattleLogs,
     Quit,
     BeginExplore,
     ContinueExploring,
