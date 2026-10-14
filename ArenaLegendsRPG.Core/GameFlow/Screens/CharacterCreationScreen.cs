@@ -49,13 +49,12 @@ public class CharacterCreationScreen : IGameScreen, ITextInputScreen, ISelection
         {
             return ScreenResult.To(this, new NoSavedCharacters());
         }
-
         _loadedCharacters.Clear();
         _loadedCharacters.AddRange(characterResults);
 
         var events = characterResults
             .Select(r => (GameEvent)new LoadedCharacter(r.Character, r.SavedId))
-            .Prepend(new LoadSuccess())
+            .Append(new LoadSuccess())
             .ToArray();
 
         return ScreenResult.To(this, events);
@@ -63,6 +62,7 @@ public class CharacterCreationScreen : IGameScreen, ITextInputScreen, ISelection
 
     public ScreenResult Select(int index)
     {
+        index -= 1;
         if (index < 0 || index >= _loadedCharacters.Count)
         {
             return ScreenResult.To(this, new InvalidCharacterSelection());

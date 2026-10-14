@@ -3,4 +3,5 @@
 public interface IInputHelper
 {
     string GetString(string inputString);
+    int GetInt(string inputString);
 }

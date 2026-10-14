@@ -35,7 +35,9 @@ public static class Program
         services.AddScoped<ILootService, LootService>();
         services.AddScoped<IRewardService, RewardService>();
         services.AddScoped<IInventoryService, InventoryService>();
-
+        
+        services.AddScoped<ICharacterMapper, CharacterMapper>();
+        
         services.AddSingleton<IGameSession, GameSession>();
         services.AddScoped<IRandomProvider, RandomProvider>();
         services.AddScoped<IScreenFactory, ScreenFactory>();
