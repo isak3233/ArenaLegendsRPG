@@ -48,7 +48,7 @@ public class BattleLogScreen : IGameScreen
                 battleLog.DamageDoneByMonster,
                 battleLog.IsPlayerWinner,
                 battleLog.BattleFinished))
-            .Append(new BattleLogResult())
+            .Append(new BattleLogResult(battleLogs.Count))
             .ToArray();
         return ScreenResult.To(this, battleLogEvents);
     }

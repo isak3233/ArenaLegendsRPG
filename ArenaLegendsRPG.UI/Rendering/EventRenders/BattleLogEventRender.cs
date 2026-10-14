@@ -28,6 +28,10 @@ public class BattleLogEventRender : IEventRender
                                      $"Total skada mot {e.MonsterName} {e.DamageDoneByPlayer}, Total skada mot dig {e.DamageDoneByMonster}\n");
                 break;
             case BattleLogResult e:
+                if (e.Count == 0)
+                {
+                    _consoleIO.WriteLine("Du har inte några stridsloggs!");
+                }
                 _consoleIO.ReadKey();
                 break;
         }

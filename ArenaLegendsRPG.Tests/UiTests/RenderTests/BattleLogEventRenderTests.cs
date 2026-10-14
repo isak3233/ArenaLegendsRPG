@@ -34,7 +34,7 @@ public class BattleLogEventRenderTests
     [Fact]
     public void CanPresent_ShouldReturnTrue_WhenEventIsBattleLogResult()
     {
-        var gameEvent = new BattleLogResult();
+        var gameEvent = new BattleLogResult(1);
 
         var result = _render.CanPresent(gameEvent);
 
@@ -96,7 +96,7 @@ public class BattleLogEventRenderTests
     public void Present_ShouldCallReadKey_WhenEventIsBattleLogResult()
     {
 
-        var gameEvent = new BattleLogResult();
+        var gameEvent = new BattleLogResult(1);
 
         _render.Present(gameEvent);
 
