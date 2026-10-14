@@ -12,4 +12,4 @@ public record BattleLogInfo(
     bool IsPlayerWinner,
     DateTime BattleFinished)
     : GameEvent;
-public record BattleLogResult : GameEvent;
+public record BattleLogResult(int Count) : GameEvent;
