@@ -15,21 +15,6 @@ public static class Program
     public static void Main()
     {
 
-        var session = new GameSession();
-        var randomProvider = new RandomProvider();
-        var characterCreationService = new CharacterCreationService();
-        var lootService = new LootService(randomProvider);
-        var encounterService = new EncounterService(randomProvider, lootService);
-        var combatService = new CombatService(randomProvider);
-        var levelingService = new LevelingService();
-        var rewardService = new RewardService(levelingService);
-        var inventoryService = new InventoryService();
-        var factory = new ScreenFactory(session, characterCreationService, encounterService, combatService, rewardService, inventoryService);
-        var game = new GameFlow(factory);
-
-        game.GetAvailableActions();
-        Console.WriteLine("Hello, World!");
-
         var services = new ServiceCollection();
 
         services.AddScoped<IEventRender, CharacterCreationEventRender>();
@@ -40,12 +25,17 @@ public static class Program
         services.AddScoped<IInputHelper, InputHelper>();
         services.AddScoped<IConsoleIO, ConsoleIO>();
 
-        services.AddSingleton<IGameSession, GameSession>();
-        services.AddScoped<IRandomProvider, RandomProvider>();
+
         services.AddScoped<ICharacterCreationService, CharacterCreationService>();
         services.AddScoped<IEncounterService, EncounterService>();
         services.AddScoped<ICombatService, CombatService>();
         services.AddScoped<ILevelingService, LevelingService>();
+        services.AddScoped<ILootService, LootService>();
+        services.AddScoped<IRewardService, RewardService>();
+        services.AddScoped<IInventoryService, InventoryService>();
+
+        services.AddSingleton<IGameSession, GameSession>();
+        services.AddScoped<IRandomProvider, RandomProvider>();
         services.AddScoped<IScreenFactory, ScreenFactory>();
         services.AddScoped<IGameFlow, GameFlow>();
 

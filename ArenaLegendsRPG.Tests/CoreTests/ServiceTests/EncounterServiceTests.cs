@@ -20,7 +20,7 @@ public class EncounterServiceTests
         var sut = CreateSut(new[] { 0, 0, 8, 2 });
 
         var random = new StubRandomProvider(0, 0, 0, 0);
-       // var service = new EncounterService(random);
+        // var service = new EncounterService(random);
 
 
         var encounter = sut.GenerateEncounter();

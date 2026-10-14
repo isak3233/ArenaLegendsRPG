@@ -35,7 +35,7 @@ public class EncounterScreenTests
     {
         _session.SetPlayer(player);
 
-        
+
         var encounterRolls = new StubRandomProvider(encounterRoll, 0, 0, 0);
 
         return new EncounterScreen(
@@ -72,7 +72,7 @@ public class EncounterScreenTests
     public void GetAvailableActions_Monster_AttackAndFlee()
     {
         var sut = CreateMonsterSut(CreatePlayer());
-
+        sut.Choose(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.Attack, MenuAction.Flee }, sut.GetAvailableActions());
     }
 
@@ -80,7 +80,7 @@ public class EncounterScreenTests
     public void GetAvailableActions_Chest_OpenChestAndLeave()
     {
         var sut = CreateChestSut(CreatePlayer());
-
+        sut.Choose(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter }, sut.GetAvailableActions());
     }
 
@@ -88,13 +88,13 @@ public class EncounterScreenTests
     public void GetAvailableActions_Structure_OnlyLeave()
     {
         var sut = CreateStructureSut(CreatePlayer());
-
+        sut.Choose(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.LeaveEncounter }, sut.GetAvailableActions());
     }
 
 
     [Fact]
-   
+
     public void Attack_MonsterDies_GoesToContinueExploring()
 
     {
@@ -112,6 +112,7 @@ public class EncounterScreenTests
     {
         var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
 
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
         Assert.Contains(result.Events, e => e is XpGained);
@@ -170,10 +171,10 @@ public class EncounterScreenTests
     public void OpenChest_GoesToGameMenuWithItemFoundEvent()
     {
         var sut = CreateChestSut(CreatePlayer());
-
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.OpenChest);
 
-        Assert.Same(_gameMenu, result.Next);
+        Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is ItemFound);
     }
 
@@ -182,7 +183,7 @@ public class EncounterScreenTests
     {
         var sut = CreateChestSut(CreatePlayer());
 
-        var result = sut.Choose(MenuAction.LeaveEncounter);
+        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
 
         Assert.Same(_gameMenu, result.Next);
         Assert.DoesNotContain(result.Events, e => e is ItemFound);
@@ -193,7 +194,7 @@ public class EncounterScreenTests
     {
         var sut = CreateStructureSut(CreatePlayer());
 
-        var result = sut.Choose(MenuAction.LeaveEncounter);
+        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
 
         Assert.Same(_gameMenu, result.Next);
     }
