@@ -68,7 +68,7 @@ public class CombatService : ICombatService
         }
         else
         {
-            events = new List<GameEvent>();
+            events = new List<GameEvent> { new FledFromEncounterFailed() };
         }
         return new FleeResult(succeeded, events);
     }

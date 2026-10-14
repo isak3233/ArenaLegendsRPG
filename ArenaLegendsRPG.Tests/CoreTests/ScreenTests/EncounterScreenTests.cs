@@ -68,6 +68,7 @@ public class EncounterScreenTests
 
 
     [Fact]
+
     public void GetAvailableActions_Monster_AttackAndFlee()
     {
         var sut = CreateMonsterSut(CreatePlayer());
@@ -93,13 +94,16 @@ public class EncounterScreenTests
 
 
     [Fact]
-    public void Attack_MonsterDies_GoesToGameMenu()
+   
+    public void Attack_MonsterDies_GoesToContinueExploring()
+
     {
         var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
 
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
-        Assert.Same(_gameMenu, result.Next);
+        Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
     }
 
@@ -118,6 +122,7 @@ public class EncounterScreenTests
     {
         var sut = CreateMonsterSut(CreatePlayer(health: 0));
 
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
         Assert.Same(_gameOver, result.Next);
@@ -129,6 +134,7 @@ public class EncounterScreenTests
     {
         var sut = CreateMonsterSut(CreatePlayer());
 
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
         Assert.Same(sut, result.Next);
@@ -138,13 +144,14 @@ public class EncounterScreenTests
 
 
     [Fact]
-    public void Flee_Succeeds_GoesToGameMenu()
+    public void Flee_Succeeds_GoesToContinueExploring()
     {
         var sut = CreateMonsterSut(CreatePlayer(), FleeSucceedsRoll);
 
+        sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Flee);
 
-        Assert.Same(_gameMenu, result.Next);
+        Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is FledFromEncounter);
     }
 

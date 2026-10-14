@@ -9,4 +9,5 @@ public interface IGameFlow
     IReadOnlyList<GameEvent> Choose(MenuAction action);
     IReadOnlyList<GameEvent> Submit(string text);
     IReadOnlyList<GameEvent> Select(int index);
+
 }

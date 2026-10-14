@@ -34,6 +34,7 @@ public class GameFlow : IGameFlow
         return MoveTo(textScreen.Submit(text));
     }
 
+
     public IReadOnlyList<GameEvent> Select(int index)
     {
         if (_current is not ISelectionScreen selectionScreen)
@@ -43,6 +44,7 @@ public class GameFlow : IGameFlow
 
         return MoveTo(selectionScreen.Select(index));
     }
+
 
     private IReadOnlyList<GameEvent> MoveTo(ScreenResult result)
     {

@@ -4,7 +4,7 @@ using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
-public class InventoryScreen : GameScreenBase, ISelectionScreen
+public class InventoryScreen : IGameScreen, ISelectionScreen
 {
     private readonly IGameSession _session;
     private readonly IScreenFactory _factory;
@@ -17,19 +17,19 @@ public class InventoryScreen : GameScreenBase, ISelectionScreen
         _inventoryService = inventoryService;
     }
 
-    public override GameState State => GameState.Inventory;
+    public GameState State => GameState.Inventory;
 
-    public override IReadOnlyList<MenuAction> GetAvailableActions()
+    public IReadOnlyList<MenuAction> GetAvailableActions()
     {
         return new[] { MenuAction.Back };
     }
 
-    protected override ScreenResult Handle(MenuAction action)
+    public ScreenResult Choose(MenuAction action)
     {
         return action switch
         {
             MenuAction.Back => ScreenResult.To(_factory.CreateGameMenu()),
-            _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
+            _ => throw new InvalidOperationException($"{action} is not available in {State}.")
         };
     }
 
