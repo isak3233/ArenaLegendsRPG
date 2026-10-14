@@ -32,6 +32,7 @@ public class InventoryService : IInventoryService
             }
             index++;
         }
+        
         return itemEvents;
 
 

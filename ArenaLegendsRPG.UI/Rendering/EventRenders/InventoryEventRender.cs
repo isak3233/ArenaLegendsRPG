@@ -16,7 +16,8 @@ public class InventoryEventRender : IEventRender
         return gameEvent is WeaponEvent
             or ProtectionEvent
             or InvalidItemSelection
-            or ItemEquipped;
+            or ItemEquipped
+            or InventoryNoItems;
     }
 
     public void Present(GameEvent gameEvent)
@@ -54,6 +55,10 @@ public class InventoryEventRender : IEventRender
                     _consoleIO.ReadKey();
                     break;
                 }
+            case InventoryNoItems e:
+                _consoleIO.WriteLine("Du har inga föremål!");
+                _consoleIO.ReadKey();
+                break;
 
         }
     }

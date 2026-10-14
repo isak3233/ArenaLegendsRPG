@@ -40,8 +40,12 @@ public class InventoryScreen : IGameScreen, ISelectionScreen
     private ScreenResult HandleOpenInventoryManagment()
     {
         var itemEvents = _inventoryService.GetItemEvents(_session.RequirePlayer());
-        var events = itemEvents.Append(new InventoryManagmentOpen());
-        return ScreenResult.To(this, events.ToArray());
+        if (itemEvents.Count == 0)
+        {
+            return ScreenResult.To(this, new InventoryNoItems());
+        }
+        itemEvents.Add(new InventoryManagmentOpen());
+        return ScreenResult.To(this, itemEvents.ToArray());
     }
 
     public ScreenResult Select(int index)
