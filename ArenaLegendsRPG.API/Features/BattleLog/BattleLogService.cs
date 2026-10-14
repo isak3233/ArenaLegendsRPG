@@ -1,5 +1,6 @@
 ﻿using ArenaLegendsRPG.API.Features.BattleLog.DTOs;
 using ArenaLegendsRPG.Infrastructure.Data;
+using ArenaLegendsRPG.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArenaLegendsRPG.API.Features.BattleLog;
@@ -33,5 +34,25 @@ public class BattleLogService : IBattleLogService
         })
         .ToList();
         return battleLogsDto;
+    }
+
+    public async Task SaveBattleLog(int characterId, BattleLogDto battleLogDto)
+    {
+        var battleLogEntity = new BattleLogEntity
+        {
+            CharacterId = characterId,
+            MonsterName = battleLogDto.MonsterName,
+            MonsterHealth = battleLogDto.MonsterHealth,
+            MonsterAttackResist = battleLogDto.MonsterAttackResist,
+            MonsterMagicResist = battleLogDto.MonsterMagicResist,
+            MonsterAttackDamage = battleLogDto.MonsterAttackDamage,
+            MonsterMagicDamage = battleLogDto.MonsterMagicDamage,
+            DamageDoneByPlayer = battleLogDto.DamageDoneByPlayer,
+            DamageDoneByMonster = battleLogDto.DamageDoneByMonster,
+            IsPlayerWinner = battleLogDto.IsPlayerWinner,
+            BattleFinished = battleLogDto.BattleFinished,
+        };
+        _dbContext.BattleLogs.Add(battleLogEntity);
+        await _dbContext.SaveChangesAsync();
     }
 }

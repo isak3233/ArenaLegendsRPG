@@ -1,4 +1,5 @@
-﻿using ArenaLegendsRPG.API.Features.Character.DTOs;
+﻿using ArenaLegendsRPG.API.Features.BattleLog.DTOs;
+using ArenaLegendsRPG.API.Features.Character.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArenaLegendsRPG.API.Features.BattleLog;
@@ -19,4 +20,10 @@ public class BattleLogController : ControllerBase
         return Ok(battleLogs);
     }
 
+    [HttpPost("{characterId:int}")]
+    public IActionResult AddBattleLog(int characterId, [FromBody] BattleLogDto battleLogDto)
+    {
+        _battleLogService.SaveBattleLog(characterId, battleLogDto);
+        return Created();
+    }
 }

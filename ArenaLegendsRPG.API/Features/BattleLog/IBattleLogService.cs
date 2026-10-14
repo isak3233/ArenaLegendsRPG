@@ -5,4 +5,5 @@ namespace ArenaLegendsRPG.API.Features.BattleLog;
 public interface IBattleLogService
 {
     Task<List<BattleLogDto>> GetBattleLogs(int characterId);
+    Task SaveBattleLog(int characterId, BattleLogDto battleLogDto);
 }
