@@ -53,6 +53,7 @@ public class ConsoleGameLoop
 
     private void HandleEvents(IReadOnlyList<GameEvent> events)
     {
+
         var pendingEvents = new Queue<GameEvent>(events);
 
         while (pendingEvents.Count > 0)
@@ -67,6 +68,8 @@ public class ConsoleGameLoop
                 {
                     InputType.String =>
                         _game.Submit((string)result.Value),
+                    InputType.Integer =>
+                        _game.Select((int)result.Value),
                     _ => Array.Empty<GameEvent>()
                 };
 

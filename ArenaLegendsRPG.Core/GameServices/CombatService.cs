@@ -53,6 +53,7 @@ public class CombatService : ICombatService
         {
             events.Add(new CombatantDied(player.Name));
         }
+        events.Add(new CombatRoundStats(player.Name, monster.Name, player.Health, monster.Health));
 
         return new CombatRoundResult(damageToMonster, damageToPlayer, false, playerDied, events);
     }

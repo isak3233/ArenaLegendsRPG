@@ -18,7 +18,12 @@ public class EncounterEventRender : IEventRender
             or MonsterEncounterStarted
             or FledFromEncounter
             or FledFromEncounterFailed
-            or DamageDealt;
+            or DamageDealt
+            or CombatRoundStats
+            or CombatantDied
+            or ItemFound
+            or XpGained
+            or LeveledUp;
     }
     public void Present(GameEvent gameEvent)
     {
@@ -44,6 +49,29 @@ public class EncounterEventRender : IEventRender
                 _consoleIO.WriteLine("Lyckades inte fly från monstret");
                 _consoleIO.ReadKey();
                 break;
+            case DamageDealt e:
+                _consoleIO.WriteLine($"{e.AttackerName} gjorde {e.Amount} skada mot {e.TargetName}");
+                break;
+            case CombatRoundStats e:
+                _consoleIO.WriteLine($"{e.PlayerName}: {e.PlayerHp}HP \n{e.AttackerName}: {e.AttackerHp}HP");
+                _consoleIO.ReadKey();
+                break;
+            case CombatantDied e:
+                _consoleIO.WriteLine($"{e.Name} förlorade striden.");
+                break;
+            case ItemFound e:
+                _consoleIO.WriteLine($"Du fick {e.ItemName}. Föremålet finns nu i ditt inventory!");
+                _consoleIO.ReadKey();
+                break;
+            case XpGained e:
+                _consoleIO.WriteLine($"Du fick {e.Amount}xp!");
+                _consoleIO.ReadKey();
+                break;
+            case LeveledUp e:
+                _consoleIO.WriteLine($"Du levlade upp! Du är nu level {e.NewLevel}");
+                _consoleIO.ReadKey();
+                break;
+
         }
     }
 }

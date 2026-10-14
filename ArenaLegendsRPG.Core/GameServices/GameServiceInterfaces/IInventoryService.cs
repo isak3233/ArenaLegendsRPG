@@ -5,5 +5,6 @@ namespace ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 public interface IInventoryService
 {
-    IReadOnlyList<GameEvent> EquipItem(Character player, int index);
+    List<GameEvent> GetItemEvents(Character player);
+    List<GameEvent> ToggleEquiped(Character player, int index);
 }

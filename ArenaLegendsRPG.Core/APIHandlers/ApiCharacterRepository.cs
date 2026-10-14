@@ -35,6 +35,7 @@ public class ApiCharacterRepository : ICharacterRepository
     {
         var response = await _http.GetAsync($"{Url}/{id}");
 
+
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             return null;

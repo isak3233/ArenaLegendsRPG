@@ -103,9 +103,11 @@ public class EncounterScreen : IGameScreen
 
         if (result.PlayerDied)
         {
+            CurrentEncounter = null;
             return ScreenResult.To(_factory.CreateGameOver(), result.Events.ToArray());
+
         }
-        CurrentEncounter = null;
+
         return ScreenResult.To(this, result.Events.ToArray());
     }
 

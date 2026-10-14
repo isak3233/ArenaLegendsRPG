@@ -45,7 +45,8 @@ public class Character
 
     }
 
-
+    public void UnEquipWeapon() => EquippedWeapon = null;
+    public void UnEquipProtection() => EquippedProtection = null;
     public void EquipWeapon(Weapon weapon)
     {
         if (!Inventory.GetItems().Contains(weapon))

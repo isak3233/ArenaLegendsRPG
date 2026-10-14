@@ -13,6 +13,7 @@ public enum MenuAction
     Explore,
     LeaveEncounterScreen,
     OpenInventory,
+    OpenInventoryManagment,
     SaveGame,
     Back,
     Attack,

@@ -120,7 +120,7 @@ public class CharacterCreationScreenTests
     {
         await LoadSavesAsync(CreateSave("Hero", 3));
 
-        var result = _sut.Select(0);
+        var result = _sut.Select(1);
 
         Assert.Same(_gameMenu, result.Next);
     }
@@ -130,14 +130,14 @@ public class CharacterCreationScreenTests
     {
         await LoadSavesAsync(CreateSave("Hero", 3));
 
-        var result = _sut.Select(0);
+        var result = _sut.Select(1);
 
         Assert.Contains(result.Events, e => e is CharacterLoaded);
     }
 
     [Theory]
     [InlineData(-1)]
-    [InlineData(2)]
+    [InlineData(3)]
     [InlineData(99)]
     public async Task Select_IndexOutOfRange_StaysOnSameScreen(int index)
     {
@@ -150,7 +150,7 @@ public class CharacterCreationScreenTests
 
     [Theory]
     [InlineData(-1)]
-    [InlineData(2)]
+    [InlineData(3)]
     [InlineData(99)]
     public async Task Select_IndexOutOfRange_ReturnsInvalidCharacterSelectionEvent(int index)
     {
@@ -176,7 +176,7 @@ public class CharacterCreationScreenTests
         await LoadSavesAsync(CreateSave("Old", 1), CreateSave("Older", 2));
         await LoadSavesAsync(CreateSave("New", 3));
 
-        var result = _sut.Select(1);
+        var result = _sut.Select(2);
 
         Assert.Contains(result.Events, e => e is InvalidCharacterSelection);
     }

@@ -19,8 +19,10 @@ public static class Program
 
         var services = new ServiceCollection();
 
+        services.AddScoped<IEventRender, GameMenuEventRender>();
         services.AddScoped<IEventRender, CharacterCreationEventRender>();
         services.AddScoped<IEventRender, EncounterEventRender>();
+        services.AddScoped<IEventRender, InventoryEventRender>();
 
         services.AddScoped<IGameEventRender, GameEventRender>();
         services.AddScoped<IGameEventInputRouter, GameEventInputRouter>();
@@ -35,6 +37,8 @@ public static class Program
         services.AddScoped<ILootService, LootService>();
         services.AddScoped<IRewardService, RewardService>();
         services.AddScoped<IInventoryService, InventoryService>();
+
+        services.AddScoped<ICharacterMapper, CharacterMapper>();
 
         services.AddSingleton<IGameSession, GameSession>();
         services.AddScoped<IRandomProvider, RandomProvider>();

@@ -16,7 +16,7 @@ public class InventoryServiceTests
         var sword = new Weapon("Sword", "A sharp blade", attackBonus: 5);
         _player.Inventory.AddItem(sword);
 
-        var events = _sut.EquipItem(_player, 0);
+        var events = _sut.ToggleEquiped(_player, 0);
 
         Assert.Same(sword, _player.EquippedWeapon);
         Assert.Contains(events, e => e is ItemEquipped equipped && equipped.PlayerName == "Hero" && equipped.ItemName == "Sword");
@@ -28,7 +28,7 @@ public class InventoryServiceTests
         var plate = new Protection("Plate", "A sturdy plate", attackResist: 4, magicResist: 1);
         _player.Inventory.AddItem(plate);
 
-        _sut.EquipItem(_player, 0);
+        _sut.ToggleEquiped(_player, 0);
 
         Assert.Same(plate, _player.EquippedProtection);
     }
@@ -41,8 +41,8 @@ public class InventoryServiceTests
         _player.Inventory.AddItem(sword);
         _player.Inventory.AddItem(axe);
 
-        _sut.EquipItem(_player, 0);
-        _sut.EquipItem(_player, 1);
+        _sut.ToggleEquiped(_player, 0);
+        _sut.ToggleEquiped(_player, 1);
 
         Assert.Same(axe, _player.EquippedWeapon);
         Assert.Equal(18, _player.AttackDamage);
@@ -56,9 +56,33 @@ public class InventoryServiceTests
     {
         _player.Inventory.AddItem(new Weapon("Sword", "A sharp blade", attackBonus: 5));
 
-        var events = _sut.EquipItem(_player, index);
+        var events = _sut.ToggleEquiped(_player, index);
 
         Assert.Contains(events, e => e is InvalidItemSelection selection && selection.Index == index);
         Assert.Null(_player.EquippedWeapon);
+    }
+
+    [Fact]
+    public void UnequipItem_EquipsItAndReturnsItemUnequipped()
+    {
+        var weapon = new Weapon("Sword", "A sharp blade", attackBonus: 5);
+        _player.Inventory.AddItem(weapon);
+        _sut.ToggleEquiped(_player, 0);
+        var events = _sut.ToggleEquiped(_player, 0);
+
+        Assert.Contains(events, e => e is ItemEquipped { Equipped: false });
+        Assert.Null(_player.EquippedWeapon);
+
+    }
+    [Fact]
+    public void UnequipItem_EquipsItAndUnequipsItReturnsItemUnequipped()
+    {
+        var weapon = new Weapon("Sword", "A sharp blade", attackBonus: 5);
+        _player.Inventory.AddItem(weapon);
+
+        var events = _sut.ToggleEquiped(_player, 0);
+
+        Assert.Contains(events, e => e is ItemEquipped { Equipped: true });
+        Assert.Same(weapon, _player.EquippedWeapon);
     }
 }

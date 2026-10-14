@@ -85,7 +85,7 @@ public class CharacterCreationService : ICharacterCreationService
         var tasks = savedIds.Select(async id =>
         {
             try { return await _characterRepository.LoadAsync(id); }
-            catch (HttpRequestException) { return null; }
+            catch (HttpRequestException e) { return null; }
         }).ToList();
         var characters = await Task.WhenAll(tasks);
 

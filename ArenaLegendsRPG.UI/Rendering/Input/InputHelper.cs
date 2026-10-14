@@ -1,4 +1,6 @@
-﻿namespace ArenaLegendsRPG.UI.Rendering.Input;
+﻿using System.Globalization;
+
+namespace ArenaLegendsRPG.UI.Rendering.Input;
 
 public class InputHelper : IInputHelper
 {
@@ -13,5 +15,22 @@ public class InputHelper : IInputHelper
         var input = _consoleIO.ReadLine() ?? string.Empty;
 
         return input;
+    }
+
+    public int GetInt(string inputString)
+    {
+        while (true)
+        {
+            _consoleIO.Write(inputString);
+
+            var input = _consoleIO.ReadLine();
+
+            if (int.TryParse(input.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var number))
+            {
+                return number;
+            }
+
+            _consoleIO.WriteLine("Ogiltigt tal, försök igen.");
+        }
     }
 }
