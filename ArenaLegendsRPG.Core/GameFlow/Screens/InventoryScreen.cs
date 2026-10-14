@@ -24,7 +24,7 @@ public class InventoryScreen : IGameScreen, ISelectionScreen
         return new[] { MenuAction.Back };
     }
 
-    public ScreenResult Choose(MenuAction action)
+    public async Task<ScreenResult> ChooseAsync(MenuAction action)
     {
         return action switch
         {

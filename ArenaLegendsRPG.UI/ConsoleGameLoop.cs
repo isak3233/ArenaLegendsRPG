@@ -22,18 +22,18 @@ public class ConsoleGameLoop
         _consoleIO = consoleIO;
     }
 
-    public void Run()
+    public async Task RunAsync()
     {
         while (_game.State != GameState.GameOver)
         {
             _consoleIO.Clear();
-            var events = AskForMenuChoice();
+            var events = await AskForMenuChoice();
             HandleEvents(events);
         }
     }
 
 
-    private IReadOnlyList<GameEvent> AskForMenuChoice()
+    private async Task<IReadOnlyList<GameEvent>> AskForMenuChoice()
     {
         var actions = _game.GetAvailableActions();
 
@@ -45,7 +45,7 @@ public class ConsoleGameLoop
         _consoleIO.Write("Skriv in ett alternativ: ");
         if (int.TryParse(_consoleIO.ReadLine(), out var choice) && choice >= 1 && choice <= actions.Count)
         {
-            return _game.Choose(actions[choice - 1]);
+            return await _game.ChooseAsync(actions[choice - 1]);
         }
         _consoleIO.WriteLine("Ogiltigt val.");
         return Array.Empty<GameEvent>();

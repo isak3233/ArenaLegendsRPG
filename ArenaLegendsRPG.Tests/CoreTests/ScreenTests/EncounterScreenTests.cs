@@ -63,80 +63,80 @@ public class EncounterScreenTests
 
     private static Character CreatePlayer(int health = 100, int attackDamage = DoesNoDamage)
     {
-        return new Character("Hero", health, attackDamage, 0, 0, 0);
+        return new Character("Hero", health, 1, 0, attackDamage, 0, 0, 0);
     }
 
 
     [Fact]
 
-    public void GetAvailableActions_Monster_AttackAndFlee()
+    public async Task GetAvailableActions_Monster_AttackAndFlee()
     {
         var sut = CreateMonsterSut(CreatePlayer());
-        sut.Choose(MenuAction.BeginExplore);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.Attack, MenuAction.Flee }, sut.GetAvailableActions());
     }
 
     [Fact]
-    public void GetAvailableActions_Chest_OpenChestAndLeave()
+    public async Task GetAvailableActions_Chest_OpenChestAndLeave()
     {
         var sut = CreateChestSut(CreatePlayer());
-        sut.Choose(MenuAction.BeginExplore);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter }, sut.GetAvailableActions());
     }
 
     [Fact]
-    public void GetAvailableActions_Structure_OnlyLeave()
+    public async Task GetAvailableActions_Structure_OnlyLeave()
     {
         var sut = CreateStructureSut(CreatePlayer());
-        sut.Choose(MenuAction.BeginExplore);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.LeaveEncounter }, sut.GetAvailableActions());
     }
 
 
     [Fact]
 
-    public void Attack_MonsterDies_GoesToContinueExploring()
+    public async Task Attack_MonsterDies_GoesToContinueExploring()
 
     {
         var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
 
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.Attack);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.Attack);
 
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
     }
 
     [Fact]
-    public void Attack_MonsterDies_IncludesRewardEvents()
+    public async Task Attack_MonsterDies_IncludesRewardEvents()
     {
         var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
 
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.Attack);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.Attack);
 
         Assert.Contains(result.Events, e => e is XpGained);
     }
 
     [Fact]
-    public void Attack_PlayerDies_GoesToGameOver()
+    public async Task Attack_PlayerDies_GoesToGameOver()
     {
         var sut = CreateMonsterSut(CreatePlayer(health: 0));
 
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.Attack);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.Attack);
 
         Assert.Same(_gameOver, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
     }
 
     [Fact]
-    public void Attack_NobodyDies_StaysOnSameScreenWithoutRewardEvents()
+    public async Task Attack_NobodyDies_StaysOnSameScreenWithoutRewardEvents()
     {
         var sut = CreateMonsterSut(CreatePlayer());
 
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.Attack);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.Attack);
 
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
@@ -145,56 +145,56 @@ public class EncounterScreenTests
 
 
     [Fact]
-    public void Flee_Succeeds_GoesToContinueExploring()
+    public async Task Flee_Succeeds_GoesToContinueExploring()
     {
         var sut = CreateMonsterSut(CreatePlayer(), FleeSucceedsRoll);
 
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.Flee);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.Flee);
 
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is FledFromEncounter);
     }
 
     [Fact]
-    public void Flee_Fails_StaysOnSameScreen()
+    public async Task Flee_Fails_StaysOnSameScreen()
     {
         var sut = CreateMonsterSut(CreatePlayer(), FleeFailsRoll);
 
-        var result = sut.Choose(MenuAction.Flee);
+        var result = await sut.ChooseAsync(MenuAction.Flee);
 
         Assert.Same(sut, result.Next);
     }
 
 
     [Fact]
-    public void OpenChest_GoesToGameMenuWithItemFoundEvent()
+    public async Task OpenChest_GoesToGameMenuWithItemFoundEvent()
     {
         var sut = CreateChestSut(CreatePlayer());
-        sut.Choose(MenuAction.BeginExplore);
-        var result = sut.Choose(MenuAction.OpenChest);
+        await sut.ChooseAsync(MenuAction.BeginExplore);
+        var result = await sut.ChooseAsync(MenuAction.OpenChest);
 
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is ItemFound);
     }
 
     [Fact]
-    public void LeaveChest_GoesToGameMenuWithoutItemFoundEvent()
+    public async Task LeaveChest_GoesToGameMenuWithoutItemFoundEvent()
     {
         var sut = CreateChestSut(CreatePlayer());
 
-        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
+        var result = await sut.ChooseAsync(MenuAction.LeaveEncounterScreen);
 
         Assert.Same(_gameMenu, result.Next);
         Assert.DoesNotContain(result.Events, e => e is ItemFound);
     }
 
     [Fact]
-    public void LeaveStructure_GoesToGameMenu()
+    public async Task LeaveStructure_GoesToGameMenu()
     {
         var sut = CreateStructureSut(CreatePlayer());
 
-        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
+        var result = await sut.ChooseAsync(MenuAction.LeaveEncounterScreen);
 
         Assert.Same(_gameMenu, result.Next);
     }

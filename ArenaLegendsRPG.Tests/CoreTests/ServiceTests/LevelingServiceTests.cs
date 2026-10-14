@@ -12,7 +12,7 @@ public class LevelingServiceTests
 
     private static Character CreateCharacter()
     {
-        return new Character("Hero", health: 100, baseAttackDamage: 10, baseMagicDamage: 5, baseAttackResist: 5, baseMagicResist: 2);
+        return new Character("Hero", health: 100, level: 1, xp: 0, baseAttackDamage: 10, baseMagicDamage: 5, baseAttackResist: 5, baseMagicResist: 2);
     }
 
     [Theory]

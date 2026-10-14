@@ -13,7 +13,7 @@ public class GameOverScreen : IGameScreen
     }
 
 
-    public ScreenResult Choose(MenuAction action)
+    public async Task<ScreenResult> ChooseAsync(MenuAction action)
     {
         throw new InvalidOperationException();
     }

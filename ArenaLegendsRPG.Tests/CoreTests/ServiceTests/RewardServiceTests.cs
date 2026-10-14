@@ -13,7 +13,7 @@ public class RewardServiceTests
 
     private static Character CreatePlayer()
     {
-        return new Character("Hero", health: 100, baseAttackDamage: 10, baseMagicDamage: 5, baseAttackResist: 5, baseMagicResist: 2);
+        return new Character(name: "Hero", health: 100, level: 1, xp: 0, baseAttackDamage: 10, baseMagicDamage: 5, baseAttackResist: 5, baseMagicResist: 2);
     }
 
     private static MonsterEncounter CreateMonsterEncounter(int attackDamage = 8, int magicDamage = 2, Weapon? drop = null)
