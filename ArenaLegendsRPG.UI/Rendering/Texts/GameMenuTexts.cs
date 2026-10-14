@@ -9,6 +9,7 @@ public class GameMenuTexts
         [MenuAction.Explore] = "Utforska världen",
         [MenuAction.OpenInventory] = "Hantera ditt inventory",
         [MenuAction.OpenBattleLog] = "Öppna din stridslogg",
+        [MenuAction.OpenShowStats] = "Visa dina stats",
         [MenuAction.SaveGame] = "Spara spel",
         [MenuAction.Quit] = "Avsluta",
     };

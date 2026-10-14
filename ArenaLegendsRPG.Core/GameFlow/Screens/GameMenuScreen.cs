@@ -24,7 +24,7 @@ public class GameMenuScreen : IGameScreen
 
     public IReadOnlyList<MenuAction> GetAvailableActions()
     {
-        return new[] { MenuAction.Explore, MenuAction.OpenInventory, MenuAction.OpenBattleLog, MenuAction.SaveGame, MenuAction.Quit };
+        return new[] { MenuAction.Explore, MenuAction.OpenInventory, MenuAction.OpenBattleLog, MenuAction.OpenShowStats, MenuAction.SaveGame, MenuAction.Quit };
     }
 
     public async Task<ScreenResult> ChooseAsync(MenuAction action)
@@ -34,6 +34,7 @@ public class GameMenuScreen : IGameScreen
             MenuAction.Explore => ScreenResult.To(_factory.CreateEncounter()),
             MenuAction.OpenInventory => ScreenResult.To(_factory.CreateInventory()),
             MenuAction.OpenBattleLog => ScreenResult.To(_factory.CreateBattleLog()),
+            MenuAction.OpenShowStats => ScreenResult.To(_factory.CreateCharacterStats()),
             MenuAction.SaveGame => await HandleSaveGame(),
             MenuAction.Quit => ScreenResult.To(_factory.CreateGameOver()),
             _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")

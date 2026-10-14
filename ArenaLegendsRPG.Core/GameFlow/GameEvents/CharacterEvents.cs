@@ -13,3 +13,4 @@ public record LoadedCharacter(int Index, Character Character) : GameEvent;
 public record NoSavedCharacters : GameEvent;
 public record CharacterLoaded : GameEvent;
 public record InvalidCharacterSelection : GameEvent;
+public record CharacterStats(Character Character) : GameEvent;
