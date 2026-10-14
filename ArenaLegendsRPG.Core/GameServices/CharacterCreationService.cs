@@ -73,7 +73,7 @@ public class CharacterCreationService : ICharacterCreationService
     {
         if (!File.Exists(_filePath)) return new List<LoadedCharacterResult>();
         var savedIds = new List<int>();
-        
+
         foreach (var line in await File.ReadAllLinesAsync(_filePath))
         {
             if (int.TryParse(line.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var number))

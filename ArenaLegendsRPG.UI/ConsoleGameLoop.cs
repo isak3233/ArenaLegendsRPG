@@ -53,7 +53,7 @@ public class ConsoleGameLoop
 
     private void HandleEvents(IReadOnlyList<GameEvent> events)
     {
-        
+
         var pendingEvents = new Queue<GameEvent>(events);
 
         while (pendingEvents.Count > 0)

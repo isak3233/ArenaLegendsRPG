@@ -31,22 +31,13 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_WhenRollIsOne_ReturnsChestEncounter()
     {
-        var sut = CreateSut(new[] { 1 }, lootRolls: new[] { 0 });
+        var sut = CreateSut(new[] { 86 }, lootRolls: new[] { 0 });
 
         var encounter = sut.GenerateEncounter();
 
         Assert.IsType<ChestEncounter>(encounter);
     }
 
-    [Fact]
-    public void GenerateEncounter_WhenRollIsTwo_ReturnsStructureEncounter()
-    {
-        var sut = CreateSut(new[] { 2 });
-
-        var encounter = sut.GenerateEncounter();
-
-        Assert.IsType<StructureEncounter>(encounter);
-    }
 
     [Fact]
     public void GenerateEncounter_Monster_CarriesDropWhenRollSucceeds()
@@ -73,7 +64,7 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_Chest_ContainsLoot()
     {
-        var sut = CreateSut(new[] { 1 }, lootRolls: new[] { 0 });
+        var sut = CreateSut(new[] { 86 }, lootRolls: new[] { 0 });
 
         var encounter = sut.GenerateEncounter();
 

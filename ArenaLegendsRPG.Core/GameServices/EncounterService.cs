@@ -19,13 +19,15 @@ public class EncounterService : IEncounterService
 
     public IEncounter GenerateEncounter()
     {
-        var monsterType = _random.Next(0, 3);
-        return monsterType switch
+        var encounterType = _random.Next(0, 100);
+        if (encounterType < 85)
         {
-            0 => new MonsterEncounter { Monster = CreateRandomMonster(), Drop = _lootService.RollMonsterDrop() },
-            1 => new ChestEncounter { Loot = _lootService.GenerateLoot() },
-            _ => new StructureEncounter(),
-        };
+            return new MonsterEncounter { Monster = CreateRandomMonster(), Drop = _lootService.RollMonsterDrop() };
+        }
+        else
+        {
+            return new ChestEncounter { Loot = _lootService.GenerateLoot() };
+        }
     }
 
     private IMonster CreateRandomMonster()

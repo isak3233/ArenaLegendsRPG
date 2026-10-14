@@ -11,8 +11,7 @@ namespace ArenaLegendsRPG.Tests.CoreTests.ScreenTests;
 public class EncounterScreenTests
 {
     private const int MonsterEncounterRoll = 0;
-    private const int ChestEncounterRoll = 1;
-    private const int StructureEncounterRoll = 2;
+    private const int ChestEncounterRoll = 86;
     private const int FleeSucceedsRoll = 0;
     private const int FleeFailsRoll = 99;
     private const int NoDropRoll = 99;
@@ -56,10 +55,6 @@ public class EncounterScreenTests
         return CreateSut(player, ChestEncounterRoll, lootRoll: ChestHoldsFirstItem);
     }
 
-    private EncounterScreen CreateStructureSut(Character player)
-    {
-        return CreateSut(player, StructureEncounterRoll);
-    }
 
     private static Character CreatePlayer(int health = 100, int attackDamage = DoesNoDamage)
     {
@@ -82,14 +77,6 @@ public class EncounterScreenTests
         var sut = CreateChestSut(CreatePlayer());
         await sut.ChooseAsync(MenuAction.BeginExplore);
         Assert.Equal(new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter }, sut.GetAvailableActions());
-    }
-
-    [Fact]
-    public async Task GetAvailableActions_Structure_OnlyLeave()
-    {
-        var sut = CreateStructureSut(CreatePlayer());
-        await sut.ChooseAsync(MenuAction.BeginExplore);
-        Assert.Equal(new[] { MenuAction.LeaveEncounter }, sut.GetAvailableActions());
     }
 
 
@@ -189,13 +176,4 @@ public class EncounterScreenTests
         Assert.DoesNotContain(result.Events, e => e is ItemFound);
     }
 
-    [Fact]
-    public async Task LeaveStructure_GoesToGameMenu()
-    {
-        var sut = CreateStructureSut(CreatePlayer());
-
-        var result = await sut.ChooseAsync(MenuAction.LeaveEncounterScreen);
-
-        Assert.Same(_gameMenu, result.Next);
-    }
 }

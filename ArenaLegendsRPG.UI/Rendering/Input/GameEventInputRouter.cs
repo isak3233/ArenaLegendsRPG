@@ -20,10 +20,14 @@ public class GameEventInputRouter : IGameEventInputRouter
                     InputType.String,
                     _inputHelper.GetString("Skriv karaktärens namn: ")
                 ),
-            [typeof(LoadSuccess)] = 
+            [typeof(LoadSuccess)] =
                     _ => new InputResult(
                         InputType.Integer,
-                        _inputHelper.GetInt("Välj mellan de sparade karaktärerna: "))
+                        _inputHelper.GetInt("Välj mellan de sparade karaktärerna: ")),
+            [typeof(InventoryManagmentOpen)] =
+                _ => new InputResult(
+                    InputType.Integer,
+                    _inputHelper.GetInt("Välj item för att börja/sluta använda det: "))
         };
     }
 

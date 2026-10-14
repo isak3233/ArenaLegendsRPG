@@ -29,7 +29,7 @@ public class InventoryScreenTests
         var sword = new Weapon("Sword", "A sharp blade", attackBonus: 5);
         _player.Inventory.AddItem(sword);
 
-        var result = _sut.Select(0);
+        var result = _sut.Select(1);
 
         Assert.Same(sword, _player.EquippedWeapon);
         Assert.Same(_sut, result.Next);

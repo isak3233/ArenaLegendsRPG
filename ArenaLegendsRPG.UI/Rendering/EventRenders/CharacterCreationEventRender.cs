@@ -12,7 +12,7 @@ public class CharacterCreationEventRender : IEventRender
     }
     public bool CanPresent(GameEvent gameEvent)
     {
-        return gameEvent is CharacterNameNotAllowed 
+        return gameEvent is CharacterNameNotAllowed
             or CharacterCreated
             or NoSavedCharacters
             or InvalidCharacterSelection

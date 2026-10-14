@@ -34,7 +34,7 @@ public class ApiCharacterRepository : ICharacterRepository
     public async Task<Character?> LoadAsync(int id)
     {
         var response = await _http.GetAsync($"{Url}/{id}");
-        
+
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
