@@ -14,6 +14,7 @@ public static class Program
 {
     public static void Main()
     {
+
         var services = new ServiceCollection();
 
         services.AddScoped<IEventRender, CharacterCreationEventRender>();
@@ -24,12 +25,17 @@ public static class Program
         services.AddScoped<IInputHelper, InputHelper>();
         services.AddScoped<IConsoleIO, ConsoleIO>();
 
-        services.AddSingleton<IGameSession, GameSession>();
-        services.AddScoped<IRandomProvider, RandomProvider>();
+
         services.AddScoped<ICharacterCreationService, CharacterCreationService>();
         services.AddScoped<IEncounterService, EncounterService>();
         services.AddScoped<ICombatService, CombatService>();
         services.AddScoped<ILevelingService, LevelingService>();
+        services.AddScoped<ILootService, LootService>();
+        services.AddScoped<IRewardService, RewardService>();
+        services.AddScoped<IInventoryService, InventoryService>();
+
+        services.AddSingleton<IGameSession, GameSession>();
+        services.AddScoped<IRandomProvider, RandomProvider>();
         services.AddScoped<IScreenFactory, ScreenFactory>();
         services.AddScoped<IGameFlow, GameFlow>();
 
@@ -46,5 +52,6 @@ public static class Program
         scope.ServiceProvider
             .GetRequiredService<ConsoleGameLoop>()
             .Run();
+
     }
 }

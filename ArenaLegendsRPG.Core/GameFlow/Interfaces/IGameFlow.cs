@@ -8,4 +8,6 @@ public interface IGameFlow
     IReadOnlyList<MenuAction> GetAvailableActions();
     IReadOnlyList<GameEvent> Choose(MenuAction action);
     IReadOnlyList<GameEvent> Submit(string text);
+    IReadOnlyList<GameEvent> Select(int index);
+
 }

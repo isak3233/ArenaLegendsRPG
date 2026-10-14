@@ -23,7 +23,7 @@ public class GameFlow : IGameFlow
     {
         return MoveTo(_current.Choose(action));
     }
-    // Just add input? in choose method and use input records in a later version
+
     public IReadOnlyList<GameEvent> Submit(string text)
     {
         if (_current is not ITextInputScreen textScreen)
@@ -32,6 +32,17 @@ public class GameFlow : IGameFlow
         }
 
         return MoveTo(textScreen.Submit(text));
+    }
+
+
+    public IReadOnlyList<GameEvent> Select(int index)
+    {
+        if (_current is not ISelectionScreen selectionScreen)
+        {
+            throw new InvalidOperationException($"The screen {State} does not accept a selection.");
+        }
+
+        return MoveTo(selectionScreen.Select(index));
     }
 
 

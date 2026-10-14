@@ -10,6 +10,17 @@ namespace ArenaLegendsRPG.Tests.CoreTests.ScreenTests;
 
 public class EncounterScreenTests
 {
+    private const int MonsterEncounterRoll = 0;
+    private const int ChestEncounterRoll = 1;
+    private const int StructureEncounterRoll = 2;
+    private const int FleeSucceedsRoll = 0;
+    private const int FleeFailsRoll = 99;
+    private const int NoDropRoll = 99;
+    private const int ChestHoldsFirstItem = 0;
+
+    private const int KillsAnyMonster = 1000;
+    private const int DoesNoDamage = 0;
+
     private readonly GameSession _session = new();
     private readonly StubGameScreen _gameMenu = new StubGameScreen(GameState.GameMenu);
     private readonly StubGameScreen _gameOver = new StubGameScreen(GameState.GameOver);
@@ -20,33 +31,74 @@ public class EncounterScreenTests
         _factory = new StubScreenFactory(gameMenu: _gameMenu, gameOver: _gameOver);
     }
 
-    private EncounterScreen CreateSut(
-        Character player,
-        int encounterChance = 0,
-        int fleeChance = 0,
-        int monsterType = 0,
-        int monsterAttackDamage = 0,
-        int monsterMagicDamage = 0)
+    private EncounterScreen CreateSut(Character player, int encounterRoll, int fleeRoll = FleeSucceedsRoll, int lootRoll = NoDropRoll)
     {
         _session.SetPlayer(player);
+
+
+        var encounterRolls = new StubRandomProvider(encounterRoll, 0, 0, 0);
+
         return new EncounterScreen(
             _session,
             _factory,
-            new EncounterService(new StubRandomProvider(encounterChance, monsterType, monsterAttackDamage, monsterMagicDamage)),
-            new CombatService(new StubRandomProvider(fleeChance)),
-            new LevelingService());
+            new EncounterService(encounterRolls, new LootService(new StubRandomProvider(lootRoll))),
+            new CombatService(new StubRandomProvider(fleeRoll)),
+            new RewardService(new LevelingService()));
     }
 
-    private static Character CreatePlayer(int health = 100, int attackDamage = 0)
+    private EncounterScreen CreateMonsterSut(Character player, int fleeRoll = FleeSucceedsRoll)
+    {
+        return CreateSut(player, MonsterEncounterRoll, fleeRoll);
+    }
+
+    private EncounterScreen CreateChestSut(Character player)
+    {
+        return CreateSut(player, ChestEncounterRoll, lootRoll: ChestHoldsFirstItem);
+    }
+
+    private EncounterScreen CreateStructureSut(Character player)
+    {
+        return CreateSut(player, StructureEncounterRoll);
+    }
+
+    private static Character CreatePlayer(int health = 100, int attackDamage = DoesNoDamage)
     {
         return new Character("Hero", health, attackDamage, 0, 0, 0);
     }
 
 
     [Fact]
-    public void Attack_MonsterDies_GoesToContinueExploring()
+
+    public void GetAvailableActions_Monster_AttackAndFlee()
     {
-        var sut = CreateSut(CreatePlayer(attackDamage: 1000));
+        var sut = CreateMonsterSut(CreatePlayer());
+        sut.Choose(MenuAction.BeginExplore);
+        Assert.Equal(new[] { MenuAction.Attack, MenuAction.Flee }, sut.GetAvailableActions());
+    }
+
+    [Fact]
+    public void GetAvailableActions_Chest_OpenChestAndLeave()
+    {
+        var sut = CreateChestSut(CreatePlayer());
+        sut.Choose(MenuAction.BeginExplore);
+        Assert.Equal(new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter }, sut.GetAvailableActions());
+    }
+
+    [Fact]
+    public void GetAvailableActions_Structure_OnlyLeave()
+    {
+        var sut = CreateStructureSut(CreatePlayer());
+        sut.Choose(MenuAction.BeginExplore);
+        Assert.Equal(new[] { MenuAction.LeaveEncounter }, sut.GetAvailableActions());
+    }
+
+
+    [Fact]
+
+    public void Attack_MonsterDies_GoesToContinueExploring()
+
+    {
+        var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
 
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
@@ -56,9 +108,20 @@ public class EncounterScreenTests
     }
 
     [Fact]
+    public void Attack_MonsterDies_IncludesRewardEvents()
+    {
+        var sut = CreateMonsterSut(CreatePlayer(attackDamage: KillsAnyMonster));
+
+        sut.Choose(MenuAction.BeginExplore);
+        var result = sut.Choose(MenuAction.Attack);
+
+        Assert.Contains(result.Events, e => e is XpGained);
+    }
+
+    [Fact]
     public void Attack_PlayerDies_GoesToGameOver()
     {
-        var sut = CreateSut(CreatePlayer(health: 0, attackDamage: 0));
+        var sut = CreateMonsterSut(CreatePlayer(health: 0));
 
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
@@ -68,22 +131,23 @@ public class EncounterScreenTests
     }
 
     [Fact]
-    public void Attack_NobodyDies_StaysOnSameScreen()
+    public void Attack_NobodyDies_StaysOnSameScreenWithoutRewardEvents()
     {
-        var sut = CreateSut(CreatePlayer(health: 100, attackDamage: 0));
+        var sut = CreateMonsterSut(CreatePlayer());
 
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Attack);
 
         Assert.Same(sut, result.Next);
         Assert.Contains(result.Events, e => e is DamageDealt);
+        Assert.DoesNotContain(result.Events, e => e is XpGained);
     }
 
 
     [Fact]
     public void Flee_Succeeds_GoesToContinueExploring()
     {
-        var sut = CreateSut(CreatePlayer());
+        var sut = CreateMonsterSut(CreatePlayer(), FleeSucceedsRoll);
 
         sut.Choose(MenuAction.BeginExplore);
         var result = sut.Choose(MenuAction.Flee);
@@ -95,11 +159,43 @@ public class EncounterScreenTests
     [Fact]
     public void Flee_Fails_StaysOnSameScreen()
     {
-        var sut = CreateSut(CreatePlayer(), fleeChance: 99);
+        var sut = CreateMonsterSut(CreatePlayer(), FleeFailsRoll);
 
         var result = sut.Choose(MenuAction.Flee);
 
         Assert.Same(sut, result.Next);
     }
 
+
+    [Fact]
+    public void OpenChest_GoesToGameMenuWithItemFoundEvent()
+    {
+        var sut = CreateChestSut(CreatePlayer());
+        sut.Choose(MenuAction.BeginExplore);
+        var result = sut.Choose(MenuAction.OpenChest);
+
+        Assert.Same(sut, result.Next);
+        Assert.Contains(result.Events, e => e is ItemFound);
+    }
+
+    [Fact]
+    public void LeaveChest_GoesToGameMenuWithoutItemFoundEvent()
+    {
+        var sut = CreateChestSut(CreatePlayer());
+
+        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
+
+        Assert.Same(_gameMenu, result.Next);
+        Assert.DoesNotContain(result.Events, e => e is ItemFound);
+    }
+
+    [Fact]
+    public void LeaveStructure_GoesToGameMenu()
+    {
+        var sut = CreateStructureSut(CreatePlayer());
+
+        var result = sut.Choose(MenuAction.LeaveEncounterScreen);
+
+        Assert.Same(_gameMenu, result.Next);
+    }
 }

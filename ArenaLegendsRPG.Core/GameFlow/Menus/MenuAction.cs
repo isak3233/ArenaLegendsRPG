@@ -6,6 +6,7 @@ public enum MenuAction
     CreateNewCharacter,
     LoadCharacter,
     SelectName,
+
     Quit,
     BeginExplore,
     ContinueExploring,
@@ -13,6 +14,7 @@ public enum MenuAction
     LeaveEncounterScreen,
     OpenInventory,
     SaveGame,
+    Back,
     Attack,
     Flee,
     OpenChest,

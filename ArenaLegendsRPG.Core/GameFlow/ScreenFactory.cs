@@ -1,7 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Screens;
-
-
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 namespace ArenaLegendsRPG.Core.GameFlow;
@@ -12,21 +10,23 @@ public class ScreenFactory : IScreenFactory
     private readonly ICharacterCreationService _characterCreationService;
     private readonly IEncounterService _encounterService;
     private readonly ICombatService _combatService;
-    private readonly ILevelingService _levelingService;
+    private readonly IRewardService _rewardService;
+    private readonly IInventoryService _inventoryService;
 
-    public ScreenFactory(IGameSession session, ICharacterCreationService characterCreationService, IEncounterService encounterService, ICombatService combatService, ILevelingService levelingService)
+    public ScreenFactory(IGameSession session, ICharacterCreationService characterCreationService, IEncounterService encounterService, ICombatService combatService, IRewardService rewardService, IInventoryService inventoryService)
     {
         _session = session;
         _characterCreationService = characterCreationService;
         _encounterService = encounterService;
         _combatService = combatService;
-        _levelingService = levelingService;
+        _rewardService = rewardService;
+        _inventoryService = inventoryService;
     }
-
 
     public IGameScreen CreateMainMenu() => new MainMenuScreen(this);
     public IGameScreen CreateCharacterCreation() => new CharacterCreationScreen(_session, this, _characterCreationService);
     public IGameScreen CreateGameMenu() => new GameMenuScreen(this);
-    public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService, _levelingService);
+    public IGameScreen CreateInventory() => new InventoryScreen(_session, this, _inventoryService);
+    public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService, _rewardService);
     public IGameScreen CreateGameOver() => new GameOverScreen();
 }

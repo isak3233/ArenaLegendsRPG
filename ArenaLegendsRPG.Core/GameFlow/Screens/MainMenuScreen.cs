@@ -19,9 +19,9 @@ public class MainMenuScreen : IGameScreen
         return new[] { MenuAction.StartNewGame, MenuAction.Quit };
     }
 
-
     public ScreenResult Choose(MenuAction action)
     {
+
 
         return action switch
         {

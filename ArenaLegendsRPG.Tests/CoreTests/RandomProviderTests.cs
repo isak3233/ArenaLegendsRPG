@@ -1,16 +1,27 @@
-﻿using ArenaLegendsRPG.Tests.TestDoubles;
+﻿using ArenaLegendsRPG.Core.RandomGen;
 
 namespace ArenaLegendsRPG.Tests.CoreTests;
 
 public class RandomProviderTests
 {
     [Fact]
-    public void Next_ReturnsValuesInTheOrderTheyWereGiven()
+    public void Next_AlwaysReturnsValueWithinRange()
     {
-        var provider = new StubRandomProvider(5, 10, 3);
-        Assert.Equal(5, provider.Next(0, 100));
-        Assert.Equal(10, provider.Next(0, 100));
-        Assert.Equal(3, provider.Next(0, 100));
+        var sut = new RandomProvider();
+
+        for (var i = 0; i < 1000; i++)
+        {
+            var value = sut.Next(5, 10);
+
+            Assert.True(value >= 5 && value < 10);
+        }
+    }
+
+    [Fact]
+    public void Next_RangeOfOne_ReturnsMin()
+    {
+        var sut = new RandomProvider();
+
+        Assert.Equal(7, sut.Next(7, 8));
     }
 }
-

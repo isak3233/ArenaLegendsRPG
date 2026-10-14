@@ -5,6 +5,7 @@ public enum GameState
     MainMenu,
     CharacterCreation,
     GameMenu,
+    Inventory,
     InEncounter,
     GameOver,
 }

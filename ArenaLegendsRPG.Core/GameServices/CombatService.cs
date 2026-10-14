@@ -18,16 +18,17 @@ public class CombatService : ICombatService
     {
         _random = random;
     }
+
     public CombatRoundResult ProcessPlayerAttack(Character player, IMonster monster)
     {
         var events = new List<GameEvent>();
 
         var damageToMonster = monster.TakeDamage(new Damage(player.AttackDamage, DamageType.Physical));
-        events.Add(new DamageDealt(player.Name, "Monster", damageToMonster));
+        events.Add(new DamageDealt(player.Name, monster.Name, damageToMonster));
 
         if (monster.IsDead)
         {
-            events.Add(new CombatantDied("Monster"));
+            events.Add(new CombatantDied(monster.Name));
             return new CombatRoundResult(damageToMonster, 0, true, false, events);
         }
 
@@ -45,7 +46,7 @@ public class CombatService : ICombatService
         }
 
         var damageToPlayer = player.TakeDamage(new Damage(monsterDamageAmount, monsterDamageType));
-        events.Add(new DamageDealt("Monster", player.Name, damageToPlayer));
+        events.Add(new DamageDealt(monster.Name, player.Name, damageToPlayer));
 
         var playerDied = player.Health <= 0;
         if (playerDied)
@@ -53,8 +54,9 @@ public class CombatService : ICombatService
             events.Add(new CombatantDied(player.Name));
         }
 
-        return new CombatRoundResult(damageToMonster, monsterDamageAmount, false, playerDied, events);
+        return new CombatRoundResult(damageToMonster, damageToPlayer, false, playerDied, events);
     }
+
     public FleeResult AttemptFlee()
     {
         var roll = _random.Next(0, 100);
