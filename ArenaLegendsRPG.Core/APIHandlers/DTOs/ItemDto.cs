@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ArenaLegendsRPG.API.Features.Character.DTOs;
+namespace ArenaLegendsRPG.Core.APIHandlers.DTOs;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(WeaponDto), "weapon")]

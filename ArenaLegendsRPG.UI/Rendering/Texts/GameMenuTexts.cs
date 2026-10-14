@@ -7,7 +7,8 @@ public class GameMenuTexts
     private static readonly Dictionary<MenuAction, string> Texts = new()
     {
         [MenuAction.Explore] = "Utforska världen",
-        [MenuAction.OpenInventory] = "Öppna ditt inventory",
+        [MenuAction.OpenInventory] = "Hantera ditt inventory",
+        [MenuAction.OpenBattleLog] = "Öppna din stridslogg",
         [MenuAction.SaveGame] = "Spara spel",
         [MenuAction.Quit] = "Avsluta",
     };

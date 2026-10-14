@@ -1,4 +1,5 @@
 ﻿using ArenaLegendsRPG.Core.APIHandlers;
+using ArenaLegendsRPG.Core.APIHandlers.DTOs;
 using ArenaLegendsRPG.Core.GameFlow;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameServices;
@@ -23,6 +24,7 @@ public static class Program
         services.AddScoped<IEventRender, CharacterCreationEventRender>();
         services.AddScoped<IEventRender, EncounterEventRender>();
         services.AddScoped<IEventRender, InventoryEventRender>();
+        services.AddScoped<IEventRender, BattleLogEventRender>();
 
         services.AddScoped<IGameEventRender, GameEventRender>();
         services.AddScoped<IGameEventInputRouter, GameEventInputRouter>();
@@ -37,6 +39,7 @@ public static class Program
         services.AddScoped<ILootService, LootService>();
         services.AddScoped<IRewardService, RewardService>();
         services.AddScoped<IInventoryService, InventoryService>();
+        services.AddScoped<IBattleLogService, BattleLogService>();
 
         services.AddScoped<ICharacterMapper, CharacterMapper>();
 
@@ -50,6 +53,8 @@ public static class Program
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
         services.AddHttpClient<ICharacterRepository, ApiCharacterRepository>(client =>
+            client.BaseAddress = new Uri(configuration["Api:BaseUrl"]!));
+        services.AddHttpClient<IBattleLogRepository, ApiBattleLogRepository>(client =>
             client.BaseAddress = new Uri(configuration["Api:BaseUrl"]!));
 
         services.AddScoped<ConsoleGameLoop>();

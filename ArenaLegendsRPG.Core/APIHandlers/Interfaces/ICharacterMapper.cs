@@ -1,4 +1,4 @@
-﻿using ArenaLegendsRPG.API.Features.Character.DTOs;
+﻿using ArenaLegendsRPG.Core.APIHandlers.DTOs;
 using ArenaLegendsRPG.Core.Characters;
 
 namespace ArenaLegendsRPG.Core.APIHandlers;

@@ -28,6 +28,8 @@ public class Character
     public int MagicResist => BaseMagicResist + (EquippedProtection?.MagicResist ?? 0);
     public Inventory Inventory { get; } = new();
 
+    public int SavedPlayerId { get; set; }
+
 
 
     public Character(string name, int health, int level, int xp, int baseAttackDamage, int baseMagicDamage, int baseAttackResist, int baseMagicResist)

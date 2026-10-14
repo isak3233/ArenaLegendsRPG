@@ -13,6 +13,7 @@ public class ScreenFactory : IScreenFactory
     private readonly ICombatService _combatService;
     private readonly IRewardService _rewardService;
     private readonly IInventoryService _inventoryService;
+    private readonly IBattleLogService _battleLogService;
 
     public ScreenFactory(
         IGameSession session,
@@ -21,7 +22,7 @@ public class ScreenFactory : IScreenFactory
         ICombatService combatService,
         IRewardService rewardService,
         IInventoryService inventoryService,
-        ICharacterRepository characterRepository
+        IBattleLogService battleLogService
         )
     {
         _session = session;
@@ -30,12 +31,14 @@ public class ScreenFactory : IScreenFactory
         _combatService = combatService;
         _rewardService = rewardService;
         _inventoryService = inventoryService;
+        _battleLogService = battleLogService;
     }
 
     public IGameScreen CreateMainMenu() => new MainMenuScreen(this);
     public IGameScreen CreateCharacterCreation() => new CharacterCreationScreen(_session, this, _characterCreationService);
     public IGameScreen CreateGameMenu() => new GameMenuScreen(_session, this, _characterCreationService);
     public IGameScreen CreateInventory() => new InventoryScreen(_session, this, _inventoryService);
+    public IGameScreen CreateBattleLog() => new BattleLogScreen(_session, this, _battleLogService);
     public IGameScreen CreateEncounter() => new EncounterScreen(_session, this, _encounterService, _combatService, _rewardService);
     public IGameScreen CreateGameOver() => new GameOverScreen();
 }

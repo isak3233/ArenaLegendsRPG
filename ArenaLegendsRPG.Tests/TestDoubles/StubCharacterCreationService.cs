@@ -14,5 +14,5 @@ internal class StubCharacterCreationService : ICharacterCreationService
     public Character CreateCharacter(string name) => new(name, 100, 1, 0, 10, 0, 5, 2);
     public Task<List<LoadedCharacterResult>> LoadAllCharacters() => Task.FromResult(Loaded.ToList());
     public Task<Character?> LoadAsync(int id) => Task.FromResult(LoadResult);
-    public Task<SaveCharacterResult> SaveAsync(Character character) => Task.FromResult(new SaveCharacterResult(true));
+    public Task<SaveCharacterResult> SaveAsync(Character character) => Task.FromResult(new SaveCharacterResult(true, 0));
 }

@@ -1,3 +1,4 @@
+using ArenaLegendsRPG.API.Features.BattleLog;
 using ArenaLegendsRPG.API.Features.Character;
 using ArenaLegendsRPG.API.Features.Healthy;
 using ArenaLegendsRPG.Infrastructure;
@@ -16,6 +17,7 @@ public class Program
         builder.Services.AddControllers()
             .AddJsonOptions(o => o.JsonSerializerOptions.AllowOutOfOrderMetadataProperties = true);
         builder.Services.AddScoped<ICharacterService, CharacterService>();
+        builder.Services.AddScoped<IBattleLogService, BattleLogService>();
 
         var app = builder.Build();
         using (var scope = app.Services.CreateScope())

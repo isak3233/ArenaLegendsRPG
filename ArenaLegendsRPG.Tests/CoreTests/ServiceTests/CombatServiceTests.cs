@@ -2,6 +2,9 @@
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Tests.TestDoubles;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
+using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
+using ArenaLegendsRPG.Core.RandomGen;
+using IBattleLogService = ArenaLegendsRPG.API.Features.BattleLog.IBattleLogService;
 
 namespace ArenaLegendsRPG.Tests.CoreTests.ServiceTests;
 
@@ -12,12 +15,22 @@ public class CombatServiceTests
         return new Character("Hero", health, 1, 0, attackDamage, baseMagicDamage: 0, attackResist, baseMagicResist: 0);
     }
 
+    private ICombatService GetCombatService(IRandomProvider? randomProvider = null)
+    {
+        if (randomProvider == null)
+        {
+            randomProvider = new StubRandomProvider();
+        }
+        return new CombatService(randomProvider, new StubBattleLogService());
+
+    }
+
     [Fact]
     public void ProcessPlayerAttack_MonsterSurvives_BothDealDamage()
     {
         var player = CreateCharacter(attackDamage: 10);
         var monster = new TestMonster(maxHealth: 30, attackResist: 0, magicResist: 0, attackDamage: 5);
-        var service = new CombatService(new StubRandomProvider());
+        var service = GetCombatService();
 
         var result = service.ProcessPlayerAttack(player, monster);
         Assert.Equal(10, result.DamageDealtToMonster);
@@ -31,7 +44,7 @@ public class CombatServiceTests
     {
         var player = CreateCharacter(attackDamage: 100);
         var monster = new TestMonster(maxHealth: 10, attackResist: 0, magicResist: 0, attackDamage: 999);
-        var service = new CombatService(new StubRandomProvider());
+        var service = GetCombatService();
 
         var result = service.ProcessPlayerAttack(player, monster);
 
@@ -44,7 +57,7 @@ public class CombatServiceTests
     {
         var player = CreateCharacter(attackDamage: 10, attackResist: 0);
         var monster = new TestMonster(maxHealth: 30, attackResist: 0, magicResist: 0, attackDamage: 2, magicDamage: 8);
-        var service = new CombatService(new StubRandomProvider());
+        var service = GetCombatService();
 
         var result = service.ProcessPlayerAttack(player, monster);
 
@@ -54,7 +67,7 @@ public class CombatServiceTests
     public void AttemptFlee_LowRoll_Succeeds()
     {
         var random = new StubRandomProvider(10);
-        var service = new CombatService(random);
+        var service = GetCombatService(random);
 
         var result = service.AttemptFlee();
 
@@ -65,7 +78,7 @@ public class CombatServiceTests
     public void AttemptFlee_HighRoll_Fails()
     {
         var random = new StubRandomProvider(80);
-        var service = new CombatService(random);
+        var service = GetCombatService(random);
 
         var result = service.AttemptFlee();
 
@@ -76,7 +89,7 @@ public class CombatServiceTests
     {
         var player = CreateCharacter(attackResist: 6);
         var monster = new TestMonster(maxHealth: 100, attackResist: 0, magicResist: 0, attackDamage: 10);
-        var service = new CombatService(new StubRandomProvider());
+        var service = GetCombatService();
 
         var result = service.ProcessPlayerAttack(player, monster);
 
@@ -89,7 +102,7 @@ public class CombatServiceTests
     {
         var player = CreateCharacter(attackDamage: 10);
         var monster = new TestMonster(maxHealth: 100, attackDamage: 5);
-        var service = new CombatService(new StubRandomProvider());
+        var service = GetCombatService();
 
         var result = service.ProcessPlayerAttack(player, monster);
 

@@ -4,6 +4,7 @@ using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
+using ArenaLegendsRPG.Core.Monster;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
@@ -17,7 +18,12 @@ public class EncounterScreen : IGameScreen
     public IEncounter? CurrentEncounter { get; set; }
     private bool _firstEncounter = true;
 
-    public EncounterScreen(IGameSession session, IScreenFactory factory, IEncounterService encounterService, ICombatService combatService, IRewardService rewardService)
+    public EncounterScreen(
+        IGameSession session,
+        IScreenFactory factory,
+        IEncounterService encounterService,
+        ICombatService combatService,
+        IRewardService rewardService)
     {
         _session = session;
         _factory = factory;
@@ -78,12 +84,19 @@ public class EncounterScreen : IGameScreen
         CurrentEncounter = _encounterService.GenerateEncounter();
         return CurrentEncounter switch
         {
-            MonsterEncounter => ScreenResult.To(this, new MonsterEncounterStarted("MONSTER NAME NOT IMPLEMENTED")),
+            MonsterEncounter => HandleMonsterSpawn(),
             ChestEncounter => ScreenResult.To(this, new ChestEncounterStarted()),
             StructureEncounter => ScreenResult.To(this, new StructureEncounterStarted()),
             _ => throw new InvalidOperationException($"Unhandled encounter type {CurrentEncounter.GetType().Name}")
         };
 
+    }
+
+    private ScreenResult HandleMonsterSpawn()
+    {
+        var monster = ((MonsterEncounter)CurrentEncounter).Monster;
+        _combatService.AddMonsterInfoToBattleLog(monster);
+        return ScreenResult.To(this, new MonsterEncounterStarted());
     }
 
     private ScreenResult HandleAttack()

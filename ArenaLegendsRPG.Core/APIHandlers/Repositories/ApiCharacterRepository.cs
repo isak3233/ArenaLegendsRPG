@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using ArenaLegendsRPG.API.Features.Character.DTOs;
+using ArenaLegendsRPG.Core.APIHandlers.DTOs;
 using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.Items;
 using ArenaLegendsRPG.Core.Items.Interfaces;
