@@ -1,5 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
 using ArenaLegendsRPG.Core.Encounters;
+using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.Items;
@@ -68,6 +69,50 @@ public class RewardServiceTests
 
         Assert.Empty(player.Inventory.GetItems());
         Assert.DoesNotContain(events, e => e is ItemFound);
+    }
+
+    [Fact]
+    public void GrantMonsterRewards_RestoresPlayerToFullHealth()
+    {
+        var player = CreatePlayer();
+        player.TakeDamage(new Damage(50, DamageType.Physical));
+
+        _sut.GrantMonsterRewards(player, CreateMonsterEncounter());
+
+        Assert.Equal(player.MaxHealth, player.Health);
+    }
+
+    [Fact]
+    public void GrantMonsterRewards_WhenPlayerWasHurt_ReturnsHealthRestoredWithMissingHealth()
+    {
+        var player = CreatePlayer();
+        var damageTaken = player.TakeDamage(new Damage(50, DamageType.Physical));
+
+        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter());
+
+        Assert.Contains(events, e => e is HealthRestored restored && restored.PlayerName == "Hero" && restored.Amount == damageTaken);
+    }
+
+    [Fact]
+    public void GrantMonsterRewards_WhenPlayerIsUnhurt_ReturnsNoHealthRestored()
+    {
+        var player = CreatePlayer();
+
+        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter());
+
+        Assert.DoesNotContain(events, e => e is HealthRestored);
+    }
+
+    [Fact]
+    public void GrantMonsterRewards_WhenLevelUpHealsPlayer_ReturnsNoHealthRestored()
+    {
+        var player = CreatePlayer();
+        player.TakeDamage(new Damage(50, DamageType.Physical));
+
+        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter(attackDamage: 10, magicDamage: 10));
+
+        Assert.Equal(player.MaxHealth, player.Health);
+        Assert.DoesNotContain(events, e => e is HealthRestored);
     }
 
     [Fact]

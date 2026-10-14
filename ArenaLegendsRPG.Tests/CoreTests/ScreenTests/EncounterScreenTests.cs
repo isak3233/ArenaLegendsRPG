@@ -1,4 +1,6 @@
 ﻿using ArenaLegendsRPG.Core.Characters;
+using ArenaLegendsRPG.Core.Encounters;
+using ArenaLegendsRPG.Core.Monster;
 using ArenaLegendsRPG.Core.GameFlow;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
@@ -35,7 +37,7 @@ public class EncounterScreenTests
         _session.SetPlayer(player);
 
 
-        var encounterRolls = new StubRandomProvider(encounterRoll, 0, 0, 0);
+        var encounterRolls = new StubRandomProvider(encounterRoll, 0, 0, 0,0);
 
         return new EncounterScreen(
             _session,
@@ -175,5 +177,19 @@ public class EncounterScreenTests
         Assert.Same(_gameMenu, result.Next);
         Assert.DoesNotContain(result.Events, e => e is ItemFound);
     }
+    [Fact]
+    public async Task BeginExplore_Monster_AnnouncesTheMonsterAndItsStats()
+    {
+        var sut = CreateMonsterSut(CreatePlayer());
 
+        var result = await sut.ChooseAsync(MenuAction.BeginExplore);
+
+        var monster = Assert.IsType<MonsterEncounter>(sut.CurrentEncounter).Monster;
+        var started = Assert.Single(result.Events.OfType<MonsterEncounterStarted>());
+        Assert.Equal(monster.Name, started.Name);
+        Assert.Equal(monster.Level, started.Level);
+        Assert.Equal(monster.Health, started.Health);
+        Assert.Equal(monster.AttackDamage, started.AttackDamage);
+        Assert.Equal(monster.MagicDamage, started.MagicDamage);
+    }
 }

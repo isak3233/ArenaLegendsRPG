@@ -54,5 +54,33 @@ public class EncounterEventRenderTests
         _consoleIO.Verify(c => c.ReadKey(), Times.Once);
     }
 
+    [Fact]
+    public void CanPresent_HealthRestored_ReturnsTrue()
+    {
+        var result = _sut.CanPresent(new HealthRestored("Hero", 20));
 
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Present_HealthRestored_WritesAmountAndReadsKey()
+    {
+        var gameEvent = new HealthRestored("Hero", 20);
+
+        _sut.Present(gameEvent);
+
+        _consoleIO.Verify(c => c.WriteLine("Du återhämtade dig och fick tillbaka 20HP!"), Times.Once);
+        _consoleIO.Verify(c => c.ReadKey(), Times.Once);
+    }
+    [Fact]
+    public void Present_MonsterEncounterStarted_WritesMonsterInfoAndReadsKey()
+    {
+        var gameEvent = new MonsterEncounterStarted("Goblin", 3, 55, 14, 9);
+
+        _sut.Present(gameEvent);
+
+        _consoleIO.Verify(c => c.WriteLine("Du möter en Goblin (level 3)!"), Times.Once);
+        _consoleIO.Verify(c => c.WriteLine("HP: 55 | Attack: 14 | Magi: 9"), Times.Once);
+        _consoleIO.Verify(c => c.ReadKey(), Times.Once);
+    }
 }

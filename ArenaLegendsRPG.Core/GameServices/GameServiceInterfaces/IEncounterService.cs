@@ -5,5 +5,5 @@ namespace ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
 
 public interface IEncounterService
 {
-    IEncounter GenerateEncounter();
+    IEncounter GenerateEncounter(int playerLevel);
 }

@@ -81,7 +81,7 @@ public class EncounterScreen : IGameScreen
     }
     private ScreenResult HandleExplore()
     {
-        CurrentEncounter = _encounterService.GenerateEncounter();
+        CurrentEncounter = _encounterService.GenerateEncounter(_session.RequirePlayer().Level);
         return CurrentEncounter switch
         {
             MonsterEncounter => HandleMonsterSpawn(),
@@ -94,9 +94,15 @@ public class EncounterScreen : IGameScreen
 
     private ScreenResult HandleMonsterSpawn()
     {
-        var monster = ((MonsterEncounter)CurrentEncounter).Monster;
+        if (CurrentEncounter is not MonsterEncounter monsterEncounter)
+        {
+            throw new InvalidOperationException("Expected a monster encounter.");
+        }
+
+        var monster = monsterEncounter.Monster;
         _combatService.AddMonsterInfoToBattleLog(monster);
-        return ScreenResult.To(this, new MonsterEncounterStarted());
+
+        return ScreenResult.To(this, new MonsterEncounterStarted(monster.Name, monster.Level, monster.Health, monster.AttackDamage, monster.MagicDamage));
     }
 
     private ScreenResult HandleAttack()

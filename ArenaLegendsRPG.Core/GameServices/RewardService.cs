@@ -20,6 +20,13 @@ public class RewardService : IRewardService
         var events = new List<GameEvent>();
         events.AddRange(_levelingService.GainXp(player, encounter.Monster.XpReward));
 
+        var missingHealth = player.MaxHealth - player.Health;
+        if (missingHealth > 0)
+        {
+            player.Heal(missingHealth);
+            events.Add(new HealthRestored(player.Name, missingHealth));
+        }
+
         if (encounter.Drop is not null)
         {
             player.Inventory.AddItem(encounter.Drop);

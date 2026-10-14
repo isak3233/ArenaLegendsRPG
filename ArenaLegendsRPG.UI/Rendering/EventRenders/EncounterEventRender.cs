@@ -23,7 +23,8 @@ public class EncounterEventRender : IEventRender
             or CombatantDied
             or ItemFound
             or XpGained
-            or LeveledUp;
+            or LeveledUp
+            or HealthRestored;
     }
     public void Present(GameEvent gameEvent)
     {
@@ -38,7 +39,8 @@ public class EncounterEventRender : IEventRender
                 _consoleIO.ReadKey();
                 break;
             case MonsterEncounterStarted e:
-                _consoleIO.WriteLine("Du möte ett monster och han tillåter inte dig att gå vidare!");
+                _consoleIO.WriteLine($"Du möter en {e.Name} (level {e.Level})!");
+                _consoleIO.WriteLine($"HP: {e.Health} | Attack: {e.AttackDamage} | Magi: {e.MagicDamage}");
                 _consoleIO.ReadKey();
                 break;
             case FledFromEncounter e:
@@ -69,6 +71,10 @@ public class EncounterEventRender : IEventRender
                 break;
             case LeveledUp e:
                 _consoleIO.WriteLine($"Du levlade upp! Du är nu level {e.NewLevel}");
+                _consoleIO.ReadKey();
+                break;
+            case HealthRestored e:
+                _consoleIO.WriteLine($"Du återhämtade dig och fick tillbaka {e.Amount}HP!");
                 _consoleIO.ReadKey();
                 break;
 

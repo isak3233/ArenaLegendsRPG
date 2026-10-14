@@ -12,6 +12,25 @@ public class MonsterTests
         Assert.Equal("Skeleton", new SkeletonMonster().Name);
         Assert.Equal("Spider", new SpiderMonster().Name);
     }
+
+    [Fact]
+    public void Monsters_DefaultToLevelOne()
+    {
+        Assert.Equal(1, new GoblinMonster().Level);
+        Assert.Equal(1, new SkeletonMonster().Level);
+        Assert.Equal(1, new SpiderMonster().Level);
+    }
+
+    [Fact]
+    public void Monsters_UseTheLevelTheyAreGiven()
+    {
+        const int level = 4;
+
+        Assert.Equal(level, new GoblinMonster(level: level).Level);
+        Assert.Equal(level, new SkeletonMonster(level: level).Level);
+        Assert.Equal(level, new SpiderMonster(level: level).Level);
+    }
+
     [Theory]
     [InlineData(30, 2, 5, 10, DamageType.Physical, 8, 22)]
     [InlineData(30, 2, 5, 10, DamageType.Magic, 5, 25)]
@@ -64,7 +83,7 @@ public class MonsterTests
     {
         var monster = new TestMonster(maxHealth: 30, attackDamage: 8, magicDamage: 2);
 
-        Assert.Equal(80, monster.XpReward); // 30 + (8 + 2) * 5
+        Assert.Equal(80, monster.XpReward);
     }
 
     [Fact]

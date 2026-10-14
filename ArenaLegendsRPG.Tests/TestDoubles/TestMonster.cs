@@ -5,8 +5,8 @@ namespace ArenaLegendsRPG.Tests.TestDoubles;
 
 internal class TestMonster : MonsterBase
 {
-    public TestMonster(int maxHealth = 30, int attackResist = 2, int magicResist = 0, int attackDamage = 5, int magicDamage = 0)
-    : base("Test monster", maxHealth, attackResist, magicResist, attackDamage, magicDamage)
+    public TestMonster(int maxHealth = 30, int attackResist = 2, int magicResist = 0, int attackDamage = 5, int magicDamage = 0, int level = 1)
+    : base("Test monster", maxHealth, attackResist, magicResist, attackDamage, magicDamage, level)
     {
     }
 }
