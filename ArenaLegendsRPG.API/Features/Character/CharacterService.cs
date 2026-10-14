@@ -16,6 +16,7 @@ public class CharacterService : ICharacterService
 
     public async Task<int> SaveAsync(SaveCharacterRequest request)
     {
+        var existingCharacter = await _dbContext.Characters.FindAsync(request.SavedId);
         var equippedWeapons = request.Items.OfType<WeaponDto>().Count(w => w.IsEquipped);
         var equippedProtections = request.Items.OfType<ProtectionDto>().Count(p => p.IsEquipped);
 
@@ -29,24 +30,42 @@ public class CharacterService : ICharacterService
             throw new ArgumentException("Name is required.");
         }
 
-
-        var characterEntity = new CharacterEntity
+        if (existingCharacter != null)
         {
-            Name = request.Name,
-            MaxHealth = request.MaxHealth,
-            Health = request.Health,
-            Level = request.Level,
-            Xp = request.Xp,
-            BaseAttackDamage = request.BaseAttackDamage,
-            BaseMagicDamage = request.BaseMagicDamage,
-            BaseAttackResist = request.BaseAttackResist,
-            BaseMagicResist = request.BaseMagicResist,
-            Items = request.Items.Select(ToEntity).ToList()
-        };
-        _dbContext.Characters.Add(characterEntity);
-        await _dbContext.SaveChangesAsync();
+            existingCharacter.Name = request.Name;
+            existingCharacter.MaxHealth = request.MaxHealth;
+            existingCharacter.Health = request.Health;
+            existingCharacter.Level = request.Level;
+            existingCharacter.Xp = request.Xp;
+            existingCharacter.BaseAttackDamage = request.BaseAttackDamage;
+            existingCharacter.BaseMagicDamage = request.BaseMagicDamage;
+            existingCharacter.BaseAttackResist = request.BaseAttackResist;
+            existingCharacter.BaseMagicResist = request.BaseMagicResist;
+            existingCharacter.Items = request.Items.Select(ToEntity).ToList();
+            await _dbContext.SaveChangesAsync();
+            return existingCharacter.Id;
+        }
+        else
+        {
+            var characterEntity = new CharacterEntity
+            {
+                Name = request.Name,
+                MaxHealth = request.MaxHealth,
+                Health = request.Health,
+                Level = request.Level,
+                Xp = request.Xp,
+                BaseAttackDamage = request.BaseAttackDamage,
+                BaseMagicDamage = request.BaseMagicDamage,
+                BaseAttackResist = request.BaseAttackResist,
+                BaseMagicResist = request.BaseMagicResist,
+                Items = request.Items.Select(ToEntity).ToList()
+            };
+            _dbContext.Characters.Add(characterEntity);
+            await _dbContext.SaveChangesAsync();
+            return characterEntity.Id;
 
-        return characterEntity.Id;
+        }
+
     }
 
     public async Task<CharacterResponse?> GetAsync(int id)

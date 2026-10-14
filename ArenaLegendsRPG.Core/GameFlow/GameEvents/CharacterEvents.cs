@@ -9,7 +9,7 @@ public record SaveSuccess : GameEvent;
 public record SaveFailed : GameEvent;
 public record LoadSuccess : GameEvent;
 public record LoadFailed : GameEvent;
-public record LoadedCharacter(Character Character) : GameEvent;
+public record LoadedCharacter(int Index, Character Character) : GameEvent;
 public record NoSavedCharacters : GameEvent;
 public record CharacterLoaded : GameEvent;
 public record InvalidCharacterSelection : GameEvent;

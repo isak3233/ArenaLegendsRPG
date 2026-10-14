@@ -43,6 +43,7 @@ public class CharacterCreationService : ICharacterCreationService
             baseMagicResist: 2);
     }
 
+
     public async Task<SaveCharacterResult> SaveAsync(Character character)
     {
         try
@@ -50,13 +51,34 @@ public class CharacterCreationService : ICharacterCreationService
             var savedId = await _characterRepository.SaveAsync(character);
 
             var directory = Path.GetDirectoryName(Path.GetFullPath(_filePath));
+
             if (!string.IsNullOrEmpty(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
+            if (File.Exists(_filePath))
+            {
+                var savedIds = await File.ReadAllLinesAsync(_filePath);
 
-            await File.AppendAllTextAsync(_filePath, savedId.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                bool idExists = savedIds.Contains(
+                    savedId.ToString(CultureInfo.InvariantCulture));
+
+                if (!idExists)
+                {
+                    await File.AppendAllTextAsync(
+                        _filePath,
+                        savedId.ToString(CultureInfo.InvariantCulture)
+                        + Environment.NewLine);
+                }
+            }
+            else
+            {
+                await File.WriteAllTextAsync(
+                    _filePath,
+                    savedId.ToString(CultureInfo.InvariantCulture)
+                    + Environment.NewLine);
+            }
 
             return new SaveCharacterResult(true, savedId);
         }
@@ -64,9 +86,8 @@ public class CharacterCreationService : ICharacterCreationService
         {
             return new SaveCharacterResult(false, 0, e.Message);
         }
-
-
     }
+
 
 
     public async Task<List<LoadedCharacterResult>> LoadAllCharacters()

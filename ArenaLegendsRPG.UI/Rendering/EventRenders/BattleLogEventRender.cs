@@ -23,7 +23,7 @@ public class BattleLogEventRender : IEventRender
             case BattleLogInfo e:
                 _consoleIO.WriteLine("-----------------------------------------------");
                 var winString = e.IsPlayerWinner ? "Du vann mot" : "Du förlorade mot";
-                _consoleIO.WriteLine($"{winString} {e.MonsterName}, {e.MonsterName}\n" +
+                _consoleIO.WriteLine($"{winString} {e.MonsterName}\n" +
                                      $"Stats: {e.MonsterHealth}HP, {e.MonsterAttackDamage} Fysisk skada, {e.MonsterMagicDamage} Magisk skada, {e.MonsterAttackResist} Fysisk resistans, {e.MonsterMagicResist} Magisk resistans,\n" +
                                      $"Total skada mot {e.MonsterName} {e.DamageDoneByPlayer}, Total skada mot dig {e.DamageDoneByMonster}\n");
                 break;
