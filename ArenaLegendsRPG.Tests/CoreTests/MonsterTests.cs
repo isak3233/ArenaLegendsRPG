@@ -11,7 +11,7 @@ public class MonsterTests
         Assert.Equal("Goblin", new GoblinMonster().Name);
         Assert.Equal("Skeleton", new SkeletonMonster().Name);
         Assert.Equal("Spider", new SpiderMonster().Name);
-    } 
+    }
     [Theory]
     [InlineData(30, 2, 5, 10, DamageType.Physical, 8, 22)]
     [InlineData(30, 2, 5, 10, DamageType.Magic, 5, 25)]

@@ -30,7 +30,7 @@ public class RewardServiceTests
     {
         var player = CreatePlayer();
 
-        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter()); 
+        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter());
 
         Assert.Equal(80, player.Xp);
         Assert.Contains(events, e => e is XpGained gained && gained.Amount == 80);
@@ -41,7 +41,7 @@ public class RewardServiceTests
     {
         var player = CreatePlayer();
 
-        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter(attackDamage: 10, magicDamage: 10)); 
+        var events = _sut.GrantMonsterRewards(player, CreateMonsterEncounter(attackDamage: 10, magicDamage: 10));
 
         Assert.Equal(2, player.Level);
         Assert.Contains(events, e => e is LeveledUp);

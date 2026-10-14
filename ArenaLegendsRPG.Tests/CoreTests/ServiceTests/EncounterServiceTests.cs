@@ -15,8 +15,13 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_WhenRollIsZero_ReturnsMonsterEncounter()
     {
+
         // encounter = monster, art = goblin, attackDamage = 8, magicDamage = 2
         var sut = CreateSut(new[] { 0, 0, 8, 2 });
+
+        var random = new StubRandomProvider(0, 0, 0, 0);
+       // var service = new EncounterService(random);
+
 
         var encounter = sut.GenerateEncounter();
 
@@ -46,7 +51,7 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_Monster_CarriesDropWhenRollSucceeds()
     {
-        var sut = CreateSut(new[] { 0, 0, 8, 2 }, lootRolls: new[] { 10, 0 }); // 10 = drop, 0 = Rusty Sword
+        var sut = CreateSut(new[] { 0, 0, 8, 2 }, lootRolls: new[] { 10, 0 });
 
         var encounter = sut.GenerateEncounter();
 
