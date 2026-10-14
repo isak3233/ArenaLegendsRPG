@@ -15,7 +15,8 @@ public class BattleLogController : ControllerBase
     [HttpGet("{characterId:int}")]
     public IActionResult GetBattleLogs(int characterId)
     {
-        //var battleLogs = _battleLogService.GetBattleLogs(characterId);
-        return Ok();
+        var battleLogs = _battleLogService.GetBattleLogs(characterId);
+        return Ok(battleLogs);
     }
+
 }

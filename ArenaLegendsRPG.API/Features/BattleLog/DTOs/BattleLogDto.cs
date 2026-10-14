@@ -9,4 +9,7 @@ public class BattleLogDto
     public int MonsterAttackDamage { get; set; }
     public int MonsterMagicDamage { get; set; }
     public int DamageDoneByPlayer { get; set; }
+    public int DamageDoneByMonster { get; set; }
+    public bool IsPlayerWinner { get; set; }
+    public DateTime BattleFinished { get; set; }
 }
