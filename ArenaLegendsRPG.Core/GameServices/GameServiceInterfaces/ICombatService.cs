@@ -12,7 +12,7 @@ public interface ICombatService
         IMonster monster,
         DamageType damageType);
 
-   
+
     CombatRoundResult ProcessPlayerAttack(Character player, IMonster monster);
 
     void AddMonsterInfoToBattleLog(IMonster monster);
