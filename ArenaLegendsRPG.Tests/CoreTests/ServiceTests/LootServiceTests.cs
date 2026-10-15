@@ -9,19 +9,20 @@ public class LootServiceTests
     [Fact]
     public void GenerateLoot_FirstIndex_ReturnsRustySword()
     {
-        var sut = new LootService(new StubRandomProvider(0));
+        var sut = new LootService(new StubRandomProvider(0, 0));
 
         var item = sut.GenerateLoot();
 
         var weapon = Assert.IsType<Weapon>(item);
         Assert.Equal("Rusty Sword", weapon.Name);
         Assert.Equal(3, weapon.AttackBonus);
+        Assert.Equal(ItemRarity.Common, weapon.Rarity);
     }
 
     [Fact]
     public void GenerateLoot_ProtectionIndex_ReturnsProtection()
     {
-        var sut = new LootService(new StubRandomProvider(3));
+        var sut = new LootService(new StubRandomProvider(3, 0));
 
         var item = sut.GenerateLoot();
 
@@ -41,7 +42,7 @@ public class LootServiceTests
     [InlineData(9)]
     public void GenerateLoot_EveryIndex_ReturnsNamedItem(int index)
     {
-        var sut = new LootService(new StubRandomProvider(index));
+        var sut = new LootService(new StubRandomProvider(index, 0));
 
         var item = sut.GenerateLoot();
 
@@ -51,17 +52,36 @@ public class LootServiceTests
     [Fact]
     public void GenerateLoot_SameIndexTwice_ReturnsSeparateInstances()
     {
-        var sut = new LootService(new StubRandomProvider(0, 0));
+        var sut = new LootService(new StubRandomProvider(0, 0, 0, 0));
 
         var first = sut.GenerateLoot();
         var second = sut.GenerateLoot();
 
         Assert.NotSame(first, second);
     }
+
+    [Theory]
+    [InlineData(69, ItemRarity.Common, 3)]
+    [InlineData(70, ItemRarity.Rare, 4)]
+    [InlineData(90, ItemRarity.Epic, 5)]
+    [InlineData(98, ItemRarity.Legendary, 6)]
+    public void GenerateLoot_AppliesRarityAndScalesWeaponStats(
+        int rarityRoll,
+        ItemRarity expectedRarity,
+        int expectedAttackBonus)
+    {
+        var sut = new LootService(new StubRandomProvider(0, rarityRoll));
+
+        var weapon = Assert.IsType<Weapon>(sut.GenerateLoot());
+
+        Assert.Equal(expectedRarity, weapon.Rarity);
+        Assert.Equal(expectedAttackBonus, weapon.AttackBonus);
+    }
+
     [Fact]
     public void RollMonsterDrop_LowRoll_ReturnsItem()
     {
-        var sut = new LootService(new StubRandomProvider(10, 0)); // 10 = drop, 0 = Rusty Sword
+        var sut = new LootService(new StubRandomProvider(10, 0, 0));
 
         var item = sut.RollMonsterDrop();
 
@@ -75,12 +95,13 @@ public class LootServiceTests
     [InlineData(99, false)]
     public void RollMonsterDrop_RespectsDropChance(int roll, bool expectedDrop)
     {
-        var sut = new LootService(new StubRandomProvider(roll, 0));
+        var sut = new LootService(new StubRandomProvider(roll, 0, 0));
 
         var item = sut.RollMonsterDrop();
 
         Assert.Equal(expectedDrop, item is not null);
     }
+
     [Fact]
     public void GenerateLoot_UnknownIndex_Throws()
     {

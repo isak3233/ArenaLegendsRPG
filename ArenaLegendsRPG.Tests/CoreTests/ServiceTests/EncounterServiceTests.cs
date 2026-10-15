@@ -17,21 +17,36 @@ public class EncounterServiceTests
     private const int AttackRoll = 8;
     private const int MagicRoll = 2;
 
-    
     private static int[] MonsterRolls(int levelOffset = NoLevelOffset)
     {
-        return new[] { MonsterEncounterRoll, GoblinRoll, AttackRoll, MagicRoll, levelOffset };
+        return new[]
+        {
+            MonsterEncounterRoll,
+            GoblinRoll,
+            AttackRoll,
+            MagicRoll,
+            levelOffset
+        };
     }
 
-    private static EncounterService CreateSut(int[] encounterRolls, int[]? lootRolls = null)
+    private static EncounterService CreateSut(
+        int[] encounterRolls,
+        int[]? lootRolls = null)
     {
-        var lootService = new LootService(new StubRandomProvider(lootRolls ?? new[] { 99 }));
-        return new EncounterService(new StubRandomProvider(encounterRolls), lootService);
+        var lootService = new LootService(
+            new StubRandomProvider(lootRolls ?? new[] { 99 }));
+
+        return new EncounterService(
+            new StubRandomProvider(encounterRolls),
+            lootService);
     }
 
-    private static IMonster CreateMonster(int playerLevel, int levelOffset = NoLevelOffset)
+    private static IMonster CreateMonster(
+        int playerLevel,
+        int levelOffset = NoLevelOffset)
     {
-        var encounter = CreateSut(MonsterRolls(levelOffset)).GenerateEncounter(playerLevel);
+        var encounter = CreateSut(MonsterRolls(levelOffset))
+            .GenerateEncounter(playerLevel);
 
         return Assert.IsType<MonsterEncounter>(encounter).Monster;
     }
@@ -49,18 +64,21 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_WhenRollIsOne_ReturnsChestEncounter()
     {
-        var sut = CreateSut(new[] { ChestEncounterRoll }, lootRolls: new[] { 0 });
+        var sut = CreateSut(
+            new[] { ChestEncounterRoll },
+            lootRolls: new[] { 0, 0 });
 
         var encounter = sut.GenerateEncounter(PlayerLevelOne);
 
         Assert.IsType<ChestEncounter>(encounter);
     }
 
-
     [Fact]
     public void GenerateEncounter_Monster_CarriesDropWhenRollSucceeds()
     {
-        var sut = CreateSut(MonsterRolls(), lootRolls: new[] { 10, 0 });
+        var sut = CreateSut(
+            MonsterRolls(),
+            lootRolls: new[] { 10, 0, 0 });
 
         var encounter = sut.GenerateEncounter(PlayerLevelOne);
 
@@ -71,7 +89,9 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_Monster_HasNoDropWhenRollFails()
     {
-        var sut = CreateSut(MonsterRolls(), lootRolls: new[] { 99 });
+        var sut = CreateSut(
+            MonsterRolls(),
+            lootRolls: new[] { 99 });
 
         var encounter = sut.GenerateEncounter(PlayerLevelOne);
 
@@ -82,7 +102,9 @@ public class EncounterServiceTests
     [Fact]
     public void GenerateEncounter_Chest_ContainsLoot()
     {
-        var sut = CreateSut(new[] { ChestEncounterRoll }, lootRolls: new[] { 0 });
+        var sut = CreateSut(
+            new[] { ChestEncounterRoll },
+            lootRolls: new[] { 0, 0 });
 
         var encounter = sut.GenerateEncounter(PlayerLevelOne);
 
@@ -94,7 +116,8 @@ public class EncounterServiceTests
     [InlineData(1)]
     [InlineData(5)]
     [InlineData(12)]
-    public void GenerateEncounter_Monster_WithNoOffset_HasSameLevelAsPlayer(int playerLevel)
+    public void GenerateEncounter_Monster_WithNoOffset_HasSameLevelAsPlayer(
+        int playerLevel)
     {
         var monster = CreateMonster(playerLevel);
 

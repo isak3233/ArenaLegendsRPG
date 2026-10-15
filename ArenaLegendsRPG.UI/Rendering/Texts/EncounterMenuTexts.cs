@@ -7,6 +7,8 @@ public class EncounterMenuTexts
     private static readonly Dictionary<MenuAction, string> Texts = new()
     {
         [MenuAction.Attack] = "Attackera",
+        [MenuAction.PhysicalAttack] = "Fysisk attack",
+        [MenuAction.MagicAttack] = "Magisk attack",
         [MenuAction.Flee] = "Försök fly",
         [MenuAction.OpenChest] = "Öppna kistan",
         [MenuAction.LeaveEncounter] = "Lämna",
@@ -17,6 +19,8 @@ public class EncounterMenuTexts
 
     public static string For(MenuAction action)
     {
-        return Texts.TryGetValue(action, out var text) ? text : "Okänt alternativ";
+        return Texts.TryGetValue(action, out var text)
+            ? text
+            : "Okänt alternativ";
     }
 }
