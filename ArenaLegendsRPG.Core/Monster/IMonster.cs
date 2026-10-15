@@ -6,6 +6,7 @@ namespace ArenaLegendsRPG.Core.Monster;
 public interface IMonster
 {
     string Name { get; }
+    int Level { get; }
     int Health { get; }
     int MaxHealth { get; }
     int AttackResist { get; }

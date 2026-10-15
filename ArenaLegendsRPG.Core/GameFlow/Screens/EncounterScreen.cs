@@ -1,10 +1,9 @@
 ﻿using ArenaLegendsRPG.Core.Encounters;
+using ArenaLegendsRPG.Core.Fighting;
 using ArenaLegendsRPG.Core.GameFlow.GameEvents;
 using ArenaLegendsRPG.Core.GameFlow.Interfaces;
 using ArenaLegendsRPG.Core.GameFlow.Menus;
-using ArenaLegendsRPG.Core.GameServices;
 using ArenaLegendsRPG.Core.GameServices.GameServiceInterfaces;
-using ArenaLegendsRPG.Core.Monster;
 
 namespace ArenaLegendsRPG.Core.GameFlow.Screens;
 
@@ -15,7 +14,9 @@ public class EncounterScreen : IGameScreen
     private readonly ICombatService _combatService;
     private readonly IRewardService _rewardService;
     private readonly IEncounterService _encounterService;
+
     public IEncounter? CurrentEncounter { get; set; }
+
     private bool _firstEncounter = true;
 
     public EncounterScreen(
@@ -41,21 +42,39 @@ public class EncounterScreen : IGameScreen
             if (_firstEncounter)
             {
                 _firstEncounter = false;
-                return new[] { MenuAction.BeginExplore, MenuAction.LeaveEncounterScreen };
-            }
-            else
-            {
-                return new[] { MenuAction.ContinueExploring, MenuAction.LeaveEncounterScreen };
+                return new[]
+                {
+                    MenuAction.BeginExplore,
+                    MenuAction.LeaveEncounterScreen
+                };
             }
 
+            return new[]
+            {
+                MenuAction.ContinueExploring,
+                MenuAction.LeaveEncounterScreen
+            };
         }
 
         return CurrentEncounter switch
         {
-            MonsterEncounter => new[] { MenuAction.Attack, MenuAction.Flee },
-            ChestEncounter => new[] { MenuAction.OpenChest, MenuAction.LeaveEncounter },
-            StructureEncounter => new[] { MenuAction.LeaveEncounter },
-            _ => throw new InvalidOperationException($"Unhandled encounter type {CurrentEncounter.GetType().Name}")
+            MonsterEncounter => new[]
+            {
+                MenuAction.PhysicalAttack,
+                MenuAction.MagicAttack,
+                MenuAction.Flee
+            },
+            ChestEncounter => new[]
+            {
+                MenuAction.OpenChest,
+                MenuAction.LeaveEncounter
+            },
+            StructureEncounter => new[]
+            {
+                MenuAction.LeaveEncounter
+            },
+            _ => throw new InvalidOperationException(
+                $"Unhandled encounter type {CurrentEncounter.GetType().Name}")
         };
     }
 
@@ -65,12 +84,16 @@ public class EncounterScreen : IGameScreen
         {
             MenuAction.BeginExplore => HandleExplore(),
             MenuAction.ContinueExploring => HandleExplore(),
-            MenuAction.Attack => HandleAttack(),
+            MenuAction.PhysicalAttack => HandleAttack(DamageType.Physical),
+            MenuAction.MagicAttack => HandleAttack(DamageType.Magic),
+            MenuAction.Attack => HandleAttack(DamageType.Physical),
             MenuAction.Flee => HandleFlee(),
             MenuAction.OpenChest => HandleOpenChest(),
             MenuAction.LeaveEncounter => HandleLeaveEncounter(),
-            MenuAction.LeaveEncounterScreen => ScreenResult.To(_factory.CreateGameMenu()),
-            _ => throw new InvalidOperationException($"Unhandled action {action} in {State}.")
+            MenuAction.LeaveEncounterScreen =>
+                ScreenResult.To(_factory.CreateGameMenu()),
+            _ => throw new InvalidOperationException(
+                $"Unhandled action {action} in {State}.")
         };
     }
 
@@ -79,46 +102,75 @@ public class EncounterScreen : IGameScreen
         CurrentEncounter = null;
         return ScreenResult.To(this);
     }
+
     private ScreenResult HandleExplore()
     {
-        CurrentEncounter = _encounterService.GenerateEncounter();
+        CurrentEncounter = _encounterService.GenerateEncounter(
+            _session.RequirePlayer().Level);
+
         return CurrentEncounter switch
         {
             MonsterEncounter => HandleMonsterSpawn(),
             ChestEncounter => ScreenResult.To(this, new ChestEncounterStarted()),
-            StructureEncounter => ScreenResult.To(this, new StructureEncounterStarted()),
-            _ => throw new InvalidOperationException($"Unhandled encounter type {CurrentEncounter.GetType().Name}")
+            StructureEncounter =>
+                ScreenResult.To(this, new StructureEncounterStarted()),
+            _ => throw new InvalidOperationException(
+                $"Unhandled encounter type {CurrentEncounter.GetType().Name}")
         };
-
     }
 
     private ScreenResult HandleMonsterSpawn()
     {
-        var monster = ((MonsterEncounter)CurrentEncounter).Monster;
+        if (CurrentEncounter is not MonsterEncounter monsterEncounter)
+        {
+            throw new InvalidOperationException(
+                "Expected a monster encounter.");
+        }
+
+        var monster = monsterEncounter.Monster;
         _combatService.AddMonsterInfoToBattleLog(monster);
-        return ScreenResult.To(this, new MonsterEncounterStarted());
+
+        return ScreenResult.To(
+            this,
+            new MonsterEncounterStarted(
+                monster.Name,
+                monster.Level,
+                monster.Health,
+                monster.AttackDamage,
+                monster.MagicDamage,
+                monster.AttackResist,
+                monster.MagicResist));
     }
 
-    private ScreenResult HandleAttack()
+    private ScreenResult HandleAttack(DamageType damageType)
     {
-        var monsterEncounter = (MonsterEncounter)CurrentEncounter;
+        var monsterEncounter = (MonsterEncounter)CurrentEncounter!;
         var player = _session.RequirePlayer();
 
-        var result = _combatService.ProcessPlayerAttack(player, monsterEncounter.Monster);
+        var result = _combatService.ProcessPlayerAttack(
+            player,
+            monsterEncounter.Monster,
+            damageType);
 
         if (result.MonsterDied)
         {
-            var rewardEvents = _rewardService.GrantMonsterRewards(player, monsterEncounter);
+            var rewardEvents = _rewardService.GrantMonsterRewards(
+                player,
+                monsterEncounter);
+
             var events = result.Events.Concat(rewardEvents).ToArray();
             CurrentEncounter = null;
+
             return ScreenResult.To(this, events);
         }
 
         if (result.PlayerDied)
         {
             CurrentEncounter = null;
-            return ScreenResult.To(_factory.CreateGameOver(), result.Events.ToArray());
 
+            return ScreenResult.To(
+                _factory.CreateGameOver(),
+                result.Events.ToArray());
         }
 
         return ScreenResult.To(this, result.Events.ToArray());
@@ -138,8 +190,11 @@ public class EncounterScreen : IGameScreen
 
     private ScreenResult HandleOpenChest()
     {
-        var chest = (ChestEncounter)CurrentEncounter;
-        var events = _rewardService.GrantChestLoot(_session.RequirePlayer(), chest);
+        var chest = (ChestEncounter)CurrentEncounter!;
+        var events = _rewardService.GrantChestLoot(
+            _session.RequirePlayer(),
+            chest);
+
         CurrentEncounter = null;
 
         return ScreenResult.To(this, events.ToArray());

@@ -23,6 +23,8 @@ public enum MenuAction
     Flee,
     OpenChest,
     LeaveEncounter,
+    PhysicalAttack,
+    MagicAttack,
 
 
 }

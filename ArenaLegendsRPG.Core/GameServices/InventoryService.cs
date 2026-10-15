@@ -12,43 +12,58 @@ public class InventoryService : IInventoryService
     {
         var items = player.Inventory.GetItems();
         var itemEvents = new List<GameEvent>();
-        int index = 1;
+        var index = 1;
+
         foreach (var item in items)
         {
-            if (item is Weapon)
+            if (item is Weapon weapon)
             {
-                var weapon = (Weapon)item;
-                bool isEquipped = false;
-                if (weapon == player.EquippedWeapon) isEquipped = true;
-                itemEvents.Add(new WeaponEvent(weapon.Name, weapon.Description, weapon.AttackBonus, weapon.MagicBonus, isEquipped, index));
+                var isEquipped = weapon == player.EquippedWeapon;
+
+                itemEvents.Add(new WeaponEvent(
+                    weapon.Name,
+                    weapon.Description,
+                    weapon.AttackBonus,
+                    weapon.MagicBonus,
+                    weapon.Rarity,
+                    isEquipped,
+                    index));
+            }
+            else if (item is Protection protection)
+            {
+                var isEquipped =
+                    protection == player.EquippedProtection;
+
+                itemEvents.Add(new ProtectionEvent(
+                    protection.Name,
+                    protection.Description,
+                    protection.AttackResist,
+                    protection.MagicResist,
+                    protection.Rarity,
+                    isEquipped,
+                    index));
             }
 
-            if (item is Protection)
-            {
-                var protection = (Protection)item;
-                bool isEquipped = false;
-                if (protection == player.EquippedProtection) isEquipped = true;
-                itemEvents.Add(new ProtectionEvent(protection.Name, protection.Description, protection.AttackResist, protection.MagicResist, isEquipped, index));
-            }
             index++;
         }
 
         return itemEvents;
-
-
     }
+
     public List<GameEvent> ToggleEquiped(Character player, int index)
     {
         var events = new List<GameEvent>();
         var items = player.Inventory.GetItems();
+
         if (index < 0 || index >= items.Count)
         {
             events.Add(new InvalidItemSelection(index));
             return events;
         }
 
-        var equiped = false;
+        var equipped = false;
         var item = items[index];
+
         switch (item)
         {
             case Weapon weapon:
@@ -58,10 +73,11 @@ public class InventoryService : IInventoryService
                 }
                 else
                 {
-                    equiped = true;
+                    equipped = true;
                     player.EquipWeapon(weapon);
                 }
                 break;
+
             case Protection protection:
                 if (protection == player.EquippedProtection)
                 {
@@ -69,14 +85,21 @@ public class InventoryService : IInventoryService
                 }
                 else
                 {
-                    equiped = true;
+                    equipped = true;
                     player.EquipProtection(protection);
                 }
                 break;
+
             default:
-                throw new InvalidOperationException($"{item.Name} cannot be equipped.");
+                throw new InvalidOperationException(
+                    $"{item.Name} cannot be equipped.");
         }
-        events.Add(new ItemEquipped(player.Name, item.Name, equiped));
+
+        events.Add(new ItemEquipped(
+            player.Name,
+            item.Name,
+            equipped));
+
         return events;
     }
 }
