@@ -115,8 +115,9 @@ jobs:
 
             const marker = "<!-- pr-size-recommendation -->";
 
-            const body = `## PR Size Recommendation
-
+            const body = `${marker}
+            ## PR Size Recommendation
+            
             Changed Files: ${fileCount}
             Added Lines: ${added}
             Deleted Lines: ${deleted}
@@ -137,7 +138,6 @@ jobs:
             );
 
             const existing = comments.find(comment =>
-              comment.user?.type === "Bot" &&
               comment.body?.includes(marker)
             );
 
