@@ -103,7 +103,7 @@ jobs:
             );
             const changedLines = added + deleted;
 
-            let recommendation = "PR size looks okat.";
+            let recommendation = "PR size looks okay.";
 
             if (fileCount >= 10 && changedLines >= 1000) {
               recommendation = "Consider splitting this PR. It exceeds both size thresholds.";
