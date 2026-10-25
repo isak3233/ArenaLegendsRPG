@@ -54,6 +54,7 @@ jobs:
     name: PR size recommendation
     runs-on: ubuntu-latest
     #RUNS ONLY ON PRS
+    #test
     if: github.event_name == 'pull_request'
 
     permissions:
